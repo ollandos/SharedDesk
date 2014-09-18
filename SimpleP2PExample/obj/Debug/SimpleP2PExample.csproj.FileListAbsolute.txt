@@ -1,0 +1,9 @@
+C:\Users\Administrator\Development\SimpleP2PExample\SimpleP2PExample\bin\Debug\SimpleP2PExample.exe.config
+C:\Users\Administrator\Development\SimpleP2PExample\SimpleP2PExample\bin\Debug\SimpleP2PExample.exe
+C:\Users\Administrator\Development\SimpleP2PExample\SimpleP2PExample\bin\Debug\SimpleP2PExample.pdb
+C:\Users\Administrator\Development\SimpleP2PExample\SimpleP2PExample\obj\Debug\SimpleP2PExample.csprojResolveAssemblyReference.cache
+C:\Users\Administrator\Development\SimpleP2PExample\SimpleP2PExample\obj\Debug\SimpleP2PExample.exe
+C:\Users\Administrator\Development\SimpleP2PExample\SimpleP2PExample\obj\Debug\SimpleP2PExample.pdb
+C:\Users\Administrator\Development\SharedDesk\SimpleP2PExample\bin\Debug\SimpleP2PExample.exe.config
+C:\Users\Administrator\Development\SharedDesk\SimpleP2PExample\obj\Debug\SimpleP2PExample.exe
+C:\Users\Administrator\Development\SharedDesk\SimpleP2PExample\obj\Debug\SimpleP2PExample.pdb
