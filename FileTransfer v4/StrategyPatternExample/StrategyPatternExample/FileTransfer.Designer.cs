@@ -53,10 +53,15 @@
             this.lblStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.lbFileTransfers = new System.Windows.Forms.ListBox();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.btnFind = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.tbPeerName = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.statusStrip1.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -64,7 +69,7 @@
             this.groupBox1.Controls.Add(this.radioTCPv3);
             this.groupBox1.Controls.Add(this.radioTCPv2);
             this.groupBox1.Controls.Add(this.radioTCP);
-            this.groupBox1.Location = new System.Drawing.Point(12, 315);
+            this.groupBox1.Location = new System.Drawing.Point(12, 417);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(313, 70);
             this.groupBox1.TabIndex = 0;
@@ -113,7 +118,7 @@
             this.groupBox2.Controls.Add(this.tbSendPort);
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.btnSend);
-            this.groupBox2.Location = new System.Drawing.Point(12, 12);
+            this.groupBox2.Location = new System.Drawing.Point(12, 108);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(313, 98);
             this.groupBox2.TabIndex = 1;
@@ -195,7 +200,7 @@
             this.groupBox3.Controls.Add(this.btnListen);
             this.groupBox3.Controls.Add(this.tbReceivePort);
             this.groupBox3.Controls.Add(this.label1);
-            this.groupBox3.Location = new System.Drawing.Point(12, 116);
+            this.groupBox3.Location = new System.Drawing.Point(12, 212);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(313, 193);
             this.groupBox3.TabIndex = 4;
@@ -270,9 +275,9 @@
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lblStatus});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 512);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 601);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(335, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(346, 22);
             this.statusStrip1.TabIndex = 5;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -285,7 +290,7 @@
             // lbFileTransfers
             // 
             this.lbFileTransfers.FormattingEnabled = true;
-            this.lbFileTransfers.Location = new System.Drawing.Point(12, 391);
+            this.lbFileTransfers.Location = new System.Drawing.Point(12, 493);
             this.lbFileTransfers.Name = "lbFileTransfers";
             this.lbFileTransfers.Size = new System.Drawing.Size(313, 95);
             this.lbFileTransfers.TabIndex = 6;
@@ -295,11 +300,50 @@
             this.notifyIcon1.Text = "notifyIcon1";
             this.notifyIcon1.Visible = true;
             // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.btnFind);
+            this.groupBox4.Controls.Add(this.label4);
+            this.groupBox4.Controls.Add(this.tbPeerName);
+            this.groupBox4.Location = new System.Drawing.Point(13, 27);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(312, 65);
+            this.groupBox4.TabIndex = 7;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Peer";
+            // 
+            // btnFind
+            // 
+            this.btnFind.Location = new System.Drawing.Point(224, 20);
+            this.btnFind.Name = "btnFind";
+            this.btnFind.Size = new System.Drawing.Size(70, 23);
+            this.btnFind.TabIndex = 2;
+            this.btnFind.Text = "find";
+            this.btnFind.UseVisualStyleBackColor = true;
+            this.btnFind.Click += new System.EventHandler(this.btnFind_Click);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(15, 24);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(57, 13);
+            this.label4.TabIndex = 1;
+            this.label4.Text = "peer name";
+            // 
+            // tbPeerName
+            // 
+            this.tbPeerName.Location = new System.Drawing.Point(78, 24);
+            this.tbPeerName.Name = "tbPeerName";
+            this.tbPeerName.Size = new System.Drawing.Size(125, 20);
+            this.tbPeerName.TabIndex = 0;
+            // 
             // FileTransfer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(335, 534);
+            this.ClientSize = new System.Drawing.Size(346, 623);
+            this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.lbFileTransfers);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.groupBox3);
@@ -308,6 +352,7 @@
             this.Name = "FileTransfer";
             this.Text = "Send and Receive files";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FileTransfer_FormClosing);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FileTransfer_FormClosed);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -316,6 +361,8 @@
             this.groupBox3.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -347,6 +394,10 @@
         private System.Windows.Forms.ListBox lbFileTransfers;
         private System.Windows.Forms.NotifyIcon notifyIcon1;
         private System.Windows.Forms.RadioButton radioTCPv3;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Button btnFind;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox tbPeerName;
     }
 }
 

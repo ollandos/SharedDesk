@@ -11,6 +11,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -23,46 +24,62 @@ namespace StrategyPatternExample
         TransferFile tf = null;
         string fileFullPath = "";
         string fileName = "";
-
+        PnrpManager mPnrpManager;
+        Thread mPnrpThread;
         // TODO: 
         // add progress bar for file transfer
 
 
         public FileTransfer()
         {
-            InitializeComponent();
+            LoginForm loginForm = new LoginForm();
+            var result = loginForm.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                string name = loginForm.Username;
+                mPnrpManager = new PnrpManager();
 
-            string currentDir = Directory.GetCurrentDirectory();
-            tbSaveFolder.Text = currentDir;
+                mPnrpThread = new Thread(delegate()
+                {
+                    mPnrpManager.registerPeerName(name);
+                });
+                mPnrpThread.Start();
 
-            tbReceiveIP.Text = getLocalIpAddress();
-            tbReceivePort.Text = "60000";
+                //--------------------------
+                InitializeComponent();
 
-            tbSendIP.Text = getLocalIpAddress();
-            tbSendPort.Text = "60000";
+                string currentDir = Directory.GetCurrentDirectory();
+                tbSaveFolder.Text = currentDir;
 
-            // Set Transfer file protocol
-            tf = new TransferFile(new TransferTCPv3());
+                tbReceiveIP.Text = getLocalIpAddress();
+                tbReceivePort.Text = "60000";
 
-            // attach IObservable interface to monitor 
-            tf.attach(new ConsoleObserver());
-            lblStatus.Text = "Status: Selected TCPv3";
-            tbFileName.Enabled = false;
+                tbSendIP.Text = getLocalIpAddress();
+                tbSendPort.Text = "60000";
 
-            // a notify icon in the corner
-            FieldInfo iconField = typeof(Form).GetField("defaultIcon", BindingFlags.NonPublic | BindingFlags.Static);
-            Icon myIcon = (Icon)iconField.GetValue(iconField);
-            //notifyicon = notifyIcon1;
-            notifyIcon1.Text = "File Transfer App";
-            notifyIcon1.Visible = true;
-            //notifyicon.BalloonTipClicked += notifyicon_BalloonTipClicked;
-            notifyIcon1.Icon = myIcon;
+                // Set Transfer file protocol
+                tf = new TransferFile(new TransferTCPv3());
 
-            // use events
-            //FileTransferEvents.downloaded += FileTransferEvents_downloaded;
-            FileTransferEvents.downloadComplete += FileTransferEvents_downloadComplete;
-            FileTransferEvents.progress += FileTransferEvents_progress;
-            FileTransferEvents.speedChange += FileTransferEvents_speedChange;
+                // attach IObservable interface to monitor 
+                tf.attach(new ConsoleObserver());
+                lblStatus.Text = "Status: Selected TCPv3";
+                tbFileName.Enabled = false;
+
+                // a notify icon in the corner
+                FieldInfo iconField = typeof(Form).GetField("defaultIcon", BindingFlags.NonPublic | BindingFlags.Static);
+                Icon myIcon = (Icon)iconField.GetValue(iconField);
+                //notifyicon = notifyIcon1;
+                notifyIcon1.Text = "File Transfer App";
+                notifyIcon1.Visible = true;
+                //notifyicon.BalloonTipClicked += notifyicon_BalloonTipClicked;
+                notifyIcon1.Icon = myIcon;
+
+                // use events
+                //FileTransferEvents.downloaded += FileTransferEvents_downloaded;
+                FileTransferEvents.downloadComplete += FileTransferEvents_downloadComplete;
+                FileTransferEvents.progress += FileTransferEvents_progress;
+                FileTransferEvents.speedChange += FileTransferEvents_speedChange;
+            }
 
         }
 
@@ -287,9 +304,24 @@ namespace StrategyPatternExample
             }
         }
 
+
         private void FileTransfer_FormClosing(object sender, FormClosingEventArgs e)
         {
             notifyIcon1.Visible = false;
+        }
+
+        private void FileTransfer_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            mPnrpManager.removeRegistration();
+            mPnrpThread.Join();
+        }
+
+        private void btnFind_Click(object sender, EventArgs e)
+        {
+            string classifier = tbPeerName.Text;
+            string[] IpAndPort = mPnrpManager.getIPv4AndPort(classifier);
+            tbSendIP.Text = IpAndPort[0];
+            tbSendPort.Text = IpAndPort[1];
         }
 
 
