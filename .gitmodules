@@ -1,0 +1,3 @@
+[submodule "FileTransfer"]
+	path = FileTransfer
+	url = https://github.com/kanekin0812/SharedDesk.git
