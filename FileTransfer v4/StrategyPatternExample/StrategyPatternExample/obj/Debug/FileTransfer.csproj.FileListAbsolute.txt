@@ -1,0 +1,36 @@
+F:\Dropbox\programming\C sharp\Fontys Design Patterns\StrategyPatternExample\StrategyPatternExample\bin\Debug\StrategyPatternExample.exe.config
+F:\Dropbox\programming\C sharp\Fontys Design Patterns\StrategyPatternExample\StrategyPatternExample\bin\Debug\StrategyPatternExample.exe
+F:\Dropbox\programming\C sharp\Fontys Design Patterns\StrategyPatternExample\StrategyPatternExample\bin\Debug\StrategyPatternExample.pdb
+F:\Dropbox\programming\C sharp\Fontys Design Patterns\StrategyPatternExample\StrategyPatternExample\obj\Debug\FileTransfer.csprojResolveAssemblyReference.cache
+F:\Dropbox\programming\C sharp\Fontys Design Patterns\StrategyPatternExample\StrategyPatternExample\obj\Debug\StrategyPatternExample.FileTransfer.resources
+F:\Dropbox\programming\C sharp\Fontys Design Patterns\StrategyPatternExample\StrategyPatternExample\obj\Debug\StrategyPatternExample.Properties.Resources.resources
+F:\Dropbox\programming\C sharp\Fontys Design Patterns\StrategyPatternExample\StrategyPatternExample\obj\Debug\FileTransfer.csproj.GenerateResource.Cache
+F:\Dropbox\programming\C sharp\Fontys Design Patterns\StrategyPatternExample\StrategyPatternExample\obj\Debug\StrategyPatternExample.exe
+F:\Dropbox\programming\C sharp\Fontys Design Patterns\StrategyPatternExample\StrategyPatternExample\obj\Debug\StrategyPatternExample.pdb
+F:\Dropbox\programming\C sharp\filetransfer-test\StrategyPatternExample\StrategyPatternExample\obj\Debug\StrategyPatternExample.FileTransfer.resources
+F:\Dropbox\programming\C sharp\filetransfer-test\StrategyPatternExample\StrategyPatternExample\obj\Debug\StrategyPatternExample.Properties.Resources.resources
+F:\Dropbox\programming\C sharp\filetransfer-test\StrategyPatternExample\StrategyPatternExample\obj\Debug\FileTransfer.csproj.GenerateResource.Cache
+Z:\jan On My Mac\Dropbox\programming\C sharp\filetransfer-test\StrategyPatternExample\StrategyPatternExample\bin\Debug\StrategyPatternExample.exe.config
+Z:\jan On My Mac\Dropbox\programming\C sharp\filetransfer-test\StrategyPatternExample\StrategyPatternExample\obj\Debug\StrategyPatternExample.exe
+Z:\jan On My Mac\Dropbox\programming\C sharp\filetransfer-test\StrategyPatternExample\StrategyPatternExample\obj\Debug\StrategyPatternExample.pdb
+Z:\jan On My Mac\Dropbox\programming\C sharp\filetransfer-test\StrategyPatternExample\StrategyPatternExample\bin\Debug\StrategyPatternExample.exe
+Z:\jan On My Mac\Dropbox\programming\C sharp\filetransfer-test\StrategyPatternExample\StrategyPatternExample\obj\Debug\FileTransfer.csprojResolveAssemblyReference.cache
+Z:\jan On My Mac\Dropbox\programming\C sharp\filetransfer-test\StrategyPatternExample\StrategyPatternExample\obj\Debug\StrategyPatternExample.FileTransfer.resources
+Z:\jan On My Mac\Dropbox\programming\C sharp\filetransfer-test\StrategyPatternExample\StrategyPatternExample\obj\Debug\StrategyPatternExample.Properties.Resources.resources
+Z:\jan On My Mac\Dropbox\programming\C sharp\filetransfer-test\StrategyPatternExample\StrategyPatternExample\obj\Debug\FileTransfer.csproj.GenerateResource.Cache
+Z:\jan On My Mac\Dropbox\programming\C sharp\filetransfer-test\StrategyPatternExample\StrategyPatternExample\bin\Debug\StrategyPatternExample.pdb
+F:\Dropbox\programming\C sharp\filetransfer-test\StrategyPatternExample\StrategyPatternExample\obj\Debug\FileTransfer.csprojResolveAssemblyReference.cache
+F:\Dropbox\programming\C sharp\filetransfer-test\StrategyPatternExample\StrategyPatternExample\bin\Debug\FileTransfer v3.exe.config
+F:\Dropbox\programming\C sharp\filetransfer-test\StrategyPatternExample\StrategyPatternExample\bin\Debug\FileTransfer v3.exe
+F:\Dropbox\programming\C sharp\filetransfer-test\StrategyPatternExample\StrategyPatternExample\bin\Debug\FileTransfer v3.pdb
+F:\Dropbox\programming\C sharp\filetransfer-test\StrategyPatternExample\StrategyPatternExample\obj\Debug\FileTransfer v3.exe
+F:\Dropbox\programming\C sharp\filetransfer-test\StrategyPatternExample\StrategyPatternExample\obj\Debug\FileTransfer v3.pdb
+F:\Dropbox\programming\C sharp\filetransfer-test bitBucket\StrategyPatternExample\StrategyPatternExample\obj\Debug\FileTransfer.csprojResolveAssemblyReference.cache
+F:\Dropbox\programming\C sharp\filetransfer-test bitBucket\StrategyPatternExample\StrategyPatternExample\obj\Debug\StrategyPatternExample.FileTransfer.resources
+F:\Dropbox\programming\C sharp\filetransfer-test bitBucket\StrategyPatternExample\StrategyPatternExample\obj\Debug\StrategyPatternExample.Properties.Resources.resources
+F:\Dropbox\programming\C sharp\filetransfer-test bitBucket\StrategyPatternExample\StrategyPatternExample\obj\Debug\FileTransfer.csproj.GenerateResource.Cache
+F:\Dropbox\programming\C sharp\filetransfer-test bitBucket\StrategyPatternExample\StrategyPatternExample\bin\Debug\FileTransfer v4.exe.config
+F:\Dropbox\programming\C sharp\filetransfer-test bitBucket\StrategyPatternExample\StrategyPatternExample\bin\Debug\FileTransfer v4.exe
+F:\Dropbox\programming\C sharp\filetransfer-test bitBucket\StrategyPatternExample\StrategyPatternExample\bin\Debug\FileTransfer v4.pdb
+F:\Dropbox\programming\C sharp\filetransfer-test bitBucket\StrategyPatternExample\StrategyPatternExample\obj\Debug\FileTransfer v4.exe
+F:\Dropbox\programming\C sharp\filetransfer-test bitBucket\StrategyPatternExample\StrategyPatternExample\obj\Debug\FileTransfer v4.pdb
