@@ -52,10 +52,10 @@ namespace StrategyPatternExample
                 tbSaveFolder.Text = currentDir;
 
                 tbReceiveIP.Text = getLocalIpAddress();
-                tbReceivePort.Text = "60000";
+                tbReceivePort.Text = "8080";
 
                 tbSendIP.Text = getLocalIpAddress();
-                tbSendPort.Text = "60000";
+                tbSendPort.Text = "8080";
 
                 // Set Transfer file protocol
                 tf = new TransferFile(new TransferTCPv3());
