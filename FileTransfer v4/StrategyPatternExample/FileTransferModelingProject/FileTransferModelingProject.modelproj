@@ -22,6 +22,57 @@
   </PropertyGroup>
   <Import Project="$(VSToolsPath)\ArchitectureTools\Microsoft.VisualStudio.TeamArchitect.ModelingProject.targets" Condition="'$(VSToolsPath)' != ''" />
   <ItemGroup>
+    <Content Include="ModelDefinition\Package1_1304.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package1_1305.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package1_1306.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package1_1402.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package2_1304.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package2_1305.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package2_1306.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package2_1402.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package3_1304.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package3_1305.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package4_1304.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package5_1304.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package_1304.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package_1305.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package_1306.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package_1315.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package_1402.uml">
+      <SubType>Content</SubType>
+    </Content>
     <Folder Include="ModelDefinition\" />
     <Content Include="fileTransferv1.classdiagram">
       <SubType>Content</SubType>

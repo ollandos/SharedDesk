@@ -13,17 +13,12 @@ namespace StrategyPatternExample
     class TransferTCP : ITransferStrategy
     {
 
-        public override void send(string file)
+        public void sendFile(string filePath, IPEndPoint endPoint)
         {
-            Console.WriteLine("transfer using TCP");
-        }
-
-        public override void sendFile(string filePath, IPEndPoint endPoint)
-        {
-	    // TODO: 
-	    // send in seperate thread
-	    // add events that show progress, file complete, error etc
-	    // 
+            // TODO: 
+            // send in seperate thread
+            // add events that show progress, file complete, error etc
+            // 
 
             // Create a TCP socket.
             Socket client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -36,9 +31,9 @@ namespace StrategyPatternExample
             // Send file fileName to remote device
             //Console.WriteLine("Sending {0} to the host.", filePath);
 
-	    // TODO: 
-	    // use preBuffer and postBuffer to send filename, size, etc
-	    // use postBuffer to send MD5 hash of file or something like that 
+            // TODO: 
+            // use preBuffer and postBuffer to send filename, size, etc
+            // use postBuffer to send MD5 hash of file or something like that 
             // also look at SocketFlags http://msdn.microsoft.com/en-us/library/system.net.sockets.socketflags%28v=vs.110%29.aspx
 
             client.SendFile(filePath);
@@ -48,12 +43,12 @@ namespace StrategyPatternExample
             client.Close();
         }
 
-        public override void listenForFile(string filePath, IPEndPoint remotePoint)
+        public void listenForFile(string filePath, IPEndPoint remotePoint)
         {
             ReceiveFileTCP listener = new ReceiveFileTCP(filePath, remotePoint);
 
-	    // TODO
-	    // Check if port ever closes
+            // TODO
+            // Check if port ever closes
         }
 
 

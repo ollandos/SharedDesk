@@ -89,7 +89,6 @@
     <Compile Include="Transfer Strategies\TransferTCPv3.cs" />
     <Compile Include="Transfer Strategies\TransferTCPv2.cs" />
     <Compile Include="TransferFile.cs" />
-    <Compile Include="Transfer Strategies\TransferUDP.cs" />
     <Compile Include="Transfer Strategies\TransferTCP.cs" />
     <EmbeddedResource Include="FileTransfer.resx">
       <DependentUpon>FileTransfer.cs</DependentUpon>
