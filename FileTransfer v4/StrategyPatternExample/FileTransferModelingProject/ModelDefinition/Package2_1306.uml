@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
+  dslVersion="1.0.0.0"
+  Id="b48d8a83-3c05-4310-98ca-c1d7ff1ad42c"
+  name="Sockets"
+  visibility="Private" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <referencesInternal>
+    <reference
+      Id="e73be7fe-231a-4709-973b-779990e72240"
+      handle="viewcode://./CodeSchema_Namespace?Namespace%3DSystem.Net.Sockets"
+      tag="ViewCode" />
+  </referencesInternal>
+  <packagedElements>
+    <packageHasNamedElement>
+      <class
+        Id="68cac4ef-916b-40fe-8b75-c43992cde168"
+        name="Socket"
+        visibility="Private"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <referencesInternal>
+          <reference
+            Id="39f4a5ae-7cd3-4fa3-99ac-b670525c06ae"
+            handle="viewcode://./CodeSchema_Class?Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2FSystem.dll&quot; Namespace%3DSystem.Net.Sockets Type%3DSocket"
+            tag="ViewCode" />
+        </referencesInternal>
+        <appliedStereotypesInternal>
+          <stereotypeInstance
+            Id="229ea952-e471-4184-bffe-c0b2987526e6"
+            name="class"
+            profile="CSharpProfile">
+            <propertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="ecc62b43-d338-419f-81b8-e044406269d1">
+                <propertyInstance
+                  Id="7dab8f0e-38e1-4274-ac1b-44af11847758"
+                  name="ClrAttributes" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="3c7e86b2-72ac-4878-a45f-b0d0d64c0fe4">
+                <propertyInstance
+                  Id="aecb0451-cc25-4e74-8976-2cf63b07a89a"
+                  name="IsPartial"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="739b2362-a883-4d79-b715-b8f765df2036">
+                <propertyInstance
+                  Id="cf6c9d92-e778-4177-92dd-19c8b628f46d"
+                  name="IsStatic"
+                  value="False" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="1879c950-5ec9-4b10-b24b-e4e93690f547">
+                <propertyInstance
+                  Id="845473dd-266f-4cf7-ba10-66e6708b54d5"
+                  name="IsUnsafe"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="09fbab0c-5a71-4241-b6ef-4e8a567fa971">
+                <propertyInstance
+                  Id="b714bc1a-b819-43af-ada1-2f195da0fbd5"
+                  name="PackageVisibility"
+                  value="internal" />
+              </stereotypeInstanceHasPropertyInstances>
+            </propertyInstances>
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+        <suppliersInternal>
+          <interfaceRealization
+            Id="a7df8ddb-e04e-4b47-8f27-163e901324b1">
+            <interfaceMoniker
+              Id="54ff75e0-dec5-42ec-8f91-3c94f8853971"
+              LastKnownName="IDisposable"
+              LastKnownLocation="Package1_1304.uml" />
+          </interfaceRealization>
+        </suppliersInternal>
+      </class>
+    </packageHasNamedElement>
+  </packagedElements>
+</package>

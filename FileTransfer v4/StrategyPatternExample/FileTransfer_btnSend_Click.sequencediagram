@@ -16,17 +16,10 @@
             </start>
             <nestedOccurrences>
               <messageOccurrenceSpecificationMoniker Id="2759d36e-4f56-47d0-8c3a-22a9fc5a1d8f" LastKnownName="MessageOccurrenceSpecification" />
-              <operandOccurrenceSpecificationMoniker Id="0cc53b34-b322-4d14-823a-2554e9f24269" LastKnownName="OperandOccurrenceSpecification" />
-              <operandOccurrenceSpecificationMoniker Id="d60aece8-22a1-481f-ba68-b1b7ee2dbcbc" LastKnownName="OperandOccurrenceSpecification" />
-              <messageOccurrenceSpecificationMoniker Id="63feabf7-7e42-4f60-a8fd-9d73b41daf64" LastKnownName="MessageOccurrenceSpecification" />
-              <operandOccurrenceSpecificationMoniker Id="b5982232-3e4a-416c-9f9e-e16d64c71e19" LastKnownName="OperandOccurrenceSpecification" />
               <operandOccurrenceSpecificationMoniker Id="f6867553-de2f-4aa2-ab0b-efba4d7b0098" LastKnownName="OperandOccurrenceSpecification" />
               <messageOccurrenceSpecificationMoniker Id="6afbc205-5f8a-4d65-ada4-753052f0366d" LastKnownName="MessageOccurrenceSpecification" />
               <messageOccurrenceSpecificationMoniker Id="fd277ed6-e37d-44f3-81bc-401460520e4a" LastKnownName="MessageOccurrenceSpecification" />
               <operandOccurrenceSpecificationMoniker Id="299e4196-537b-496d-9d86-b6b5f1f88a6f" LastKnownName="OperandOccurrenceSpecification" />
-              <operandOccurrenceSpecificationMoniker Id="8c8ef231-54d6-4b63-ada4-443fb2ede265" LastKnownName="OperandOccurrenceSpecification" />
-              <operandOccurrenceSpecificationMoniker Id="ef108848-2476-42bc-be84-91466174c598" LastKnownName="OperandOccurrenceSpecification" />
-              <operandOccurrenceSpecificationMoniker Id="8bc5ddcb-493e-4ce1-9a1f-583ac061d40d" LastKnownName="OperandOccurrenceSpecification" />
             </nestedOccurrences>
           </behaviorExecutionSpecification>
           <executionOccurrenceSpecification Id="96ba2ea9-1548-4ad4-9b93-0a91db41293c" name="ExecutionOccurrenceSpecification">
@@ -45,7 +38,7 @@
               <lifelineMoniker Id="08a0320d-6d65-4d29-849b-ab749f3570b6" LastKnownName="this : FileTransfer" />
             </covered>
           </messageOccurrenceSpecification>
-          <combinedFragment Id="77b0d93d-b13f-4f98-b014-658e0d1847a7" name="CombinedFragment1" interactionOperator="Alt" customInteractionOperator="Try">
+          <combinedFragment Id="01eb646b-c3ed-43ac-99b4-b3c75c797a55" name="CombinedFragment2" interactionOperator="Opt" customInteractionOperator="If">
             <coveredLifelines>
               <lifelineMoniker Id="08a0320d-6d65-4d29-849b-ab749f3570b6" LastKnownName="this : FileTransfer" />
               <lifelineMoniker Id="a6229e5e-e552-4990-9792-8e001ce8868d" LastKnownName="this.tf : TransferFile" />
@@ -54,7 +47,7 @@
               <lifelineMoniker Id="efca4b8b-9f46-4b2c-ad41-7acf02bfeffa" LastKnownName="ob : IObservable" />
             </coveredLifelines>
             <operands>
-              <interactionOperand Id="755b213b-0a02-416a-9047-c81d21a85898" name="InteractionOperand1">
+              <interactionOperand Id="03266012-8c54-4565-83b2-3d804696f337" name="InteractionOperand1">
                 <coveredLifelines>
                   <lifelineMoniker Id="08a0320d-6d65-4d29-849b-ab749f3570b6" LastKnownName="this : FileTransfer" />
                   <lifelineMoniker Id="a6229e5e-e552-4990-9792-8e001ce8868d" LastKnownName="this.tf : TransferFile" />
@@ -63,214 +56,88 @@
                   <lifelineMoniker Id="efca4b8b-9f46-4b2c-ad41-7acf02bfeffa" LastKnownName="ob : IObservable" />
                 </coveredLifelines>
                 <fragments>
-                  <combinedFragment Id="0a251070-b25a-462d-910a-bf179874b41c" name="CombinedFragment1" interactionOperator="Opt" customInteractionOperator="If">
+                  <combinedFragment Id="24f98f25-d055-4b2f-a011-4655b236a317" name="CombinedFragment1" interactionOperator="Loop" customInteractionOperator="Loop">
                     <coveredLifelines>
-                      <lifelineMoniker Id="08a0320d-6d65-4d29-849b-ab749f3570b6" LastKnownName="this : FileTransfer" />
+                      <lifelineMoniker Id="a6229e5e-e552-4990-9792-8e001ce8868d" LastKnownName="this.tf : TransferFile" />
+                      <lifelineMoniker Id="32fe8e18-e035-4780-9f8c-1aa377fbbc74" LastKnownName="ob : IObservable" />
                     </coveredLifelines>
                     <operands>
-                      <interactionOperand Id="4a14bdfb-f9be-44f9-b4d9-e92faac558ff" name="InteractionOperand1">
+                      <interactionOperand Id="23e5c0c2-1ff9-4f25-8ac5-4fd20b5e3562" name="InteractionOperand1">
                         <coveredLifelines>
-                          <lifelineMoniker Id="08a0320d-6d65-4d29-849b-ab749f3570b6" LastKnownName="this : FileTransfer" />
+                          <lifelineMoniker Id="a6229e5e-e552-4990-9792-8e001ce8868d" LastKnownName="this.tf : TransferFile" />
+                          <lifelineMoniker Id="32fe8e18-e035-4780-9f8c-1aa377fbbc74" LastKnownName="ob : IObservable" />
                         </coveredLifelines>
                         <guard>
-                          <interactionConstraint Id="e06815f4-2bf2-49a3-980e-d26b250d7dc9" guardText="if (port &lt; 0 || port &gt; 65535)" />
+                          <interactionConstraint Id="7c3a2379-2422-4558-864d-e425dc06838d" guardText="foreach (observers)">
+                            <maxInt>
+                              <literalString Id="7c3cd11f-fb6e-4d25-9fae-33d701b0f662" name="LiteralString1" />
+                            </maxInt>
+                            <minInt>
+                              <literalString Id="e5c2eefe-3fae-4f66-bb16-23347952c799" name="LiteralString2" />
+                            </minInt>
+                          </interactionConstraint>
                         </guard>
                         <operandOccurrenceSpecifications>
-                          <operandOccurrenceSpecificationMoniker Id="d60aece8-22a1-481f-ba68-b1b7ee2dbcbc" LastKnownName="OperandOccurrenceSpecification" />
-                          <operandOccurrenceSpecificationMoniker Id="b5982232-3e4a-416c-9f9e-e16d64c71e19" LastKnownName="OperandOccurrenceSpecification" />
+                          <operandOccurrenceSpecificationMoniker Id="288a8991-0686-4fc2-9b5e-22338618f265" LastKnownName="OperandOccurrenceSpecification" />
+                          <operandOccurrenceSpecificationMoniker Id="1b09b157-783b-4152-b4d6-0df1205afae3" LastKnownName="OperandOccurrenceSpecification" />
+                          <operandOccurrenceSpecificationMoniker Id="e68cb6ac-7da7-4671-8172-27d4847af960" LastKnownName="OperandOccurrenceSpecification" />
+                          <operandOccurrenceSpecificationMoniker Id="c6965b56-4822-42e3-b13d-7b279315275a" LastKnownName="OperandOccurrenceSpecification" />
                         </operandOccurrenceSpecifications>
                       </interactionOperand>
                     </operands>
                   </combinedFragment>
-                  <combinedFragment Id="01eb646b-c3ed-43ac-99b4-b3c75c797a55" name="CombinedFragment2" interactionOperator="Opt" customInteractionOperator="If">
+                  <combinedFragment Id="f1d27a86-c35e-4f9d-b55b-f0fa1072f36b" name="CombinedFragment2" interactionOperator="Loop" customInteractionOperator="Loop">
                     <coveredLifelines>
-                      <lifelineMoniker Id="08a0320d-6d65-4d29-849b-ab749f3570b6" LastKnownName="this : FileTransfer" />
                       <lifelineMoniker Id="a6229e5e-e552-4990-9792-8e001ce8868d" LastKnownName="this.tf : TransferFile" />
-                      <lifelineMoniker Id="32fe8e18-e035-4780-9f8c-1aa377fbbc74" LastKnownName="ob : IObservable" />
-                      <lifelineMoniker Id="547b7ba9-997a-4948-9915-d6f1f59becb9" LastKnownName="this.tf._transferStrategy : ITransferStrategy" />
                       <lifelineMoniker Id="efca4b8b-9f46-4b2c-ad41-7acf02bfeffa" LastKnownName="ob : IObservable" />
                     </coveredLifelines>
                     <operands>
-                      <interactionOperand Id="03266012-8c54-4565-83b2-3d804696f337" name="InteractionOperand1">
+                      <interactionOperand Id="55b70594-877a-470e-8c9a-967b450f0c43" name="InteractionOperand1">
                         <coveredLifelines>
-                          <lifelineMoniker Id="08a0320d-6d65-4d29-849b-ab749f3570b6" LastKnownName="this : FileTransfer" />
                           <lifelineMoniker Id="a6229e5e-e552-4990-9792-8e001ce8868d" LastKnownName="this.tf : TransferFile" />
-                          <lifelineMoniker Id="32fe8e18-e035-4780-9f8c-1aa377fbbc74" LastKnownName="ob : IObservable" />
-                          <lifelineMoniker Id="547b7ba9-997a-4948-9915-d6f1f59becb9" LastKnownName="this.tf._transferStrategy : ITransferStrategy" />
                           <lifelineMoniker Id="efca4b8b-9f46-4b2c-ad41-7acf02bfeffa" LastKnownName="ob : IObservable" />
                         </coveredLifelines>
-                        <fragments>
-                          <combinedFragment Id="24f98f25-d055-4b2f-a011-4655b236a317" name="CombinedFragment1" interactionOperator="Loop" customInteractionOperator="Loop">
-                            <coveredLifelines>
-                              <lifelineMoniker Id="a6229e5e-e552-4990-9792-8e001ce8868d" LastKnownName="this.tf : TransferFile" />
-                              <lifelineMoniker Id="32fe8e18-e035-4780-9f8c-1aa377fbbc74" LastKnownName="ob : IObservable" />
-                            </coveredLifelines>
-                            <operands>
-                              <interactionOperand Id="23e5c0c2-1ff9-4f25-8ac5-4fd20b5e3562" name="InteractionOperand1">
-                                <coveredLifelines>
-                                  <lifelineMoniker Id="a6229e5e-e552-4990-9792-8e001ce8868d" LastKnownName="this.tf : TransferFile" />
-                                  <lifelineMoniker Id="32fe8e18-e035-4780-9f8c-1aa377fbbc74" LastKnownName="ob : IObservable" />
-                                </coveredLifelines>
-                                <guard>
-                                  <interactionConstraint Id="7c3a2379-2422-4558-864d-e425dc06838d" guardText="foreach (observers)">
-                                    <maxInt>
-                                      <literalString Id="7c3cd11f-fb6e-4d25-9fae-33d701b0f662" name="LiteralString1" />
-                                    </maxInt>
-                                    <minInt>
-                                      <literalString Id="e5c2eefe-3fae-4f66-bb16-23347952c799" name="LiteralString2" />
-                                    </minInt>
-                                  </interactionConstraint>
-                                </guard>
-                                <operandOccurrenceSpecifications>
-                                  <operandOccurrenceSpecificationMoniker Id="288a8991-0686-4fc2-9b5e-22338618f265" LastKnownName="OperandOccurrenceSpecification" />
-                                  <operandOccurrenceSpecificationMoniker Id="1b09b157-783b-4152-b4d6-0df1205afae3" LastKnownName="OperandOccurrenceSpecification" />
-                                  <operandOccurrenceSpecificationMoniker Id="e68cb6ac-7da7-4671-8172-27d4847af960" LastKnownName="OperandOccurrenceSpecification" />
-                                  <operandOccurrenceSpecificationMoniker Id="c6965b56-4822-42e3-b13d-7b279315275a" LastKnownName="OperandOccurrenceSpecification" />
-                                </operandOccurrenceSpecifications>
-                              </interactionOperand>
-                            </operands>
-                          </combinedFragment>
-                          <combinedFragment Id="f1d27a86-c35e-4f9d-b55b-f0fa1072f36b" name="CombinedFragment2" interactionOperator="Loop" customInteractionOperator="Loop">
-                            <coveredLifelines>
-                              <lifelineMoniker Id="a6229e5e-e552-4990-9792-8e001ce8868d" LastKnownName="this.tf : TransferFile" />
-                              <lifelineMoniker Id="efca4b8b-9f46-4b2c-ad41-7acf02bfeffa" LastKnownName="ob : IObservable" />
-                            </coveredLifelines>
-                            <operands>
-                              <interactionOperand Id="55b70594-877a-470e-8c9a-967b450f0c43" name="InteractionOperand1">
-                                <coveredLifelines>
-                                  <lifelineMoniker Id="a6229e5e-e552-4990-9792-8e001ce8868d" LastKnownName="this.tf : TransferFile" />
-                                  <lifelineMoniker Id="efca4b8b-9f46-4b2c-ad41-7acf02bfeffa" LastKnownName="ob : IObservable" />
-                                </coveredLifelines>
-                                <guard>
-                                  <interactionConstraint Id="4b57e0f7-c79a-4760-a7b0-24d91f044be3" guardText="foreach (observers)">
-                                    <maxInt>
-                                      <literalString Id="0fc4d219-41b6-4a66-a107-bb6016871306" name="LiteralString1" />
-                                    </maxInt>
-                                    <minInt>
-                                      <literalString Id="71929e6c-5594-4b7e-b15f-8a0489d0341b" name="LiteralString2" />
-                                    </minInt>
-                                  </interactionConstraint>
-                                </guard>
-                                <operandOccurrenceSpecifications>
-                                  <operandOccurrenceSpecificationMoniker Id="0c7e462d-d43e-4052-b3e1-3075ee8e49f5" LastKnownName="OperandOccurrenceSpecification" />
-                                  <operandOccurrenceSpecificationMoniker Id="83b5f5ef-ee8d-478f-9c17-415e8ddfe67a" LastKnownName="OperandOccurrenceSpecification" />
-                                  <operandOccurrenceSpecificationMoniker Id="25d16aaa-548a-46e5-97d0-9bd1735bde16" LastKnownName="OperandOccurrenceSpecification" />
-                                  <operandOccurrenceSpecificationMoniker Id="84039be8-5127-4a38-a6ce-9b6e7ad21f23" LastKnownName="OperandOccurrenceSpecification" />
-                                </operandOccurrenceSpecifications>
-                              </interactionOperand>
-                            </operands>
-                          </combinedFragment>
-                        </fragments>
                         <guard>
-                          <interactionConstraint Id="9dd28428-1cbd-4184-91ec-ba156d7484b6" guardText="if (this.fileFullPath != &quot;&quot;)" />
+                          <interactionConstraint Id="4b57e0f7-c79a-4760-a7b0-24d91f044be3" guardText="foreach (observers)">
+                            <maxInt>
+                              <literalString Id="0fc4d219-41b6-4a66-a107-bb6016871306" name="LiteralString1" />
+                            </maxInt>
+                            <minInt>
+                              <literalString Id="71929e6c-5594-4b7e-b15f-8a0489d0341b" name="LiteralString2" />
+                            </minInt>
+                          </interactionConstraint>
                         </guard>
                         <operandOccurrenceSpecifications>
-                          <operandOccurrenceSpecificationMoniker Id="f6867553-de2f-4aa2-ab0b-efba4d7b0098" LastKnownName="OperandOccurrenceSpecification" />
-                          <operandOccurrenceSpecificationMoniker Id="299e4196-537b-496d-9d86-b6b5f1f88a6f" LastKnownName="OperandOccurrenceSpecification" />
-                          <operandOccurrenceSpecificationMoniker Id="ec3f85b1-5650-4976-a7b5-7c78827bea78" LastKnownName="OperandOccurrenceSpecification" />
-                          <operandOccurrenceSpecificationMoniker Id="8c4361a6-498a-4303-8627-b89f2a300d6d" LastKnownName="OperandOccurrenceSpecification" />
-                          <operandOccurrenceSpecificationMoniker Id="7fef5e2f-75fc-411c-92cc-83024ae5c174" LastKnownName="OperandOccurrenceSpecification" />
-                          <operandOccurrenceSpecificationMoniker Id="22dace26-7cb8-4a1d-bdb5-01a342412eef" LastKnownName="OperandOccurrenceSpecification" />
-                          <operandOccurrenceSpecificationMoniker Id="62949766-80af-480b-990d-1e72a820dbba" LastKnownName="OperandOccurrenceSpecification" />
-                          <operandOccurrenceSpecificationMoniker Id="b3c004f2-097e-4887-8259-b9135a4b8f29" LastKnownName="OperandOccurrenceSpecification" />
-                          <operandOccurrenceSpecificationMoniker Id="7c773e44-1553-4989-81f2-7d0c00826383" LastKnownName="OperandOccurrenceSpecification" />
-                          <operandOccurrenceSpecificationMoniker Id="c68e62b4-a696-4b35-b531-bc0750771ad9" LastKnownName="OperandOccurrenceSpecification" />
+                          <operandOccurrenceSpecificationMoniker Id="0c7e462d-d43e-4052-b3e1-3075ee8e49f5" LastKnownName="OperandOccurrenceSpecification" />
+                          <operandOccurrenceSpecificationMoniker Id="83b5f5ef-ee8d-478f-9c17-415e8ddfe67a" LastKnownName="OperandOccurrenceSpecification" />
+                          <operandOccurrenceSpecificationMoniker Id="25d16aaa-548a-46e5-97d0-9bd1735bde16" LastKnownName="OperandOccurrenceSpecification" />
+                          <operandOccurrenceSpecificationMoniker Id="84039be8-5127-4a38-a6ce-9b6e7ad21f23" LastKnownName="OperandOccurrenceSpecification" />
                         </operandOccurrenceSpecifications>
                       </interactionOperand>
                     </operands>
                   </combinedFragment>
                 </fragments>
                 <guard>
-                  <interactionConstraint Id="e7dc83a0-246b-44e0-9846-684cc7ae62df" guardText="try" />
+                  <interactionConstraint Id="9dd28428-1cbd-4184-91ec-ba156d7484b6" guardText="if (this.fileFullPath != &quot;&quot;)" />
                 </guard>
                 <operandOccurrenceSpecifications>
-                  <operandOccurrenceSpecificationMoniker Id="0cc53b34-b322-4d14-823a-2554e9f24269" LastKnownName="OperandOccurrenceSpecification" />
-                  <operandOccurrenceSpecificationMoniker Id="8c8ef231-54d6-4b63-ada4-443fb2ede265" LastKnownName="OperandOccurrenceSpecification" />
-                  <operandOccurrenceSpecificationMoniker Id="8e55b585-3aae-41a6-a842-2bae6cd8b418" LastKnownName="OperandOccurrenceSpecification" />
-                  <operandOccurrenceSpecificationMoniker Id="c7df8942-de81-48ff-8d9f-bea0af941cef" LastKnownName="OperandOccurrenceSpecification" />
-                  <operandOccurrenceSpecificationMoniker Id="025927e0-0355-41ce-9944-eab792977bbb" LastKnownName="OperandOccurrenceSpecification" />
-                  <operandOccurrenceSpecificationMoniker Id="382f1a44-9493-4692-bef3-c777489ba77a" LastKnownName="OperandOccurrenceSpecification" />
-                  <operandOccurrenceSpecificationMoniker Id="9230d05a-1743-4d6d-a351-fef6f241602b" LastKnownName="OperandOccurrenceSpecification" />
-                  <operandOccurrenceSpecificationMoniker Id="e925651c-63a0-4f5b-b200-f2ee9c202f04" LastKnownName="OperandOccurrenceSpecification" />
-                  <operandOccurrenceSpecificationMoniker Id="35e790c4-97c0-492f-b5d6-28cd50221a69" LastKnownName="OperandOccurrenceSpecification" />
-                  <operandOccurrenceSpecificationMoniker Id="6acd7d6b-0858-4465-adf8-b27598cf796d" LastKnownName="OperandOccurrenceSpecification" />
-                </operandOccurrenceSpecifications>
-              </interactionOperand>
-              <interactionOperand Id="e142c5ee-9153-4237-b05b-c974970ec460" name="InteractionOperand2">
-                <coveredLifelines>
-                  <lifelineMoniker Id="08a0320d-6d65-4d29-849b-ab749f3570b6" LastKnownName="this : FileTransfer" />
-                  <lifelineMoniker Id="a6229e5e-e552-4990-9792-8e001ce8868d" LastKnownName="this.tf : TransferFile" />
-                  <lifelineMoniker Id="32fe8e18-e035-4780-9f8c-1aa377fbbc74" LastKnownName="ob : IObservable" />
-                  <lifelineMoniker Id="547b7ba9-997a-4948-9915-d6f1f59becb9" LastKnownName="this.tf._transferStrategy : ITransferStrategy" />
-                  <lifelineMoniker Id="efca4b8b-9f46-4b2c-ad41-7acf02bfeffa" LastKnownName="ob : IObservable" />
-                </coveredLifelines>
-                <guard>
-                  <interactionConstraint Id="b50c6737-db6c-4fd8-bd01-7daf34891217" guardText="catch (Exception)" />
-                </guard>
-                <operandOccurrenceSpecifications>
-                  <operandOccurrenceSpecificationMoniker Id="ef108848-2476-42bc-be84-91466174c598" LastKnownName="OperandOccurrenceSpecification" />
-                  <operandOccurrenceSpecificationMoniker Id="8bc5ddcb-493e-4ce1-9a1f-583ac061d40d" LastKnownName="OperandOccurrenceSpecification" />
-                  <operandOccurrenceSpecificationMoniker Id="856b2cd2-f30d-432f-98eb-5ee21efd7f9c" LastKnownName="OperandOccurrenceSpecification" />
-                  <operandOccurrenceSpecificationMoniker Id="c0e749d7-b10f-4277-9dc6-64bc0fcdbd8e" LastKnownName="OperandOccurrenceSpecification" />
-                  <operandOccurrenceSpecificationMoniker Id="d0358394-1c7e-4da9-934b-36505ba8f551" LastKnownName="OperandOccurrenceSpecification" />
-                  <operandOccurrenceSpecificationMoniker Id="25933d06-e2b7-485a-a8a1-7677d79a577e" LastKnownName="OperandOccurrenceSpecification" />
-                  <operandOccurrenceSpecificationMoniker Id="58195e18-adfe-4328-8e83-0b472f2289ad" LastKnownName="OperandOccurrenceSpecification" />
-                  <operandOccurrenceSpecificationMoniker Id="3ae6b485-a1f4-4325-b4be-5e2252374975" LastKnownName="OperandOccurrenceSpecification" />
-                  <operandOccurrenceSpecificationMoniker Id="43948dd4-5448-4576-ac75-7405e47399e9" LastKnownName="OperandOccurrenceSpecification" />
-                  <operandOccurrenceSpecificationMoniker Id="a642b2c2-f6a9-45a4-9c69-5abb04de803b" LastKnownName="OperandOccurrenceSpecification" />
+                  <operandOccurrenceSpecificationMoniker Id="f6867553-de2f-4aa2-ab0b-efba4d7b0098" LastKnownName="OperandOccurrenceSpecification" />
+                  <operandOccurrenceSpecificationMoniker Id="299e4196-537b-496d-9d86-b6b5f1f88a6f" LastKnownName="OperandOccurrenceSpecification" />
+                  <operandOccurrenceSpecificationMoniker Id="ec3f85b1-5650-4976-a7b5-7c78827bea78" LastKnownName="OperandOccurrenceSpecification" />
+                  <operandOccurrenceSpecificationMoniker Id="8c4361a6-498a-4303-8627-b89f2a300d6d" LastKnownName="OperandOccurrenceSpecification" />
+                  <operandOccurrenceSpecificationMoniker Id="7fef5e2f-75fc-411c-92cc-83024ae5c174" LastKnownName="OperandOccurrenceSpecification" />
+                  <operandOccurrenceSpecificationMoniker Id="22dace26-7cb8-4a1d-bdb5-01a342412eef" LastKnownName="OperandOccurrenceSpecification" />
+                  <operandOccurrenceSpecificationMoniker Id="62949766-80af-480b-990d-1e72a820dbba" LastKnownName="OperandOccurrenceSpecification" />
+                  <operandOccurrenceSpecificationMoniker Id="b3c004f2-097e-4887-8259-b9135a4b8f29" LastKnownName="OperandOccurrenceSpecification" />
+                  <operandOccurrenceSpecificationMoniker Id="7c773e44-1553-4989-81f2-7d0c00826383" LastKnownName="OperandOccurrenceSpecification" />
+                  <operandOccurrenceSpecificationMoniker Id="c68e62b4-a696-4b35-b531-bc0750771ad9" LastKnownName="OperandOccurrenceSpecification" />
                 </operandOccurrenceSpecifications>
               </interactionOperand>
             </operands>
           </combinedFragment>
-          <operandOccurrenceSpecification Id="9230d05a-1743-4d6d-a351-fef6f241602b" name="OperandOccurrenceSpecification">
-            <covered>
-              <lifelineMoniker Id="547b7ba9-997a-4948-9915-d6f1f59becb9" LastKnownName="this.tf._transferStrategy : ITransferStrategy" />
-            </covered>
-          </operandOccurrenceSpecification>
-          <operandOccurrenceSpecification Id="0cc53b34-b322-4d14-823a-2554e9f24269" name="OperandOccurrenceSpecification">
+          <operandOccurrenceSpecification Id="f6867553-de2f-4aa2-ab0b-efba4d7b0098" name="OperandOccurrenceSpecification">
             <covered>
               <lifelineMoniker Id="08a0320d-6d65-4d29-849b-ab749f3570b6" LastKnownName="this : FileTransfer" />
-            </covered>
-          </operandOccurrenceSpecification>
-          <operandOccurrenceSpecification Id="025927e0-0355-41ce-9944-eab792977bbb" name="OperandOccurrenceSpecification">
-            <covered>
-              <lifelineMoniker Id="32fe8e18-e035-4780-9f8c-1aa377fbbc74" LastKnownName="ob : IObservable" />
-            </covered>
-          </operandOccurrenceSpecification>
-          <operandOccurrenceSpecification Id="8e55b585-3aae-41a6-a842-2bae6cd8b418" name="OperandOccurrenceSpecification">
-            <covered>
-              <lifelineMoniker Id="a6229e5e-e552-4990-9792-8e001ce8868d" LastKnownName="this.tf : TransferFile" />
-            </covered>
-          </operandOccurrenceSpecification>
-          <operandOccurrenceSpecification Id="35e790c4-97c0-492f-b5d6-28cd50221a69" name="OperandOccurrenceSpecification">
-            <covered>
-              <lifelineMoniker Id="efca4b8b-9f46-4b2c-ad41-7acf02bfeffa" LastKnownName="ob : IObservable" />
-            </covered>
-          </operandOccurrenceSpecification>
-          <operandOccurrenceSpecification Id="d60aece8-22a1-481f-ba68-b1b7ee2dbcbc" name="OperandOccurrenceSpecification">
-            <covered>
-              <lifelineMoniker Id="08a0320d-6d65-4d29-849b-ab749f3570b6" LastKnownName="this : FileTransfer" />
-            </covered>
-          </operandOccurrenceSpecification>
-          <lostFoundTarget Id="93bd58d9-ca33-445e-b44f-39a683c33c6d" name="LostFoundTarget" />
-          <messageOccurrenceSpecification Id="63feabf7-7e42-4f60-a8fd-9d73b41daf64" name="MessageOccurrenceSpecification">
-            <covered>
-              <lifelineMoniker Id="08a0320d-6d65-4d29-849b-ab749f3570b6" LastKnownName="this : FileTransfer" />
-            </covered>
-          </messageOccurrenceSpecification>
-          <operandOccurrenceSpecification Id="b5982232-3e4a-416c-9f9e-e16d64c71e19" name="OperandOccurrenceSpecification">
-            <covered>
-              <lifelineMoniker Id="08a0320d-6d65-4d29-849b-ab749f3570b6" LastKnownName="this : FileTransfer" />
-            </covered>
-          </operandOccurrenceSpecification>
-          <operandOccurrenceSpecification Id="62949766-80af-480b-990d-1e72a820dbba" name="OperandOccurrenceSpecification">
-            <covered>
-              <lifelineMoniker Id="547b7ba9-997a-4948-9915-d6f1f59becb9" LastKnownName="this.tf._transferStrategy : ITransferStrategy" />
-            </covered>
-          </operandOccurrenceSpecification>
-          <operandOccurrenceSpecification Id="7fef5e2f-75fc-411c-92cc-83024ae5c174" name="OperandOccurrenceSpecification">
-            <covered>
-              <lifelineMoniker Id="32fe8e18-e035-4780-9f8c-1aa377fbbc74" LastKnownName="ob : IObservable" />
             </covered>
           </operandOccurrenceSpecification>
           <operandOccurrenceSpecification Id="ec3f85b1-5650-4976-a7b5-7c78827bea78" name="OperandOccurrenceSpecification">
@@ -283,9 +150,14 @@
               <lifelineMoniker Id="efca4b8b-9f46-4b2c-ad41-7acf02bfeffa" LastKnownName="ob : IObservable" />
             </covered>
           </operandOccurrenceSpecification>
-          <operandOccurrenceSpecification Id="f6867553-de2f-4aa2-ab0b-efba4d7b0098" name="OperandOccurrenceSpecification">
+          <operandOccurrenceSpecification Id="62949766-80af-480b-990d-1e72a820dbba" name="OperandOccurrenceSpecification">
             <covered>
-              <lifelineMoniker Id="08a0320d-6d65-4d29-849b-ab749f3570b6" LastKnownName="this : FileTransfer" />
+              <lifelineMoniker Id="547b7ba9-997a-4948-9915-d6f1f59becb9" LastKnownName="this.tf._transferStrategy : ITransferStrategy" />
+            </covered>
+          </operandOccurrenceSpecification>
+          <operandOccurrenceSpecification Id="7fef5e2f-75fc-411c-92cc-83024ae5c174" name="OperandOccurrenceSpecification">
+            <covered>
+              <lifelineMoniker Id="32fe8e18-e035-4780-9f8c-1aa377fbbc74" LastKnownName="ob : IObservable" />
             </covered>
           </operandOccurrenceSpecification>
           <behaviorExecutionSpecification Id="fc52736b-fb04-4467-ac44-dfc31776378c" name="BehaviorExecutionSpecification">
@@ -303,8 +175,6 @@
               <messageOccurrenceSpecificationMoniker Id="6392befb-8df3-4e80-8d7e-da2101473254" LastKnownName="MessageOccurrenceSpecification" />
               <executionOccurrenceSpecificationMoniker Id="8e0de305-df89-4d0c-b617-83d3d2037a1f" LastKnownName="ExecutionOccurrenceSpecification" />
               <executionOccurrenceSpecificationMoniker Id="0b05b954-af52-4f70-b3e0-dac8b91279f4" LastKnownName="ExecutionOccurrenceSpecification" />
-              <messageOccurrenceSpecificationMoniker Id="31f2e63c-1af8-428e-864c-e6813d652508" LastKnownName="MessageOccurrenceSpecification" />
-              <messageOccurrenceSpecificationMoniker Id="fff6271e-944c-4070-820b-8cd9ab2d1694" LastKnownName="MessageOccurrenceSpecification" />
               <messageOccurrenceSpecificationMoniker Id="15c4001f-85a8-4e5c-a103-7a7aca1e2deb" LastKnownName="MessageOccurrenceSpecification" />
               <executionOccurrenceSpecificationMoniker Id="829c45a2-fdff-4aea-a11e-1024994b73aa" LastKnownName="ExecutionOccurrenceSpecification" />
               <executionOccurrenceSpecificationMoniker Id="4c4a3932-91c9-431d-8a25-4b2ea10d3ffe" LastKnownName="ExecutionOccurrenceSpecification" />
@@ -352,6 +222,8 @@
               <messageOccurrenceSpecificationMoniker Id="bacea788-9d79-4b54-af98-f2747fb93391" LastKnownName="MessageOccurrenceSpecification" />
               <messageOccurrenceSpecificationMoniker Id="07dba432-06e5-4f75-8a88-55e95e8b7031" LastKnownName="MessageOccurrenceSpecification" />
               <operandOccurrenceSpecificationMoniker Id="1b09b157-783b-4152-b4d6-0df1205afae3" LastKnownName="OperandOccurrenceSpecification" />
+              <messageOccurrenceSpecificationMoniker Id="39af8a61-96ff-4929-85c8-855dddfc6182" LastKnownName="MessageOccurrenceSpecification" />
+              <messageOccurrenceSpecificationMoniker Id="0a745700-268a-4ce6-8a8e-fd80fd7bbccd" LastKnownName="MessageOccurrenceSpecification" />
             </nestedOccurrences>
           </behaviorExecutionSpecification>
           <executionOccurrenceSpecification Id="8e0de305-df89-4d0c-b617-83d3d2037a1f" name="ExecutionOccurrenceSpecification">
@@ -404,14 +276,14 @@
               <lifelineMoniker Id="32fe8e18-e035-4780-9f8c-1aa377fbbc74" LastKnownName="ob : IObservable" />
             </covered>
           </executionOccurrenceSpecification>
-          <messageOccurrenceSpecification Id="bacea788-9d79-4b54-af98-f2747fb93391" name="MessageOccurrenceSpecification">
-            <covered>
-              <lifelineMoniker Id="a6229e5e-e552-4990-9792-8e001ce8868d" LastKnownName="this.tf : TransferFile" />
-            </covered>
-          </messageOccurrenceSpecification>
           <messageOccurrenceSpecification Id="c8dd1582-0789-4590-acac-4a3e3de74f51" name="MessageOccurrenceSpecification">
             <covered>
               <lifelineMoniker Id="32fe8e18-e035-4780-9f8c-1aa377fbbc74" LastKnownName="ob : IObservable" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification Id="bacea788-9d79-4b54-af98-f2747fb93391" name="MessageOccurrenceSpecification">
+            <covered>
+              <lifelineMoniker Id="a6229e5e-e552-4990-9792-8e001ce8868d" LastKnownName="this.tf : TransferFile" />
             </covered>
           </messageOccurrenceSpecification>
           <messageOccurrenceSpecification Id="cfe2b15b-9f25-4a47-a6ad-5c31f6382dac" name="MessageOccurrenceSpecification">
@@ -444,6 +316,61 @@
               <lifelineMoniker Id="32fe8e18-e035-4780-9f8c-1aa377fbbc74" LastKnownName="ob : IObservable" />
             </covered>
           </operandOccurrenceSpecification>
+          <behaviorExecutionSpecification Id="d1a14c51-7c39-4c23-86f4-8336a81664de" name="BehaviorExecutionSpecification">
+            <coveredLifelines>
+              <lifelineMoniker Id="547b7ba9-997a-4948-9915-d6f1f59becb9" LastKnownName="this.tf._transferStrategy : ITransferStrategy" />
+            </coveredLifelines>
+            <finish>
+              <executionOccurrenceSpecificationMoniker Id="11ac09b0-3876-4b1a-a6d7-5df3aa42dba0" LastKnownName="ExecutionOccurrenceSpecification" />
+            </finish>
+            <start>
+              <executionOccurrenceSpecificationMoniker Id="a8dba7e3-67d7-4063-a809-e747b0290aeb" LastKnownName="ExecutionOccurrenceSpecification" />
+            </start>
+            <nestedOccurrences>
+              <messageOccurrenceSpecificationMoniker Id="2395259a-d181-4365-9c24-470b97f5444a" LastKnownName="MessageOccurrenceSpecification" />
+              <messageOccurrenceSpecificationMoniker Id="cd6d1ebd-acbc-4795-bca9-66fc569853d0" LastKnownName="MessageOccurrenceSpecification" />
+            </nestedOccurrences>
+          </behaviorExecutionSpecification>
+          <executionOccurrenceSpecification Id="a8dba7e3-67d7-4063-a809-e747b0290aeb" name="ExecutionOccurrenceSpecification">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker Id="c3229ec8-89f1-45e0-84d0-89c19114ae28" LastKnownName="ExecutionEvent" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker Id="547b7ba9-997a-4948-9915-d6f1f59becb9" LastKnownName="this.tf._transferStrategy : ITransferStrategy" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <messageOccurrenceSpecification Id="2395259a-d181-4365-9c24-470b97f5444a" name="MessageOccurrenceSpecification">
+            <covered>
+              <lifelineMoniker Id="547b7ba9-997a-4948-9915-d6f1f59becb9" LastKnownName="this.tf._transferStrategy : ITransferStrategy" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification Id="39af8a61-96ff-4929-85c8-855dddfc6182" name="MessageOccurrenceSpecification">
+            <covered>
+              <lifelineMoniker Id="a6229e5e-e552-4990-9792-8e001ce8868d" LastKnownName="this.tf : TransferFile" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification Id="0a745700-268a-4ce6-8a8e-fd80fd7bbccd" name="MessageOccurrenceSpecification">
+            <covered>
+              <lifelineMoniker Id="a6229e5e-e552-4990-9792-8e001ce8868d" LastKnownName="this.tf : TransferFile" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification Id="cd6d1ebd-acbc-4795-bca9-66fc569853d0" name="MessageOccurrenceSpecification">
+            <covered>
+              <lifelineMoniker Id="547b7ba9-997a-4948-9915-d6f1f59becb9" LastKnownName="this.tf._transferStrategy : ITransferStrategy" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <executionOccurrenceSpecification Id="11ac09b0-3876-4b1a-a6d7-5df3aa42dba0" name="ExecutionOccurrenceSpecification">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker Id="88c38fc6-6f52-4e16-8914-eb92236e8efa" LastKnownName="ExecutionEvent" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker Id="547b7ba9-997a-4948-9915-d6f1f59becb9" LastKnownName="this.tf._transferStrategy : ITransferStrategy" />
+            </covered>
+          </executionOccurrenceSpecification>
           <executionOccurrenceSpecification Id="0b05b954-af52-4f70-b3e0-dac8b91279f4" name="ExecutionOccurrenceSpecification">
             <event>
               <executionOccurrenceSpecificationReferencesEvent>
@@ -452,61 +379,6 @@
             </event>
             <covered>
               <lifelineMoniker Id="a6229e5e-e552-4990-9792-8e001ce8868d" LastKnownName="this.tf : TransferFile" />
-            </covered>
-          </executionOccurrenceSpecification>
-          <behaviorExecutionSpecification Id="7ee71659-f2b3-46ab-9b95-450ab18dfb1e" name="BehaviorExecutionSpecification">
-            <coveredLifelines>
-              <lifelineMoniker Id="547b7ba9-997a-4948-9915-d6f1f59becb9" LastKnownName="this.tf._transferStrategy : ITransferStrategy" />
-            </coveredLifelines>
-            <finish>
-              <executionOccurrenceSpecificationMoniker Id="f64e561c-e47d-4aad-b620-6ab142ffab0d" LastKnownName="ExecutionOccurrenceSpecification" />
-            </finish>
-            <start>
-              <executionOccurrenceSpecificationMoniker Id="22929d2d-75eb-4be0-9124-5eb9ef0272e1" LastKnownName="ExecutionOccurrenceSpecification" />
-            </start>
-            <nestedOccurrences>
-              <messageOccurrenceSpecificationMoniker Id="470652eb-6a97-4504-962b-80a0e6c44488" LastKnownName="MessageOccurrenceSpecification" />
-              <messageOccurrenceSpecificationMoniker Id="65e94b8e-3be8-468e-bdbe-4540c2d2ece5" LastKnownName="MessageOccurrenceSpecification" />
-            </nestedOccurrences>
-          </behaviorExecutionSpecification>
-          <executionOccurrenceSpecification Id="22929d2d-75eb-4be0-9124-5eb9ef0272e1" name="ExecutionOccurrenceSpecification">
-            <event>
-              <executionOccurrenceSpecificationReferencesEvent>
-                <executionEventMoniker Id="dfdf108d-7395-46d3-be88-a5e6a0fca998" LastKnownName="ExecutionEvent" />
-              </executionOccurrenceSpecificationReferencesEvent>
-            </event>
-            <covered>
-              <lifelineMoniker Id="547b7ba9-997a-4948-9915-d6f1f59becb9" LastKnownName="this.tf._transferStrategy : ITransferStrategy" />
-            </covered>
-          </executionOccurrenceSpecification>
-          <messageOccurrenceSpecification Id="470652eb-6a97-4504-962b-80a0e6c44488" name="MessageOccurrenceSpecification">
-            <covered>
-              <lifelineMoniker Id="547b7ba9-997a-4948-9915-d6f1f59becb9" LastKnownName="this.tf._transferStrategy : ITransferStrategy" />
-            </covered>
-          </messageOccurrenceSpecification>
-          <messageOccurrenceSpecification Id="31f2e63c-1af8-428e-864c-e6813d652508" name="MessageOccurrenceSpecification">
-            <covered>
-              <lifelineMoniker Id="a6229e5e-e552-4990-9792-8e001ce8868d" LastKnownName="this.tf : TransferFile" />
-            </covered>
-          </messageOccurrenceSpecification>
-          <messageOccurrenceSpecification Id="65e94b8e-3be8-468e-bdbe-4540c2d2ece5" name="MessageOccurrenceSpecification">
-            <covered>
-              <lifelineMoniker Id="547b7ba9-997a-4948-9915-d6f1f59becb9" LastKnownName="this.tf._transferStrategy : ITransferStrategy" />
-            </covered>
-          </messageOccurrenceSpecification>
-          <messageOccurrenceSpecification Id="fff6271e-944c-4070-820b-8cd9ab2d1694" name="MessageOccurrenceSpecification">
-            <covered>
-              <lifelineMoniker Id="a6229e5e-e552-4990-9792-8e001ce8868d" LastKnownName="this.tf : TransferFile" />
-            </covered>
-          </messageOccurrenceSpecification>
-          <executionOccurrenceSpecification Id="f64e561c-e47d-4aad-b620-6ab142ffab0d" name="ExecutionOccurrenceSpecification">
-            <event>
-              <executionOccurrenceSpecificationReferencesEvent>
-                <executionEventMoniker Id="fd7ae67a-ba80-40e4-a461-2d82f6e52165" LastKnownName="ExecutionEvent" />
-              </executionOccurrenceSpecificationReferencesEvent>
-            </event>
-            <covered>
-              <lifelineMoniker Id="547b7ba9-997a-4948-9915-d6f1f59becb9" LastKnownName="this.tf._transferStrategy : ITransferStrategy" />
             </covered>
           </executionOccurrenceSpecification>
           <messageOccurrenceSpecification Id="15c4001f-85a8-4e5c-a103-7a7aca1e2deb" name="MessageOccurrenceSpecification">
@@ -547,14 +419,14 @@
               <lifelineMoniker Id="a6229e5e-e552-4990-9792-8e001ce8868d" LastKnownName="this.tf : TransferFile" />
             </covered>
           </messageOccurrenceSpecification>
-          <operandOccurrenceSpecification Id="0c7e462d-d43e-4052-b3e1-3075ee8e49f5" name="OperandOccurrenceSpecification">
-            <covered>
-              <lifelineMoniker Id="a6229e5e-e552-4990-9792-8e001ce8868d" LastKnownName="this.tf : TransferFile" />
-            </covered>
-          </operandOccurrenceSpecification>
           <operandOccurrenceSpecification Id="25d16aaa-548a-46e5-97d0-9bd1735bde16" name="OperandOccurrenceSpecification">
             <covered>
               <lifelineMoniker Id="efca4b8b-9f46-4b2c-ad41-7acf02bfeffa" LastKnownName="ob : IObservable" />
+            </covered>
+          </operandOccurrenceSpecification>
+          <operandOccurrenceSpecification Id="0c7e462d-d43e-4052-b3e1-3075ee8e49f5" name="OperandOccurrenceSpecification">
+            <covered>
+              <lifelineMoniker Id="a6229e5e-e552-4990-9792-8e001ce8868d" LastKnownName="this.tf : TransferFile" />
             </covered>
           </operandOccurrenceSpecification>
           <behaviorExecutionSpecification Id="01334889-a80f-4c2a-b574-45df18531e14" name="BehaviorExecutionSpecification">
@@ -582,14 +454,14 @@
               <lifelineMoniker Id="efca4b8b-9f46-4b2c-ad41-7acf02bfeffa" LastKnownName="ob : IObservable" />
             </covered>
           </executionOccurrenceSpecification>
-          <messageOccurrenceSpecification Id="63c08ff9-09fc-4841-a484-fab049bd12e1" name="MessageOccurrenceSpecification">
-            <covered>
-              <lifelineMoniker Id="efca4b8b-9f46-4b2c-ad41-7acf02bfeffa" LastKnownName="ob : IObservable" />
-            </covered>
-          </messageOccurrenceSpecification>
           <messageOccurrenceSpecification Id="686f14e9-169a-4894-8326-5f61beb37946" name="MessageOccurrenceSpecification">
             <covered>
               <lifelineMoniker Id="a6229e5e-e552-4990-9792-8e001ce8868d" LastKnownName="this.tf : TransferFile" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification Id="63c08ff9-09fc-4841-a484-fab049bd12e1" name="MessageOccurrenceSpecification">
+            <covered>
+              <lifelineMoniker Id="efca4b8b-9f46-4b2c-ad41-7acf02bfeffa" LastKnownName="ob : IObservable" />
             </covered>
           </messageOccurrenceSpecification>
           <messageOccurrenceSpecification Id="84da0124-948a-4ecd-9c4a-721190d30746" name="MessageOccurrenceSpecification">
@@ -652,19 +524,9 @@
               <lifelineMoniker Id="a6229e5e-e552-4990-9792-8e001ce8868d" LastKnownName="this.tf : TransferFile" />
             </covered>
           </executionOccurrenceSpecification>
-          <operandOccurrenceSpecification Id="b3c004f2-097e-4887-8259-b9135a4b8f29" name="OperandOccurrenceSpecification">
-            <covered>
-              <lifelineMoniker Id="547b7ba9-997a-4948-9915-d6f1f59becb9" LastKnownName="this.tf._transferStrategy : ITransferStrategy" />
-            </covered>
-          </operandOccurrenceSpecification>
           <operandOccurrenceSpecification Id="8c4361a6-498a-4303-8627-b89f2a300d6d" name="OperandOccurrenceSpecification">
             <covered>
               <lifelineMoniker Id="a6229e5e-e552-4990-9792-8e001ce8868d" LastKnownName="this.tf : TransferFile" />
-            </covered>
-          </operandOccurrenceSpecification>
-          <operandOccurrenceSpecification Id="299e4196-537b-496d-9d86-b6b5f1f88a6f" name="OperandOccurrenceSpecification">
-            <covered>
-              <lifelineMoniker Id="08a0320d-6d65-4d29-849b-ab749f3570b6" LastKnownName="this : FileTransfer" />
             </covered>
           </operandOccurrenceSpecification>
           <operandOccurrenceSpecification Id="22dace26-7cb8-4a1d-bdb5-01a342412eef" name="OperandOccurrenceSpecification">
@@ -677,79 +539,14 @@
               <lifelineMoniker Id="efca4b8b-9f46-4b2c-ad41-7acf02bfeffa" LastKnownName="ob : IObservable" />
             </covered>
           </operandOccurrenceSpecification>
-          <operandOccurrenceSpecification Id="6acd7d6b-0858-4465-adf8-b27598cf796d" name="OperandOccurrenceSpecification">
-            <covered>
-              <lifelineMoniker Id="efca4b8b-9f46-4b2c-ad41-7acf02bfeffa" LastKnownName="ob : IObservable" />
-            </covered>
-          </operandOccurrenceSpecification>
-          <operandOccurrenceSpecification Id="382f1a44-9493-4692-bef3-c777489ba77a" name="OperandOccurrenceSpecification">
-            <covered>
-              <lifelineMoniker Id="32fe8e18-e035-4780-9f8c-1aa377fbbc74" LastKnownName="ob : IObservable" />
-            </covered>
-          </operandOccurrenceSpecification>
-          <operandOccurrenceSpecification Id="c7df8942-de81-48ff-8d9f-bea0af941cef" name="OperandOccurrenceSpecification">
-            <covered>
-              <lifelineMoniker Id="a6229e5e-e552-4990-9792-8e001ce8868d" LastKnownName="this.tf : TransferFile" />
-            </covered>
-          </operandOccurrenceSpecification>
-          <operandOccurrenceSpecification Id="8c8ef231-54d6-4b63-ada4-443fb2ede265" name="OperandOccurrenceSpecification">
-            <covered>
-              <lifelineMoniker Id="08a0320d-6d65-4d29-849b-ab749f3570b6" LastKnownName="this : FileTransfer" />
-            </covered>
-          </operandOccurrenceSpecification>
-          <operandOccurrenceSpecification Id="e925651c-63a0-4f5b-b200-f2ee9c202f04" name="OperandOccurrenceSpecification">
+          <operandOccurrenceSpecification Id="b3c004f2-097e-4887-8259-b9135a4b8f29" name="OperandOccurrenceSpecification">
             <covered>
               <lifelineMoniker Id="547b7ba9-997a-4948-9915-d6f1f59becb9" LastKnownName="this.tf._transferStrategy : ITransferStrategy" />
             </covered>
           </operandOccurrenceSpecification>
-          <operandOccurrenceSpecification Id="43948dd4-5448-4576-ac75-7405e47399e9" name="OperandOccurrenceSpecification">
-            <covered>
-              <lifelineMoniker Id="efca4b8b-9f46-4b2c-ad41-7acf02bfeffa" LastKnownName="ob : IObservable" />
-            </covered>
-          </operandOccurrenceSpecification>
-          <operandOccurrenceSpecification Id="ef108848-2476-42bc-be84-91466174c598" name="OperandOccurrenceSpecification">
+          <operandOccurrenceSpecification Id="299e4196-537b-496d-9d86-b6b5f1f88a6f" name="OperandOccurrenceSpecification">
             <covered>
               <lifelineMoniker Id="08a0320d-6d65-4d29-849b-ab749f3570b6" LastKnownName="this : FileTransfer" />
-            </covered>
-          </operandOccurrenceSpecification>
-          <operandOccurrenceSpecification Id="856b2cd2-f30d-432f-98eb-5ee21efd7f9c" name="OperandOccurrenceSpecification">
-            <covered>
-              <lifelineMoniker Id="a6229e5e-e552-4990-9792-8e001ce8868d" LastKnownName="this.tf : TransferFile" />
-            </covered>
-          </operandOccurrenceSpecification>
-          <operandOccurrenceSpecification Id="d0358394-1c7e-4da9-934b-36505ba8f551" name="OperandOccurrenceSpecification">
-            <covered>
-              <lifelineMoniker Id="32fe8e18-e035-4780-9f8c-1aa377fbbc74" LastKnownName="ob : IObservable" />
-            </covered>
-          </operandOccurrenceSpecification>
-          <operandOccurrenceSpecification Id="58195e18-adfe-4328-8e83-0b472f2289ad" name="OperandOccurrenceSpecification">
-            <covered>
-              <lifelineMoniker Id="547b7ba9-997a-4948-9915-d6f1f59becb9" LastKnownName="this.tf._transferStrategy : ITransferStrategy" />
-            </covered>
-          </operandOccurrenceSpecification>
-          <operandOccurrenceSpecification Id="8bc5ddcb-493e-4ce1-9a1f-583ac061d40d" name="OperandOccurrenceSpecification">
-            <covered>
-              <lifelineMoniker Id="08a0320d-6d65-4d29-849b-ab749f3570b6" LastKnownName="this : FileTransfer" />
-            </covered>
-          </operandOccurrenceSpecification>
-          <operandOccurrenceSpecification Id="c0e749d7-b10f-4277-9dc6-64bc0fcdbd8e" name="OperandOccurrenceSpecification">
-            <covered>
-              <lifelineMoniker Id="a6229e5e-e552-4990-9792-8e001ce8868d" LastKnownName="this.tf : TransferFile" />
-            </covered>
-          </operandOccurrenceSpecification>
-          <operandOccurrenceSpecification Id="25933d06-e2b7-485a-a8a1-7677d79a577e" name="OperandOccurrenceSpecification">
-            <covered>
-              <lifelineMoniker Id="32fe8e18-e035-4780-9f8c-1aa377fbbc74" LastKnownName="ob : IObservable" />
-            </covered>
-          </operandOccurrenceSpecification>
-          <operandOccurrenceSpecification Id="3ae6b485-a1f4-4325-b4be-5e2252374975" name="OperandOccurrenceSpecification">
-            <covered>
-              <lifelineMoniker Id="547b7ba9-997a-4948-9915-d6f1f59becb9" LastKnownName="this.tf._transferStrategy : ITransferStrategy" />
-            </covered>
-          </operandOccurrenceSpecification>
-          <operandOccurrenceSpecification Id="a642b2c2-f6a9-45a4-9c69-5abb04de803b" name="OperandOccurrenceSpecification">
-            <covered>
-              <lifelineMoniker Id="efca4b8b-9f46-4b2c-ad41-7acf02bfeffa" LastKnownName="ob : IObservable" />
             </covered>
           </operandOccurrenceSpecification>
           <executionOccurrenceSpecification Id="6af38122-9b6a-414a-b278-51718981bf96" name="ExecutionOccurrenceSpecification">
@@ -780,14 +577,10 @@
               <reference Id="1ef86c6c-eb03-4e90-9abc-60bee86d080c" handle="(Assembly=&quot;$(474919bd-1c20-4e80-9724-cde39beda4c6.OutputPathUri)&quot; Namespace=StrategyPatternExample Type=TransferFile)" tag="DGML" />
             </referencesInternal>
             <topLevelOccurrences>
-              <operandOccurrenceSpecificationMoniker Id="8e55b585-3aae-41a6-a842-2bae6cd8b418" LastKnownName="OperandOccurrenceSpecification" />
               <operandOccurrenceSpecificationMoniker Id="ec3f85b1-5650-4976-a7b5-7c78827bea78" LastKnownName="OperandOccurrenceSpecification" />
               <executionOccurrenceSpecificationMoniker Id="763fc289-46c8-45a0-b137-c601ff0dac2a" LastKnownName="ExecutionOccurrenceSpecification" />
               <executionOccurrenceSpecificationMoniker Id="2ad18551-bba6-4998-887b-295ef7c3de4b" LastKnownName="ExecutionOccurrenceSpecification" />
               <operandOccurrenceSpecificationMoniker Id="8c4361a6-498a-4303-8627-b89f2a300d6d" LastKnownName="OperandOccurrenceSpecification" />
-              <operandOccurrenceSpecificationMoniker Id="c7df8942-de81-48ff-8d9f-bea0af941cef" LastKnownName="OperandOccurrenceSpecification" />
-              <operandOccurrenceSpecificationMoniker Id="856b2cd2-f30d-432f-98eb-5ee21efd7f9c" LastKnownName="OperandOccurrenceSpecification" />
-              <operandOccurrenceSpecificationMoniker Id="c0e749d7-b10f-4277-9dc6-64bc0fcdbd8e" LastKnownName="OperandOccurrenceSpecification" />
             </topLevelOccurrences>
           </lifeline>
           <lifeline Id="32fe8e18-e035-4780-9f8c-1aa377fbbc74" name="ob : IObservable" isActor="false" lifelineDisplayName="ob : IObservable" referencedInstance="(Assembly=&quot;$(474919bd-1c20-4e80-9724-cde39beda4c6.OutputPathUri)&quot; Namespace=StrategyPatternExample Type=TransferFile Member=(Name=notify OverloadingParameters=[(Assembly=&quot;$(FxReferenceAssembliesUri)/.NETFramework/v4.5/mscorlib.dll&quot; Namespace=System Type=String),(Assembly=&quot;$(FxReferenceAssembliesUri)/.NETFramework/v4.5/System.dll&quot; Namespace=System.Net Type=IPEndPoint),(Assembly=&quot;$(FxReferenceAssembliesUri)/.NETFramework/v4.5/mscorlib.dll&quot; Namespace=System Type=Boolean),(Assembly=&quot;$(FxReferenceAssembliesUri)/.NETFramework/v4.5/mscorlib.dll&quot; Namespace=System Type=Boolean)]) Statement=[1,1,2] ObjectInstance=&quot;Object instance 23&quot;)" referencedType="StrategyPatternExample‎.Strategy‎.IObservable">
@@ -796,16 +589,12 @@
               <reference Id="4d617804-d712-422e-9af7-7f0afa2b6394" handle="(Assembly=&quot;$(474919bd-1c20-4e80-9724-cde39beda4c6.OutputPathUri)&quot; Namespace=StrategyPatternExample.Strategy Type=IObservable)" tag="DGML" />
             </referencesInternal>
             <topLevelOccurrences>
-              <operandOccurrenceSpecificationMoniker Id="025927e0-0355-41ce-9944-eab792977bbb" LastKnownName="OperandOccurrenceSpecification" />
               <operandOccurrenceSpecificationMoniker Id="7fef5e2f-75fc-411c-92cc-83024ae5c174" LastKnownName="OperandOccurrenceSpecification" />
               <operandOccurrenceSpecificationMoniker Id="e68cb6ac-7da7-4671-8172-27d4847af960" LastKnownName="OperandOccurrenceSpecification" />
               <executionOccurrenceSpecificationMoniker Id="a7ddfe28-1e85-439d-b471-ad5baa38134a" LastKnownName="ExecutionOccurrenceSpecification" />
               <executionOccurrenceSpecificationMoniker Id="94e25cc7-7467-4161-bb5f-e18b393e6f7e" LastKnownName="ExecutionOccurrenceSpecification" />
               <operandOccurrenceSpecificationMoniker Id="c6965b56-4822-42e3-b13d-7b279315275a" LastKnownName="OperandOccurrenceSpecification" />
               <operandOccurrenceSpecificationMoniker Id="22dace26-7cb8-4a1d-bdb5-01a342412eef" LastKnownName="OperandOccurrenceSpecification" />
-              <operandOccurrenceSpecificationMoniker Id="382f1a44-9493-4692-bef3-c777489ba77a" LastKnownName="OperandOccurrenceSpecification" />
-              <operandOccurrenceSpecificationMoniker Id="d0358394-1c7e-4da9-934b-36505ba8f551" LastKnownName="OperandOccurrenceSpecification" />
-              <operandOccurrenceSpecificationMoniker Id="25933d06-e2b7-485a-a8a1-7677d79a577e" LastKnownName="OperandOccurrenceSpecification" />
             </topLevelOccurrences>
           </lifeline>
           <lifeline Id="547b7ba9-997a-4948-9915-d6f1f59becb9" name="this.tf._transferStrategy : ITransferStrategy" isActor="false" lifelineDisplayName="this.tf._transferStrategy : ITransferStrategy" referencedInstance="(Assembly=&quot;$(474919bd-1c20-4e80-9724-cde39beda4c6.OutputPathUri)&quot; Namespace=StrategyPatternExample Type=TransferFile Member=_transferStrategy ObjectInstance=&quot;Object instance 26&quot;)" referencedType="StrategyPatternExample‎.ITransferStrategy">
@@ -814,14 +603,10 @@
               <reference Id="61d7a425-1097-4042-91b4-bdaa1f3d77ed" handle="(Assembly=&quot;$(474919bd-1c20-4e80-9724-cde39beda4c6.OutputPathUri)&quot; Namespace=StrategyPatternExample Type=ITransferStrategy)" tag="DGML" />
             </referencesInternal>
             <topLevelOccurrences>
-              <operandOccurrenceSpecificationMoniker Id="9230d05a-1743-4d6d-a351-fef6f241602b" LastKnownName="OperandOccurrenceSpecification" />
               <operandOccurrenceSpecificationMoniker Id="62949766-80af-480b-990d-1e72a820dbba" LastKnownName="OperandOccurrenceSpecification" />
-              <executionOccurrenceSpecificationMoniker Id="22929d2d-75eb-4be0-9124-5eb9ef0272e1" LastKnownName="ExecutionOccurrenceSpecification" />
-              <executionOccurrenceSpecificationMoniker Id="f64e561c-e47d-4aad-b620-6ab142ffab0d" LastKnownName="ExecutionOccurrenceSpecification" />
+              <executionOccurrenceSpecificationMoniker Id="a8dba7e3-67d7-4063-a809-e747b0290aeb" LastKnownName="ExecutionOccurrenceSpecification" />
+              <executionOccurrenceSpecificationMoniker Id="11ac09b0-3876-4b1a-a6d7-5df3aa42dba0" LastKnownName="ExecutionOccurrenceSpecification" />
               <operandOccurrenceSpecificationMoniker Id="b3c004f2-097e-4887-8259-b9135a4b8f29" LastKnownName="OperandOccurrenceSpecification" />
-              <operandOccurrenceSpecificationMoniker Id="e925651c-63a0-4f5b-b200-f2ee9c202f04" LastKnownName="OperandOccurrenceSpecification" />
-              <operandOccurrenceSpecificationMoniker Id="58195e18-adfe-4328-8e83-0b472f2289ad" LastKnownName="OperandOccurrenceSpecification" />
-              <operandOccurrenceSpecificationMoniker Id="3ae6b485-a1f4-4325-b4be-5e2252374975" LastKnownName="OperandOccurrenceSpecification" />
             </topLevelOccurrences>
           </lifeline>
           <lifeline Id="efca4b8b-9f46-4b2c-ad41-7acf02bfeffa" name="ob : IObservable" isActor="false" lifelineDisplayName="ob : IObservable" referencedInstance="(Assembly=&quot;$(474919bd-1c20-4e80-9724-cde39beda4c6.OutputPathUri)&quot; Namespace=StrategyPatternExample Type=TransferFile Member=(Name=notify OverloadingParameters=[(Assembly=&quot;$(FxReferenceAssembliesUri)/.NETFramework/v4.5/mscorlib.dll&quot; Namespace=System Type=String),(Assembly=&quot;$(FxReferenceAssembliesUri)/.NETFramework/v4.5/System.dll&quot; Namespace=System.Net Type=IPEndPoint),(Assembly=&quot;$(FxReferenceAssembliesUri)/.NETFramework/v4.5/mscorlib.dll&quot; Namespace=System Type=Boolean),(Assembly=&quot;$(FxReferenceAssembliesUri)/.NETFramework/v4.5/mscorlib.dll&quot; Namespace=System Type=Boolean)]) Statement=[1,1,2] ObjectInstance=&quot;Object instance 30&quot;)" referencedType="StrategyPatternExample‎.Strategy‎.IObservable">
@@ -830,16 +615,12 @@
               <reference Id="a2c61989-36aa-4d15-b617-1a87509baf1b" handle="(Assembly=&quot;$(474919bd-1c20-4e80-9724-cde39beda4c6.OutputPathUri)&quot; Namespace=StrategyPatternExample.Strategy Type=IObservable)" tag="DGML" />
             </referencesInternal>
             <topLevelOccurrences>
-              <operandOccurrenceSpecificationMoniker Id="35e790c4-97c0-492f-b5d6-28cd50221a69" LastKnownName="OperandOccurrenceSpecification" />
               <operandOccurrenceSpecificationMoniker Id="7c773e44-1553-4989-81f2-7d0c00826383" LastKnownName="OperandOccurrenceSpecification" />
               <operandOccurrenceSpecificationMoniker Id="25d16aaa-548a-46e5-97d0-9bd1735bde16" LastKnownName="OperandOccurrenceSpecification" />
               <executionOccurrenceSpecificationMoniker Id="860535b5-e997-4dc7-bbfd-bae9da8e9079" LastKnownName="ExecutionOccurrenceSpecification" />
               <executionOccurrenceSpecificationMoniker Id="05f6fe74-da26-4044-a32c-1a3841bab0d8" LastKnownName="ExecutionOccurrenceSpecification" />
               <operandOccurrenceSpecificationMoniker Id="84039be8-5127-4a38-a6ce-9b6e7ad21f23" LastKnownName="OperandOccurrenceSpecification" />
               <operandOccurrenceSpecificationMoniker Id="c68e62b4-a696-4b35-b531-bc0750771ad9" LastKnownName="OperandOccurrenceSpecification" />
-              <operandOccurrenceSpecificationMoniker Id="6acd7d6b-0858-4465-adf8-b27598cf796d" LastKnownName="OperandOccurrenceSpecification" />
-              <operandOccurrenceSpecificationMoniker Id="43948dd4-5448-4576-ac75-7405e47399e9" LastKnownName="OperandOccurrenceSpecification" />
-              <operandOccurrenceSpecificationMoniker Id="a642b2c2-f6a9-45a4-9c69-5abb04de803b" LastKnownName="OperandOccurrenceSpecification" />
             </topLevelOccurrences>
           </lifeline>
         </lifelines>
@@ -854,14 +635,6 @@
             </sendEvent>
             <receiveEvent>
               <messageOccurrenceSpecificationMoniker Id="2759d36e-4f56-47d0-8c3a-22a9fc5a1d8f" LastKnownName="MessageOccurrenceSpecification" />
-            </receiveEvent>
-          </message>
-          <message Id="10670242-6fa7-4310-b7f6-9daa2c2f4711" name="Return" messageKind="Lost" messageSort="AsynchCall" createSelfMessage="false">
-            <sendEvent>
-              <messageOccurrenceSpecificationMoniker Id="63feabf7-7e42-4f60-a8fd-9d73b41daf64" LastKnownName="MessageOccurrenceSpecification" />
-            </sendEvent>
-            <receiveEvent>
-              <lostFoundTargetMoniker Id="93bd58d9-ca33-445e-b44f-39a683c33c6d" LastKnownName="LostFoundTarget" />
             </receiveEvent>
           </message>
           <message Id="6c164f01-6d95-45eb-87a0-1573cd04f670" name="sendFile" messageKind="Complete" messageSort="SynchCall" createSelfMessage="false" signatureText="tf.sendFile(this.fileFullPath, endPoint)">
@@ -908,24 +681,24 @@
               <messageOccurrenceSpecificationMoniker Id="07dba432-06e5-4f75-8a88-55e95e8b7031" LastKnownName="MessageOccurrenceSpecification" />
             </receiveEvent>
           </message>
-          <message Id="047ad3b1-1a59-4747-9f29-7a5966bf6a2a" name="sendFile" messageKind="Complete" messageSort="SynchCall" createSelfMessage="false" signatureText="_transferStrategy.sendFile(filePath, endPoint)">
+          <message Id="fa6f9c62-9d9d-4ce3-9d4f-86d6c0670b01" name="sendFile" messageKind="Complete" messageSort="SynchCall" createSelfMessage="false" signatureText="_transferStrategy.sendFile(filePath, endPoint)">
             <referencesInternal>
-              <reference Id="ac8234bd-160a-4e1e-905b-59688e5c1d17" handle="+ Id.Equals(&quot;Microsoft.Solution.ClassView&quot;) /&#xD;&#xA;/&#xD;&#xA;+ Id.EqualsIgnoreCase(&quot;(Namespace=StrategyPatternExample)&quot;)/&#xD;&#xA;&quot;Microsoft.Contains&quot;/&#xD;&#xA;+ Id.EqualsIgnoreCase(&quot;(Assembly=&amp;quot;$(474919bd-1c20-4e80-9724-cde39beda4c6.OutputPathUri)&amp;quot; Namespace=StrategyPatternExample Type=ITransferStrategy)&quot;)/&#xD;&#xA;&quot;Microsoft.Contains&quot;/&#xD;&#xA;+ Id.EqualsIgnoreCase(&quot;(Assembly=&amp;quot;$(474919bd-1c20-4e80-9724-cde39beda4c6.OutputPathUri)&amp;quot; Namespace=StrategyPatternExample Type=ITransferStrategy Member=(Name=sendFile OverloadingParameters=[(Assembly=&amp;quot;$(FxReferenceAssembliesUri)/.NETFramework/v4.5/mscorlib.dll&amp;quot; Namespace=System Type=String),(Assembly=&amp;quot;$(FxReferenceAssembliesUri)/.NETFramework/v4.5/System.dll&amp;quot; Namespace=System.Net Type=IPEndPoint)]))&quot;)" tag="DGQL" />
-              <reference Id="6f0fe59a-6a52-421b-8c2c-ed8ff0668ce3" handle="(Assembly=&quot;$(474919bd-1c20-4e80-9724-cde39beda4c6.OutputPathUri)&quot; Namespace=StrategyPatternExample Type=ITransferStrategy Member=(Name=sendFile OverloadingParameters=[(Assembly=&quot;$(FxReferenceAssembliesUri)/.NETFramework/v4.5/mscorlib.dll&quot; Namespace=System Type=String),(Assembly=&quot;$(FxReferenceAssembliesUri)/.NETFramework/v4.5/System.dll&quot; Namespace=System.Net Type=IPEndPoint)]))" tag="DGML" />
+              <reference Id="c5727788-13af-42f5-9b58-6dbc23551e8a" handle="+ Id.Equals(&quot;Microsoft.Solution.ClassView&quot;) /&#xD;&#xA;/&#xD;&#xA;+ Id.EqualsIgnoreCase(&quot;(Namespace=StrategyPatternExample)&quot;)/&#xD;&#xA;&quot;Microsoft.Contains&quot;/&#xD;&#xA;+ Id.EqualsIgnoreCase(&quot;(Assembly=&amp;quot;$(474919bd-1c20-4e80-9724-cde39beda4c6.OutputPathUri)&amp;quot; Namespace=StrategyPatternExample Type=ITransferStrategy)&quot;)/&#xD;&#xA;&quot;Microsoft.Contains&quot;/&#xD;&#xA;+ Id.EqualsIgnoreCase(&quot;(Assembly=&amp;quot;$(474919bd-1c20-4e80-9724-cde39beda4c6.OutputPathUri)&amp;quot; Namespace=StrategyPatternExample Type=ITransferStrategy Member=(Name=sendFile OverloadingParameters=[(Assembly=&amp;quot;$(FxReferenceAssembliesUri)/.NETFramework/v4.5/mscorlib.dll&amp;quot; Namespace=System Type=String),(Assembly=&amp;quot;$(FxReferenceAssembliesUri)/.NETFramework/v4.5/System.dll&amp;quot; Namespace=System.Net Type=IPEndPoint)]))&quot;)" tag="DGQL" />
+              <reference Id="2ffbae6f-938b-46be-ae37-be244577329a" handle="(Assembly=&quot;$(474919bd-1c20-4e80-9724-cde39beda4c6.OutputPathUri)&quot; Namespace=StrategyPatternExample Type=ITransferStrategy Member=(Name=sendFile OverloadingParameters=[(Assembly=&quot;$(FxReferenceAssembliesUri)/.NETFramework/v4.5/mscorlib.dll&quot; Namespace=System Type=String),(Assembly=&quot;$(FxReferenceAssembliesUri)/.NETFramework/v4.5/System.dll&quot; Namespace=System.Net Type=IPEndPoint)]))" tag="DGML" />
             </referencesInternal>
             <sendEvent>
-              <messageOccurrenceSpecificationMoniker Id="31f2e63c-1af8-428e-864c-e6813d652508" LastKnownName="MessageOccurrenceSpecification" />
+              <messageOccurrenceSpecificationMoniker Id="39af8a61-96ff-4929-85c8-855dddfc6182" LastKnownName="MessageOccurrenceSpecification" />
             </sendEvent>
             <receiveEvent>
-              <messageOccurrenceSpecificationMoniker Id="470652eb-6a97-4504-962b-80a0e6c44488" LastKnownName="MessageOccurrenceSpecification" />
+              <messageOccurrenceSpecificationMoniker Id="2395259a-d181-4365-9c24-470b97f5444a" LastKnownName="MessageOccurrenceSpecification" />
             </receiveEvent>
           </message>
-          <message Id="e6dce775-bb2f-4fc7-94a3-8cf43ac76be8" name="&lt;&lt;return&gt;&gt;" messageKind="Complete" messageSort="Reply" createSelfMessage="false">
+          <message Id="f8c33e9b-ed94-4650-897c-afebf4446449" name="&lt;&lt;return&gt;&gt;" messageKind="Complete" messageSort="Reply" createSelfMessage="false">
             <sendEvent>
-              <messageOccurrenceSpecificationMoniker Id="65e94b8e-3be8-468e-bdbe-4540c2d2ece5" LastKnownName="MessageOccurrenceSpecification" />
+              <messageOccurrenceSpecificationMoniker Id="cd6d1ebd-acbc-4795-bca9-66fc569853d0" LastKnownName="MessageOccurrenceSpecification" />
             </sendEvent>
             <receiveEvent>
-              <messageOccurrenceSpecificationMoniker Id="fff6271e-944c-4070-820b-8cd9ab2d1694" LastKnownName="MessageOccurrenceSpecification" />
+              <messageOccurrenceSpecificationMoniker Id="0a745700-268a-4ce6-8a8e-fd80fd7bbccd" LastKnownName="MessageOccurrenceSpecification" />
             </receiveEvent>
           </message>
           <message Id="12241fa3-68a0-4e5b-afc8-1627a98852ac" name="notify" messageKind="Complete" messageSort="SynchCall" createSelfMessage="true" signatureText="notify(filePath, endPoint, true, true)">
@@ -996,12 +769,6 @@
       <executionEvent Id="4ef98673-fed1-4d77-a565-5c75946e9dad" name="ExecutionEvent" />
     </packageHasNamedElement>
     <packageHasNamedElement>
-      <executionEvent Id="dfdf108d-7395-46d3-be88-a5e6a0fca998" name="ExecutionEvent" />
-    </packageHasNamedElement>
-    <packageHasNamedElement>
-      <executionEvent Id="fd7ae67a-ba80-40e4-a461-2d82f6e52165" name="ExecutionEvent" />
-    </packageHasNamedElement>
-    <packageHasNamedElement>
       <executionEvent Id="386d7619-4690-477d-92af-282544ac8551" name="ExecutionEvent" />
     </packageHasNamedElement>
     <packageHasNamedElement>
@@ -1012,6 +779,12 @@
     </packageHasNamedElement>
     <packageHasNamedElement>
       <executionEvent Id="8f543a67-c0c2-45d7-954a-98ab75f4776a" name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent Id="c3229ec8-89f1-45e0-84d0-89c19114ae28" name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent Id="88c38fc6-6f52-4e16-8914-eb92236e8efa" name="ExecutionEvent" />
     </packageHasNamedElement>
   </packagedElements>
 </SequenceDesignerModel>

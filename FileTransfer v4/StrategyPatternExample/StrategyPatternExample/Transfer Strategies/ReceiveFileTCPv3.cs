@@ -74,9 +74,12 @@ namespace StrategyPatternExample.Transfer_Strategies
         public void StartListening()
         {
 
-            Socket listener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            listener.ReceiveBufferSize = StateObject.BufferSize;
+            //Socket listener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            //listener.ReceiveBufferSize = StateObject.BufferSize;
             //listener.DontFragment = true;
+
+            TcpListener listener2 = new TcpListener(remotePoint);
+            listener2.AllowNatTraversal(true);
 
             // Don't allow another socket to bind to this port.
             // Should perhaps consider this one
@@ -85,13 +88,14 @@ namespace StrategyPatternExample.Transfer_Strategies
             try
             {
 
-                listener.Bind(this.remotePoint);
-                listener.Listen(100);
+                //listener.Bind(this.remotePoint);
+                //listener.Listen(100);
 
                 while (true)
                 {
                     allDone.Reset();
-                    listener.BeginAccept(new AsyncCallback(AcceptCallback), listener);
+                    //listener.BeginAccept(new AsyncCallback(AcceptCallback), listener);
+                    listener2.BeginAcceptSocket(new AsyncCallback(AcceptCallback), listener2);
                     allDone.WaitOne();
                 }
             }
