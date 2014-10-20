@@ -48,8 +48,11 @@ namespace StrategyPatternExample.Transfer_Strategies
         {
             this.receivePath = filePath;
             this.remotePoint = remotePoint;
+
             // start thread
             this.t1 = new Thread(new ThreadStart(StartListening));
+            this.t1.Name = "Listen_on_" + this.remotePoint.Port.ToString();
+            this.t1.IsBackground = true;
             this.t1.Start();
         }
 
@@ -82,6 +85,10 @@ namespace StrategyPatternExample.Transfer_Strategies
             // Should perhaps consider this one
             //listener.ExclusiveAddressUse = true;
 
+            // tried TcpListner and it didn't really work...
+            //TcpListener listener2 = new TcpListener(remotePoint);
+            //listener2.AllowNatTraversal(true);
+
             try
             {
 
@@ -92,6 +99,7 @@ namespace StrategyPatternExample.Transfer_Strategies
                 {
                     allDone.Reset();
                     listener.BeginAccept(new AsyncCallback(AcceptCallback), listener);
+                    //listener2.BeginAcceptSocket(new AsyncCallback(AcceptCallback), listener2);
                     allDone.WaitOne();
                 }
             }
