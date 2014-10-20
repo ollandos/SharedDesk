@@ -13,7 +13,7 @@ namespace StrategyPatternExample.Transfer_Strategies
         public void sendFile(string filePath, System.Net.IPEndPoint endPoint)
         {
             // starts a thread that does the file sending
-            SendFileThreadTCPv3 sender = new SendFileThreadTCPv3(filePath, endPoint);
+            SendFileThreadTCPv4 sender = new SendFileThreadTCPv4(filePath, endPoint);
         }
 
         public void listenForFile(string filePath, System.Net.IPEndPoint remotePoint)

@@ -53,9 +53,12 @@ namespace StrategyPatternExample.Transfer_Strategies
                 sendingSocket.Connect(endPoint);
 
                 // TODO:
-                // use preBuffer and postBuffer to send filename, size, etc
-                // use postBuffer to send MD5 hash of file or something like that
-                // also look at SocketFlags http://msdn.microsoft.com/en-us/library/system.net.sockets.socketflags%28v=vs.110%29.aspx
+                // look at SocketFlags http://msdn.microsoft.com/en-us/library/system.net.sockets.socketflags%28v=vs.110%29.aspx
+
+                // get md5 hash
+                ChecksumCalc checksum = new ChecksumCalc();
+                string md5 = checksum.GetMD5ChecksumString(filePath);
+                Console.WriteLine("md5: " + md5);
 
                 FileInfo f = new FileInfo(filePath);
 
