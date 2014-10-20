@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BandWithCounter.cs" />
+    <Compile Include="ChecksumCalc.cs" />
     <Compile Include="FileTransfer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -86,6 +87,7 @@
     <Compile Include="Transfer Strategies\ReceiveFileTCPv2.cs" />
     <Compile Include="Transfer Strategies\ReceiveFileTCP.cs" />
     <Compile Include="Transfer Strategies\SendFileThreadTCPv3.cs" />
+    <Compile Include="Transfer Strategies\TransferTCPv4.cs" />
     <Compile Include="Transfer Strategies\TransferTCPv3.cs" />
     <Compile Include="Transfer Strategies\TransferTCPv2.cs" />
     <Compile Include="TransferFile.cs" />

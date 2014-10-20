@@ -18,7 +18,7 @@ namespace StrategyPatternExample
     class ChecksumCalc
     {
 
-        public string GetMD5Checksum(string filePath)
+        public string GetMD5ChecksumString(string filePath)
         {
         
             HashAlgorithm MD5 = new MD5CryptoServiceProvider();
@@ -30,7 +30,7 @@ namespace StrategyPatternExample
             }
         }
 
-        public byte[] GetMD5Checksum(string filePath)
+        public byte[] GetMD5ChecksumByteArray(string filePath)
         {
         
             HashAlgorithm MD5 = new MD5CryptoServiceProvider();
