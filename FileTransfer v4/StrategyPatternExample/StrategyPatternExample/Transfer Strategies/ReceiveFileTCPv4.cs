@@ -118,6 +118,7 @@ namespace StrategyPatternExample.Transfer_Strategies
 
             timer.Stop();
             timer = null;
+
         }
 
 
@@ -280,25 +281,45 @@ namespace StrategyPatternExample.Transfer_Strategies
                     //writer.Write(tempState.buffer, 0, bytesRead);
                 }
 
-                // TODO:
-                // for each byte that has been read, update download counter
-                // based on time and bytes received both mb/s and percentage downloaded
-                // should be calculated in real time
-                // create event
-
                 // add to written files 
                 totalBytesReceived += bytesRead;
 
-                // TODO: 
                 // check if all bytes has been read and transfer is complete
                 if (totalBytesReceived == totalBytesToBeReceived)
                 {
                     // trigger file received event
                     FileTransferEvents.FileReceived = fileName;
 
+                    // get file location
+                    string savePathAndFileName = receivePath + "\\" + fileName;
+
                     // reset connection
                     // set everything back to default and wait for new file
                     resetConnection();
+
+                    // close file writer so we can access file again
+                    if (writer != null)
+                    {
+                        writer.Close();
+                    }
+
+                    // complete writing tasks and threads
+                    fileWriter.Dispose();
+
+                    // get md5 hash
+                    ChecksumCalc checksum = new ChecksumCalc();
+                    byte[] md5AfterTransfer = checksum.GetMD5Checksum(savePathAndFileName);
+
+                    // check if md5 received is identical to md5 calculated after transfer
+                    bool isIdentical = checksum.checkIfHashisIdentical(md5, md5AfterTransfer);
+
+                    if (isIdentical)
+                    {
+                        Console.WriteLine("SUCCESS: md5 hash match the md5 of received file");
+                    } else {
+                        Console.WriteLine("ERROR: File is corrupt, md5 hash does NOT match the md5 of the file received");
+                    }
+
                 }
 
             }
@@ -314,8 +335,6 @@ namespace StrategyPatternExample.Transfer_Strategies
                 {
                     writer.Close();
                 }
-
-
 
                 // triggers event with long of bytes written
                 //FileTransferEvents.BytesReceived = written;

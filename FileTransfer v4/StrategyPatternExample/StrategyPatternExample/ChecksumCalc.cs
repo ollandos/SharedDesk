@@ -18,19 +18,12 @@ namespace StrategyPatternExample
     class ChecksumCalc
     {
 
-        public string GetMD5ChecksumString(string filePath)
-        {
-        
-            HashAlgorithm MD5 = new MD5CryptoServiceProvider();
-
-            using (var stream = new BufferedStream(File.OpenRead(filePath), 100000))
-            {
-                byte[] hash = MD5.ComputeHash(stream);
-                return BitConverter.ToString(hash).Replace("-", String.Empty);
-            }
-        }
-
-        public byte[] GetMD5ChecksumByteArray(string filePath)
+        /// <summary>
+        /// get md5 hash of file
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        public byte[] GetMD5Checksum(string filePath)
         {
         
             HashAlgorithm MD5 = new MD5CryptoServiceProvider();
@@ -39,6 +32,17 @@ namespace StrategyPatternExample
             {
                 return MD5.ComputeHash(stream);
             }
+        }
+
+        /// <summary>
+        /// Check if arrays is identical to each other
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns>true if they are identical, false other vice</returns>
+        public bool checkIfHashisIdentical(byte[] a, byte[] b)
+        {
+            return Enumerable.SequenceEqual(a, b);
         }
 
     }

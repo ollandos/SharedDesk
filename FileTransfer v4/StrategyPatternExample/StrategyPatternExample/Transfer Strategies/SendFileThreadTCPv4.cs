@@ -57,7 +57,7 @@ namespace StrategyPatternExample.Transfer_Strategies
 
                 // get md5 hash
                 ChecksumCalc checksum = new ChecksumCalc();
-                byte[] md5 = checksum.GetMD5ChecksumByteArray(filePath);
+                byte[] md5 = checksum.GetMD5Checksum(filePath);
 
                 FileInfo f = new FileInfo(filePath);
 
