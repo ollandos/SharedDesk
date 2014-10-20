@@ -181,7 +181,7 @@ namespace StrategyPatternExample
                     lblStatus.Text = String.Format("Sending file to {0}:{1}", ip.ToString(), port);
 
                     // list box
-                    lbFileTransfers.Items.Add("Sending:\t\t" + this.fileName);
+                    lbFileTransfers.Items.Add("Sending: " + this.fileName);
                     //lbFileTransfers.Items.Add("Progress:\t\t0%");
                     //lbFileTransfers.Items.Add("");
                 }

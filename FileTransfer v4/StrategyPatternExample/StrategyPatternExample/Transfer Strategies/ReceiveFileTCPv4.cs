@@ -315,8 +315,12 @@ namespace StrategyPatternExample.Transfer_Strategies
 
                     if (isIdentical)
                     {
+                        // the hash received before the file transfer is identical to the
+                        // hash calculated with the new file
                         Console.WriteLine("SUCCESS: md5 hash match the md5 of received file");
                     } else {
+
+                        // delete file? 
                         Console.WriteLine("ERROR: File is corrupt, md5 hash does NOT match the md5 of the file received");
                     }
 
