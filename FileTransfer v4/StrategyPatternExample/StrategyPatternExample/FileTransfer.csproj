@@ -86,7 +86,9 @@
     <Compile Include="Transfer Strategies\ReceiveFileTCPv3.cs" />
     <Compile Include="Transfer Strategies\ReceiveFileTCPv2.cs" />
     <Compile Include="Transfer Strategies\ReceiveFileTCP.cs" />
+    <Compile Include="Transfer Strategies\SendFileThreadTCPv4.cs" />
     <Compile Include="Transfer Strategies\SendFileThreadTCPv3.cs" />
+    <Compile Include="Transfer Strategies\StateObject.cs" />
     <Compile Include="Transfer Strategies\TransferTCPv4.cs" />
     <Compile Include="Transfer Strategies\TransferTCPv3.cs" />
     <Compile Include="Transfer Strategies\TransferTCPv2.cs" />

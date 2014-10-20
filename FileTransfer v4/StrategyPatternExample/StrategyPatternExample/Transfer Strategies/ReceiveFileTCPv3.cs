@@ -56,19 +56,6 @@ namespace StrategyPatternExample.Transfer_Strategies
             this.t1.Start();
         }
 
-        public class StateObject
-        {
-            // Client socket.
-            public Socket workSocket = null;
-
-            //public const int BufferSize = 8192;
-            public const int BufferSize = 32768;
-            //public const int BufferSize = 65536;
-
-            // Receive buffer.
-            public byte[] buffer = new byte[BufferSize];
-        }
-
         /// <summary>
         /// Notify thread to stop listening 
         /// </summary>

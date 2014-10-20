@@ -7,7 +7,7 @@ using System.Threading;
 
 namespace StrategyPatternExample.Transfer_Strategies
 {
-    internal class SendFileThreadTCPv3
+    internal class SendFileThreadTCPv4
     {
         // start seperate thread
         private Thread t1;
@@ -24,7 +24,7 @@ namespace StrategyPatternExample.Transfer_Strategies
         // add events for updating speed and percentage using
         // BandWIthCounter
 
-        public SendFileThreadTCPv3(string filePath, IPEndPoint endPoint)
+        public SendFileThreadTCPv4(string filePath, IPEndPoint endPoint)
         {
             this.endPoint = endPoint;
             this.filePath = filePath;
