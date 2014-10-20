@@ -44,6 +44,10 @@ namespace StrategyPatternExample.Transfer_Strategies
         // should enable extremely fast download/writing speeds
         ParallelFileWriter fileWriter;
 
+        // timer to check mb/s kb/s etc
+        // start timer for each transfer
+        System.Timers.Timer timer = null;
+
         public ReceiveFileTCPv3(string filePath, IPEndPoint remotePoint)
         {
             this.receivePath = filePath;
@@ -108,6 +112,9 @@ namespace StrategyPatternExample.Transfer_Strategies
             fileSize = 0;
             totalBytesReceived = 0;
             totalBytesToBeReceived = 0;
+
+            timer.Stop();
+            timer = null;
         }
 
 
@@ -191,7 +198,7 @@ namespace StrategyPatternExample.Transfer_Strategies
 
                     // start timer that will execute an event every 1 sec
                     // that shows mb/s kb/s etc
-                    System.Timers.Timer timer = new System.Timers.Timer() { Interval = 1000, Enabled = true };
+                    timer = new System.Timers.Timer() { Interval = 1000, Enabled = true };
                     timer.Elapsed += timer_Elapsed;
                     timer.Start();
 

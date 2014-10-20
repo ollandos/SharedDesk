@@ -182,8 +182,8 @@ namespace StrategyPatternExample
 
                     // list box
                     lbFileTransfers.Items.Add("Sending:\t\t" + this.fileName);
-                    lbFileTransfers.Items.Add("Progress:\t\t0%");
-                    lbFileTransfers.Items.Add("");
+                    //lbFileTransfers.Items.Add("Progress:\t\t0%");
+                    //lbFileTransfers.Items.Add("");
                 }
 
             }
