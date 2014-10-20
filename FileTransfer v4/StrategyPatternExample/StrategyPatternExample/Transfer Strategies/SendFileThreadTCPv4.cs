@@ -57,8 +57,7 @@ namespace StrategyPatternExample.Transfer_Strategies
 
                 // get md5 hash
                 ChecksumCalc checksum = new ChecksumCalc();
-                string md5 = checksum.GetMD5ChecksumString(filePath);
-                Console.WriteLine("md5: " + md5);
+                byte[] md5 = checksum.GetMD5ChecksumByteArray(filePath);
 
                 FileInfo f = new FileInfo(filePath);
 
@@ -78,26 +77,32 @@ namespace StrategyPatternExample.Transfer_Strategies
                 long fileSize = f.Length;
                 byte[] fileSizeB = BitConverter.GetBytes(fileSize);
 
-                // copy fileSizeB to end of preBuffer
-                byte[] preBuffer = new byte[fileName.Length + 1 + 8];
+                // preBuffer has size:
+                // file name +
+                // 1 byte for file name size +
+                // 8 bytes is the size of the file + 
+                // 16 bytes is the md5 hash of the file 
+                byte[] preBuffer = new byte[fileName.Length + 1 + 8 + 16];
+                
+                // copy file name size and file name to preBuffer
                 filenameSizePlusFilename.CopyTo(preBuffer, 0);
+
+                // copy fileSizeB to end of preBuffer
                 Array.Copy(fileSizeB, 0, preBuffer, fileName.Length + 1, 8);
+                
+                // copy md5 hash to preBuffer
+                Array.Copy(md5, 0, preBuffer, fileName.Length + 1 + 8, 16);
 
                 // format the transfer like this:
                 // byte = filename size
                 // file name
                 // long = file size in bytes, ulong is 64 bit so filesize could be limitless
+                // 16 bytes md5 hash of file
                 // file content
 
-                // TODO:
-                // Send FileInfo object of the file
-                // this will include timestamps, metadata, attributes etc
-                // as well as file size
-
-                // FileInfo also have a build in replace method for creating a new file and then
-                // taking a content of another file (the temp file of a file transfer) and add it to a new file
-
-                // sends size of filename (0-255) + filename and then disconnect after file has been queued for transmission
+                // sends size of filename (0-255) + filename 
+                // plus file size and md5 hash of file
+                // and then disconnect after file has been queued for transmission
                 sendingSocket.BeginSendFile(filePath, preBuffer, null, TransmitFileOptions.Disconnect, new AsyncCallback(FileSendCallback), sendingSocket);
             }
             catch (Exception ex)
