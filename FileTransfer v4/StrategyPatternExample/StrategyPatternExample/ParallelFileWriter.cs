@@ -23,9 +23,18 @@ namespace StrategyPatternExample
 
 		public ParallelFileWriter(string filename, int maxQueueSize)
 		{
-			_stream = new FileStream(filename, FileMode.Create);
-			_queue = new BlockingCollection<byte[]>(maxQueueSize);
-			_writerTask = Task.Run(() => writerTask());
+            try
+            {
+                _stream = new FileStream(filename, FileMode.Create);
+                _queue = new BlockingCollection<byte[]>(maxQueueSize);
+                _writerTask = Task.Run(() => writerTask());
+            }
+            catch (ArgumentException error)
+            {
+                // file name is not correct
+                throw new Exception("wrong file name! " + error.Message);
+
+            }
 		}
 
 		public void Write(byte[] data)

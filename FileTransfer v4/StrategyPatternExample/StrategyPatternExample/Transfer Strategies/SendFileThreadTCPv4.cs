@@ -61,6 +61,11 @@ namespace StrategyPatternExample.Transfer_Strategies
 
                 FileInfo f = new FileInfo(filePath);
 
+                // TODO: 
+                // fix error with files like xyzæøå.txt
+                // Replace ASIC2 with Windows 1252 encoding 
+                //Encoding encoding = Encoding.GetEncoding(1252);
+
                 byte[] fileName = Encoding.ASCII.GetBytes(f.Name);
                 byte[] filenameSizePlusFilename = new byte[fileName.Length + 1];
 
