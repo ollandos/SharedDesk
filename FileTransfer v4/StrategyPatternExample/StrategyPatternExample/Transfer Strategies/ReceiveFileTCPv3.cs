@@ -51,6 +51,8 @@ namespace StrategyPatternExample.Transfer_Strategies
 
             // start thread
             this.t1 = new Thread(new ThreadStart(StartListening));
+            this.t1.Name = "Listen_on_" + this.remotePoint.Port.ToString();
+            this.t1.IsBackground = true;
             this.t1.Start();
         }
 
@@ -79,12 +81,13 @@ namespace StrategyPatternExample.Transfer_Strategies
             listener.ReceiveBufferSize = StateObject.BufferSize;
             //listener.DontFragment = true;
 
-            //TcpListener listener2 = new TcpListener(remotePoint);
-            //listener2.AllowNatTraversal(true);
-
             // Don't allow another socket to bind to this port.
             // Should perhaps consider this one
             //listener.ExclusiveAddressUse = true;
+
+            // tried TcpListner and it didn't really work...
+            //TcpListener listener2 = new TcpListener(remotePoint);
+            //listener2.AllowNatTraversal(true);
 
             try
             {

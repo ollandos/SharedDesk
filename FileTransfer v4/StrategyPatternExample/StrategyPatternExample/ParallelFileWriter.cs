@@ -51,12 +51,11 @@ namespace StrategyPatternExample
                 }
                 catch (Exception error)
                 {
-		    // TODO: 
-		    // use events to "report" errors
+		            // TODO: 
+		            // use events to "report" errors
                     Console.WriteLine("Something went wrong writing to disk: " + error.Message);
                 }
             }
         }
-
     }
 }
