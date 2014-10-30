@@ -7,6 +7,13 @@ using System.Threading;
 
 namespace StrategyPatternExample.Transfer_Strategies
 {
+
+    /// <summary>
+    /// In order to send large files the 
+    /// socket.BeginSendFile does not work. Need to manually load bytes to buffer and send. 
+    /// 
+    /// 
+    /// </summary>
     internal class SendFileThreadTCPv5
     {
         // start seperate thread
@@ -64,9 +71,10 @@ namespace StrategyPatternExample.Transfer_Strategies
                 // TODO: 
                 // fix error with files like xyzæøå.txt
                 // Replace ASIC2 with Windows 1252 encoding 
-                //Encoding encoding = Encoding.GetEncoding(1252);
+                Encoding encoding1252 = Encoding.GetEncoding(1252);
 
-                byte[] fileName = Encoding.ASCII.GetBytes(f.Name);
+                //byte[] fileName = Encoding.ASCII.GetBytes(f.Name);
+                byte[] fileName = encoding1252.GetBytes(f.Name);
                 byte[] filenameSizePlusFilename = new byte[fileName.Length + 1];
 
                 // copy byte representing the size of the filename

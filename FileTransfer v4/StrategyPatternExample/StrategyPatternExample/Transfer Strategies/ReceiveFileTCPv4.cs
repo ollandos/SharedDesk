@@ -178,18 +178,9 @@ namespace StrategyPatternExample.Transfer_Strategies
                     // check if fileName is valid
                     // if file already exist (conflict)
 
-                    // TODO: 
-                    // fix error with files like xyzæøå.txt
-                    // Replace ASIC2 with Windows 1252 encoding 
-                    //Encoding encoding = Encoding.GetEncoding(1252);
-
-                    //ASCIIEncoding ascii = new ASCIIEncoding();
-                    //byte[] byteArray = Encoding.UTF8.GetBytes(sOriginal);
-                    //byte[] asciiArray = Encoding.Convert(Encoding.UTF8, Encoding.ASCII, byteArray);
-                    //string finalString = ascii.GetString(asciiArray);
-
-                    fileName = Encoding.ASCII.GetString(tempState.buffer, 1, fileNameLength);
-                    //receivePath += "\\" + fileName;
+                    // Windows 1252 encoding 
+                    Encoding encoding1252 = Encoding.GetEncoding(1252);
+                    fileName = encoding1252.GetString(tempState.buffer, 1, fileNameLength);
 
                     // after the file name comes the size of the file 
                     // should be a long 
