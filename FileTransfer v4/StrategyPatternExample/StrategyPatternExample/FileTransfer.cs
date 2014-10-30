@@ -58,11 +58,11 @@ namespace StrategyPatternExample
                 tbSendPort.Text = "8080";
 
                 // Set Transfer file protocol
-                tf = new TransferFile(new TransferTCPv3());
+                tf = new TransferFile(new TransferTCPv4());
 
                 // attach IObservable interface to monitor 
                 tf.attach(new ConsoleObserver());
-                lblStatus.Text = "Status: Selected TCPv3";
+                lblStatus.Text = "Status: Selected TCPv4";
                 tbFileName.Enabled = false;
 
                 // a notify icon in the corner
@@ -181,9 +181,9 @@ namespace StrategyPatternExample
                     lblStatus.Text = String.Format("Sending file to {0}:{1}", ip.ToString(), port);
 
                     // list box
-                    lbFileTransfers.Items.Add("Sending:\t\t" + this.fileName);
-                    lbFileTransfers.Items.Add("Progress:\t\t0%");
-                    lbFileTransfers.Items.Add("");
+                    lbFileTransfers.Items.Add("Sending: " + this.fileName);
+                    //lbFileTransfers.Items.Add("Progress:\t\t0%");
+                    //lbFileTransfers.Items.Add("");
                 }
 
             }
@@ -322,6 +322,17 @@ namespace StrategyPatternExample
             string[] IpAndPort = mPnrpManager.getIPv4AndPort(classifier);
             tbSendIP.Text = IpAndPort[0];
             tbSendPort.Text = IpAndPort[1];
+        }
+
+        private void radioTCPv4_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioTCPv4.Checked == true)
+            {
+                this.tf = new TransferFile(new TransferTCPv4());
+                this.tf.attach(new ConsoleObserver());
+                lblStatus.Text = "Status: Selected TCPv4";
+                tbFileName.Enabled = false;
+            }
         }
 
 

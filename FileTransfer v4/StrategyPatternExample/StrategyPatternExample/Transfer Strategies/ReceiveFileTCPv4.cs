@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace StrategyPatternExample.Transfer_Strategies
 {
-    class ReceiveFileTCPv3
+    class ReceiveFileTCPv4
     {
 
         // start seperate thread
@@ -26,6 +26,9 @@ namespace StrategyPatternExample.Transfer_Strategies
 
         // total size of file
         long fileSize = 0;
+
+        // md5 hash of file to be received
+        byte[] md5 = null;
 
         // bytes written to file
         // plus filename and one byte
@@ -48,7 +51,7 @@ namespace StrategyPatternExample.Transfer_Strategies
         // start timer for each transfer
         System.Timers.Timer timer = null;
 
-        public ReceiveFileTCPv3(string filePath, IPEndPoint remotePoint)
+        public ReceiveFileTCPv4(string filePath, IPEndPoint remotePoint)
         {
             this.receivePath = filePath;
             this.remotePoint = remotePoint;
@@ -115,6 +118,7 @@ namespace StrategyPatternExample.Transfer_Strategies
 
             timer.Stop();
             timer = null;
+
         }
 
 
@@ -174,6 +178,16 @@ namespace StrategyPatternExample.Transfer_Strategies
                     // check if fileName is valid
                     // if file already exist (conflict)
 
+                    // TODO: 
+                    // fix error with files like xyzæøå.txt
+                    // Replace ASIC2 with Windows 1252 encoding 
+                    //Encoding encoding = Encoding.GetEncoding(1252);
+
+                    //ASCIIEncoding ascii = new ASCIIEncoding();
+                    //byte[] byteArray = Encoding.UTF8.GetBytes(sOriginal);
+                    //byte[] asciiArray = Encoding.Convert(Encoding.UTF8, Encoding.ASCII, byteArray);
+                    //string finalString = ascii.GetString(asciiArray);
+
                     fileName = Encoding.ASCII.GetString(tempState.buffer, 1, fileNameLength);
                     //receivePath += "\\" + fileName;
 
@@ -183,8 +197,12 @@ namespace StrategyPatternExample.Transfer_Strategies
                     byte[] fileSizeB = tempState.buffer.Skip(1 + fileNameLength).Take(8).ToArray();
                     fileSize = BitConverter.ToInt64(fileSizeB, 0);
 
+                    // get md5 hash
+                    // md5 hash is 16 bytes = 128 bit
+                    md5 = tempState.buffer.Skip(1 + fileNameLength + 8).Take(16).ToArray();
+
                     // set total to be received
-                    totalBytesToBeReceived = fileNameLength + fileSize + 9;
+                    totalBytesToBeReceived = fileNameLength + fileSize + 9 + 16;
 
                     // TODO: 
                     // get FileInfo object
@@ -247,8 +265,9 @@ namespace StrategyPatternExample.Transfer_Strategies
 
                     // + 1 byte for size of fileName byte
                     // + 8 bytes for 64 bit long with file size
+                    // + 16 bytes for md5 hash
                     // shift = 9 bytes + fileName
-                    int shift = fileNameLength + 9;
+                    int shift = fileNameLength + 9 + 16;
                     //writer.Write(tempState.buffer, shift, bytesRead - shift);
 
                     byte[] data = new byte[bytesRead - shift];
@@ -272,25 +291,49 @@ namespace StrategyPatternExample.Transfer_Strategies
                     //writer.Write(tempState.buffer, 0, bytesRead);
                 }
 
-                // TODO:
-                // for each byte that has been read, update download counter
-                // based on time and bytes received both mb/s and percentage downloaded
-                // should be calculated in real time
-                // create event
-
                 // add to written files 
                 totalBytesReceived += bytesRead;
 
-                // TODO: 
                 // check if all bytes has been read and transfer is complete
                 if (totalBytesReceived == totalBytesToBeReceived)
                 {
                     // trigger file received event
                     FileTransferEvents.FileReceived = fileName;
 
+                    // get file location
+                    string savePathAndFileName = receivePath + "\\" + fileName;
+
                     // reset connection
                     // set everything back to default and wait for new file
                     resetConnection();
+
+                    // close file writer so we can access file again
+                    if (writer != null)
+                    {
+                        writer.Close();
+                    }
+
+                    // complete writing tasks and threads
+                    fileWriter.Dispose();
+
+                    // get md5 hash
+                    ChecksumCalc checksum = new ChecksumCalc();
+                    byte[] md5AfterTransfer = checksum.GetMD5Checksum(savePathAndFileName);
+
+                    // check if md5 received is identical to md5 calculated after transfer
+                    bool isIdentical = checksum.checkIfHashisIdentical(md5, md5AfterTransfer);
+
+                    if (isIdentical)
+                    {
+                        // the hash received before the file transfer is identical to the
+                        // hash calculated with the new file
+                        Console.WriteLine("SUCCESS: md5 hash match the md5 of received file");
+                    } else {
+
+                        // delete file? 
+                        Console.WriteLine("ERROR: File is corrupt, md5 hash does NOT match the md5 of the file received");
+                    }
+
                 }
 
             }
@@ -306,8 +349,6 @@ namespace StrategyPatternExample.Transfer_Strategies
                 {
                     writer.Close();
                 }
-
-
 
                 // triggers event with long of bytes written
                 //FileTransferEvents.BytesReceived = written;
