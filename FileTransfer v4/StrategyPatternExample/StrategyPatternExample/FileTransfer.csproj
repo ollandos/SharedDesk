@@ -85,16 +85,14 @@
     <Compile Include="Interfaces\ITransferStrategy.cs" />
     <Compile Include="Transfer Strategies\ReceiveFileTCPv4.cs" />
     <Compile Include="Transfer Strategies\ReceiveFileTCPv3.cs" />
-    <Compile Include="Transfer Strategies\ReceiveFileTCPv2.cs" />
-    <Compile Include="Transfer Strategies\ReceiveFileTCP.cs" />
+    <Compile Include="Transfer Strategies\SendFileThreadTCPv5.cs" />
     <Compile Include="Transfer Strategies\SendFileThreadTCPv4.cs" />
     <Compile Include="Transfer Strategies\SendFileThreadTCPv3.cs" />
     <Compile Include="Transfer Strategies\StateObject.cs" />
+    <Compile Include="Transfer Strategies\TransferTCPv5.cs" />
     <Compile Include="Transfer Strategies\TransferTCPv4.cs" />
     <Compile Include="Transfer Strategies\TransferTCPv3.cs" />
-    <Compile Include="Transfer Strategies\TransferTCPv2.cs" />
     <Compile Include="TransferFile.cs" />
-    <Compile Include="Transfer Strategies\TransferTCP.cs" />
     <EmbeddedResource Include="FileTransfer.resx">
       <DependentUpon>FileTransfer.cs</DependentUpon>
     </EmbeddedResource>
