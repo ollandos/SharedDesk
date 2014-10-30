@@ -40,6 +40,60 @@ namespace StrategyPatternExample.Transfer_Strategies
             this.t1.Start();
         }
 
+        private byte[] getPreBuffer()
+        {
+            // get md5 hash
+            ChecksumCalc checksum = new ChecksumCalc();
+            byte[] md5 = checksum.GetMD5Checksum(filePath);
+
+            FileInfo f = new FileInfo(filePath);
+
+            // Using windows 1252 encoding
+            Encoding encoding1252 = Encoding.GetEncoding(1252);
+
+            //byte[] fileName = Encoding.ASCII.GetBytes(f.Name);
+            byte[] fileName = encoding1252.GetBytes(f.Name);
+            byte[] filenameSizePlusFilename = new byte[fileName.Length + 1];
+
+            // copy byte representing the size of the filename
+            // to the beginning of the first packet sent
+            int length = fileName.Length;
+            byte lengthB = (byte)length;
+            new byte[] { lengthB }.CopyTo(filenameSizePlusFilename, 0);
+
+            // copies file name in ASCII format from index 1 to length of filename
+            Array.Copy(fileName, 0, filenameSizePlusFilename, 1, fileName.Length);
+
+            // get file size and convert to 8 bytes
+            long fileSize = f.Length;
+            byte[] fileSizeB = BitConverter.GetBytes(fileSize);
+
+            // preBuffer has size:
+            // file name +
+            // 1 byte for file name size +
+            // 8 bytes is the size of the file + 
+            // 16 bytes is the md5 hash of the file 
+            byte[] preBuffer = new byte[fileName.Length + 1 + 8 + 16];
+
+            // copy file name size and file name to preBuffer
+            filenameSizePlusFilename.CopyTo(preBuffer, 0);
+
+            // copy fileSizeB to end of preBuffer
+            Array.Copy(fileSizeB, 0, preBuffer, fileName.Length + 1, 8);
+
+            // copy md5 hash to preBuffer
+            Array.Copy(md5, 0, preBuffer, fileName.Length + 1 + 8, 16);
+
+            // format the transfer like this:
+            // byte = filename size
+            // file name
+            // long = file size in bytes, ulong is 64 bit so filesize could be limitless
+            // 16 bytes md5 hash of file
+            // file content
+
+            return preBuffer;
+        }
+
         public static ManualResetEvent allDone = new ManualResetEvent(false);
 
         public void startSending()
@@ -62,61 +116,11 @@ namespace StrategyPatternExample.Transfer_Strategies
                 // TODO:
                 // look at SocketFlags http://msdn.microsoft.com/en-us/library/system.net.sockets.socketflags%28v=vs.110%29.aspx
 
-                // get md5 hash
-                ChecksumCalc checksum = new ChecksumCalc();
-                byte[] md5 = checksum.GetMD5Checksum(filePath);
 
-                FileInfo f = new FileInfo(filePath);
+                //sendingSocket.BeginSendFile(filePath, preBuffer, null, TransmitFileOptions.Disconnect, new AsyncCallback(FileSendCallback), sendingSocket);
 
-                // TODO: 
-                // fix error with files like xyzæøå.txt
-                // Replace ASIC2 with Windows 1252 encoding 
-                Encoding encoding1252 = Encoding.GetEncoding(1252);
+                //sendingSocket.BeginSend
 
-                //byte[] fileName = Encoding.ASCII.GetBytes(f.Name);
-                byte[] fileName = encoding1252.GetBytes(f.Name);
-                byte[] filenameSizePlusFilename = new byte[fileName.Length + 1];
-
-                // copy byte representing the size of the filename
-                // to the beginning of the first packet sent
-                int length = fileName.Length;
-                byte lengthB = (byte)length;
-                new byte[] { lengthB }.CopyTo(filenameSizePlusFilename, 0);
-
-                // copies file name in ASCII format from index 1 to length of filename
-                Array.Copy(fileName, 0, filenameSizePlusFilename, 1, fileName.Length);
-
-                // get file size and convert to 8 bytes
-                long fileSize = f.Length;
-                byte[] fileSizeB = BitConverter.GetBytes(fileSize);
-
-                // preBuffer has size:
-                // file name +
-                // 1 byte for file name size +
-                // 8 bytes is the size of the file + 
-                // 16 bytes is the md5 hash of the file 
-                byte[] preBuffer = new byte[fileName.Length + 1 + 8 + 16];
-                
-                // copy file name size and file name to preBuffer
-                filenameSizePlusFilename.CopyTo(preBuffer, 0);
-
-                // copy fileSizeB to end of preBuffer
-                Array.Copy(fileSizeB, 0, preBuffer, fileName.Length + 1, 8);
-                
-                // copy md5 hash to preBuffer
-                Array.Copy(md5, 0, preBuffer, fileName.Length + 1 + 8, 16);
-
-                // format the transfer like this:
-                // byte = filename size
-                // file name
-                // long = file size in bytes, ulong is 64 bit so filesize could be limitless
-                // 16 bytes md5 hash of file
-                // file content
-
-                // sends size of filename (0-255) + filename 
-                // plus file size and md5 hash of file
-                // and then disconnect after file has been queued for transmission
-                sendingSocket.BeginSendFile(filePath, preBuffer, null, TransmitFileOptions.Disconnect, new AsyncCallback(FileSendCallback), sendingSocket);
             }
             catch (Exception ex)
             {
