@@ -29,10 +29,14 @@ namespace StrategyPatternExample.Transfer_Strategies
 
         bool isFirstPacket = true;
 
-        // TODO:
-        // add events for updating speed and percentage using
-
         BandwidthCounter counter = new BandwidthCounter();
+
+        ulong totalBytesReceived = 0;
+        ulong totalBytesToBeReceived = 0;
+
+        // timer to check mb/s kb/s etc
+        // start timer for each transfer
+        System.Timers.Timer timer = null;
 
         public SendFileThreadTCPv5(string filePath, IPEndPoint endPoint)
         {
@@ -99,17 +103,6 @@ namespace StrategyPatternExample.Transfer_Strategies
 
         public void sendFile()
         {
-            //           //Send file.
-            //new Thread(new ThreadStart(delegate()
-            //{ checksum = Utilities.MD5(filename); })).Start();
-
-            ////start sending file.
-            //FileInfo a = new FileInfo(filePath);
-            ////progressbar gets maximum of filesize.
-
-            //System.Timers.Timer timer = new System.Timers.Timer() { Enabled = true, Interval = 1000 };
-            //timer.Elapsed += this.timer_Elapsed;
-            //timer.Start();
 
             BinaryReader bin = null;
             FileInfo file = null;
@@ -130,7 +123,6 @@ namespace StrategyPatternExample.Transfer_Strategies
                 Console.WriteLine("Error reading file: " + error.Message);
                 return;
             }
-
 
             // attempt to connect 
             Console.WriteLine("Attempting to connect...");
@@ -161,31 +153,34 @@ namespace StrategyPatternExample.Transfer_Strategies
                 Console.WriteLine("Calculating md5 hash of file...");
                 sendingSocket.Send(getPreBuffer());
 
-            } 
+            }
 
+            // set amount of bytes to be receieved
+            totalBytesToBeReceived = (ulong) file.Length;
 
             // start bandwith counter
-            ulong step = 0;
+            totalBytesReceived = 0;
             counter = new BandwidthCounter();
 
             // add total to bandwith counter
-            counter.AddBytes((ulong)file.Length);
+            counter.AddBytes((ulong)totalBytesToBeReceived);
 
-            // TODO:
-            // also add size of additional information sent
+            // start timer to trigger kb/s mb/s progress event
+            timer = new System.Timers.Timer() { Interval = 1000, Enabled = true };
+            timer.Elapsed += timer_Elapsed;
+            timer.Start();
 
             // create buffer
             //byte[] buff = new byte[2048];
             byte[] buff = new byte[32768];
 
-
             // loop through file
-            while (step < (ulong)file.Length)
+            while (totalBytesReceived < totalBytesToBeReceived)
             {
                 try
                 {
                     //sending buff's length.
-                    step += (ulong)buff.Length;
+                    totalBytesReceived += (ulong)buff.Length;
 
                     //p.Sock.Send(bin.ReadBytes(buff.Length));
                     sendingSocket.Send(bin.ReadBytes(buff.Length));
@@ -193,45 +188,47 @@ namespace StrategyPatternExample.Transfer_Strategies
                     // add to counter
                     counter.AddBytes((uint)buff.Length);
 
-                    // calculate % sent
-                    float af = (float)step / (float)file.Length;
-                    int tot = (int)Math.Round(af * 100);
-                    if (tot < 100)
-                    {
-
-                        Console.WriteLine(String.Format("Sent {0} %", tot));
-                        // trigger events
-                        //FEvents.Progress = tot;
-                    }
-                    else
-                    {
-                        //FEvents.Progress = 100;
-                        Console.WriteLine("100%");
-                    }
                 }
                 catch (Exception error)
                 {
                     Console.WriteLine("Error transfering: " + error.Message);
                     return;
 
-                    //timer.Stop();
-
-                    //FEvents.Title = "FileTransfer";
-                    //FEvents.Progress = 0;
-
-                    //Utilities.CreateNotification("File Transfer for \"" + filename + "\" has failed!", "File Transfer", ToolTipIcon.Error);
-                    //BeginReceive();
+                }
+                finally
+                {
+                    // close file
+                    if (bin != null)
+                    {
+                        bin.Close();
+                    }
                 }
             }
-            //timer.Stop();
 
-            //FEvents.Title = "FileTransfer";
-            //FEvents.Status = "Idle.";
-            //FEvents.Progress = 0;
-            //FEvents.DropEnabled = true;
 
-            //Utilities.CreateNotification("Successfully sent the file \"" + filename + "\".", "File Transfer", ToolTipIcon.Info);
-            //break;
+            // TODO: 
+            // reset file transfer
+
+            // what to do with socket? 
+
+        }
+
+        void timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            // trigger event with percentage increase 
+            float af = (float)totalBytesReceived / (float)totalBytesToBeReceived;
+            //progressbar equals rounded.
+            byte tot = (byte)Math.Round(af * 100);
+            if (tot < 100)
+            {
+                FileTransferEvents.Percentage = tot;
+            }
+            else
+            {
+                FileTransferEvents.Percentage = 100;
+            }
+
+            FileTransferEvents.transferSpeed = counter.GetPerSecond();
         }
 
 
