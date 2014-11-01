@@ -27,16 +27,19 @@ namespace StrategyPatternExample.Transfer_Strategies
         // file to send
         private string filePath;
 
+        bool isFirstPacket = true;
+
         // TODO:
         // add events for updating speed and percentage using
-        // BandWIthCounter
+
+        BandwidthCounter counter = new BandwidthCounter();
 
         public SendFileThreadTCPv5(string filePath, IPEndPoint endPoint)
         {
             this.endPoint = endPoint;
             this.filePath = filePath;
 
-            this.t1 = new Thread(new ThreadStart(startSending));
+            this.t1 = new Thread(new ThreadStart(sendFile));
             this.t1.Start();
         }
 
@@ -94,10 +97,43 @@ namespace StrategyPatternExample.Transfer_Strategies
             return preBuffer;
         }
 
-        public static ManualResetEvent allDone = new ManualResetEvent(false);
-
-        public void startSending()
+        public void sendFile()
         {
+            //           //Send file.
+            //new Thread(new ThreadStart(delegate()
+            //{ checksum = Utilities.MD5(filename); })).Start();
+
+            ////start sending file.
+            //FileInfo a = new FileInfo(filePath);
+            ////progressbar gets maximum of filesize.
+
+            //System.Timers.Timer timer = new System.Timers.Timer() { Enabled = true, Interval = 1000 };
+            //timer.Elapsed += this.timer_Elapsed;
+            //timer.Start();
+
+            BinaryReader bin = null;
+            FileInfo file = null;
+
+            // attempt to get read from file
+            Console.WriteLine("Attempting to read from file...");
+            try
+            {
+                // get file info
+                file = new FileInfo(filePath);
+
+                // open file
+                bin = new BinaryReader(File.OpenRead(filePath));
+
+            }
+            catch (Exception error)
+            {
+                Console.WriteLine("Error reading file: " + error.Message);
+                return;
+            }
+
+
+            // attempt to connect 
+            Console.WriteLine("Attempting to connect...");
             try
             {
                 // Create a TCP socket.
@@ -112,59 +148,92 @@ namespace StrategyPatternExample.Transfer_Strategies
 
                 // Connect the socket to the remote endpoint.
                 sendingSocket.Connect(endPoint);
-
-                // TODO:
-                // look at SocketFlags http://msdn.microsoft.com/en-us/library/system.net.sockets.socketflags%28v=vs.110%29.aspx
-
-
-                //sendingSocket.BeginSendFile(filePath, preBuffer, null, TransmitFileOptions.Disconnect, new AsyncCallback(FileSendCallback), sendingSocket);
-
-                //sendingSocket.BeginSend
-
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            finally
-            {
-                // this method starts a new  AsyncCallback(ReadCallback)
-                // and this method is ReadCallback so it works as a recursive method
-                //handler.BeginReceive(tempState.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReadCallback), tempState);
-
-                //Thread.CurrentThread.Interrupt();
-            }
-        }
-
-        /// <summary>
-        /// This method is called when the file has been sent
-        /// </summary>
-        /// <param name="ar"></param>
-        public void FileSendCallback(IAsyncResult ar)
-        {
-            if (sendingSocket == null)
-            {
-                return;
-            }
-
-            // Retrieve the socket from the state object.
-            Socket client = (Socket)ar.AsyncState;
-
-            try
-            {
-                // Complete sending the data to the remote device.
-                client.EndSendFile(ar);
             }
             catch (Exception error)
             {
-                Console.WriteLine("error: " + error.Message);
+                Console.WriteLine("Error connecting: " + error.Message);
+                return;
             }
-            finally
+
+            if (isFirstPacket)
             {
-                // Release the socket.
-                client.Shutdown(SocketShutdown.Both);
-                client.Close();
+                // send prebuffer
+                Console.WriteLine("Calculating md5 hash of file...");
+                sendingSocket.Send(getPreBuffer());
+
+            } 
+
+
+            // start bandwith counter
+            ulong step = 0;
+            counter = new BandwidthCounter();
+
+            // add total to bandwith counter
+            counter.AddBytes((ulong)file.Length);
+
+            // TODO:
+            // also add size of additional information sent
+
+            // create buffer
+            //byte[] buff = new byte[2048];
+            byte[] buff = new byte[32768];
+
+
+            // loop through file
+            while (step < (ulong)file.Length)
+            {
+                try
+                {
+                    //sending buff's length.
+                    step += (ulong)buff.Length;
+
+                    //p.Sock.Send(bin.ReadBytes(buff.Length));
+                    sendingSocket.Send(bin.ReadBytes(buff.Length));
+
+                    // add to counter
+                    counter.AddBytes((uint)buff.Length);
+
+                    // calculate % sent
+                    float af = (float)step / (float)file.Length;
+                    int tot = (int)Math.Round(af * 100);
+                    if (tot < 100)
+                    {
+
+                        Console.WriteLine(String.Format("Sent {0} %", tot));
+                        // trigger events
+                        //FEvents.Progress = tot;
+                    }
+                    else
+                    {
+                        //FEvents.Progress = 100;
+                        Console.WriteLine("100%");
+                    }
+                }
+                catch (Exception error)
+                {
+                    Console.WriteLine("Error transfering: " + error.Message);
+                    return;
+
+                    //timer.Stop();
+
+                    //FEvents.Title = "FileTransfer";
+                    //FEvents.Progress = 0;
+
+                    //Utilities.CreateNotification("File Transfer for \"" + filename + "\" has failed!", "File Transfer", ToolTipIcon.Error);
+                    //BeginReceive();
+                }
             }
+            //timer.Stop();
+
+            //FEvents.Title = "FileTransfer";
+            //FEvents.Status = "Idle.";
+            //FEvents.Progress = 0;
+            //FEvents.DropEnabled = true;
+
+            //Utilities.CreateNotification("Successfully sent the file \"" + filename + "\".", "File Transfer", ToolTipIcon.Info);
+            //break;
         }
+
+
     }
 }

@@ -307,6 +307,8 @@ namespace StrategyPatternExample.Transfer_Strategies
                     // complete writing tasks and threads
                     fileWriter.Dispose();
 
+                    Console.WriteLine("Calculating md5 hash of received file...");
+
                     // get md5 hash
                     ChecksumCalc checksum = new ChecksumCalc();
                     byte[] md5AfterTransfer = checksum.GetMD5Checksum(savePathAndFileName);
