@@ -123,9 +123,6 @@ namespace StrategyPatternExample.Transfer_Strategies
                 return;
             }
 
-            // trigger event to set the name of the file
-            FileTransferEvents.FileReceived = filePath;
-
             // attempt to connect 
             Console.WriteLine("Attempting to connect...");
             try
@@ -156,6 +153,9 @@ namespace StrategyPatternExample.Transfer_Strategies
                 sendingSocket.Send(getPreBuffer());
 
             }
+
+            // trigger event
+            FileTransferEvents.TransferStarted = file.Name;
 
             // set amount of bytes to be receieved
             totalBytesToBeReceived = (ulong)file.Length;
@@ -210,6 +210,8 @@ namespace StrategyPatternExample.Transfer_Strategies
             }
 
             resetConnection();
+
+            FileTransferEvents.Percentage = 100;
 
 
         }

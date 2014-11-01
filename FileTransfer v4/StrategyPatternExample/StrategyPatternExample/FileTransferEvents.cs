@@ -23,6 +23,7 @@ namespace StrategyPatternExample
         public delegate void MessageHandler(ChangedEvent e);
 
         // events
+        public static event MessageHandler transferStarted;
         public static event MessageHandler downloadComplete;
         public static event MessageHandler progress;
         public static event MessageHandler speedChange;
@@ -38,6 +39,14 @@ namespace StrategyPatternExample
             set { 
                 filename = value;
                 downloadComplete.Invoke(new ChangedEvent(value));
+            }
+        }
+
+        public static string TransferStarted
+        {
+            set { 
+                filename = value;
+                transferStarted.Invoke(new ChangedEvent(value));
             }
         }
 

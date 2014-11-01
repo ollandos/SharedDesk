@@ -79,9 +79,12 @@ namespace StrategyPatternExample
                 FileTransferEvents.downloadComplete += FileTransferEvents_downloadComplete;
                 FileTransferEvents.progress += FileTransferEvents_progress;
                 FileTransferEvents.speedChange += FileTransferEvents_speedChange;
+                FileTransferEvents.transferStarted += FileTransferEvents_transferStarted;
             }
 
         }
+
+
 
         void FileTransferEvents_speedChange(ChangedEvent e)
         {
@@ -129,6 +132,16 @@ namespace StrategyPatternExample
 
             updateListBoxOfTransfers((string)e.Message, 100, "0 kb/s");
 
+        }
+
+        void FileTransferEvents_transferStarted(ChangedEvent e)
+        {
+            // notify icon
+            notifyIcon1.BalloonTipTitle = "Sending File";
+            notifyIcon1.BalloonTipText = (string)e.Message;
+            notifyIcon1.ShowBalloonTip(2000);
+
+            updateListBoxOfTransfers(FileTransferEvents.filename, 0, FileTransferEvents.speed);
         }
 
 
