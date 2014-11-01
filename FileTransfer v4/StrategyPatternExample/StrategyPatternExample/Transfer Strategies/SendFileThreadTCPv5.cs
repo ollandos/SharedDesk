@@ -12,7 +12,6 @@ namespace StrategyPatternExample.Transfer_Strategies
     /// In order to send large files the 
     /// socket.BeginSendFile does not work. Need to manually load bytes to buffer and send. 
     /// 
-    /// 
     /// </summary>
     internal class SendFileThreadTCPv5
     {
@@ -124,6 +123,9 @@ namespace StrategyPatternExample.Transfer_Strategies
                 return;
             }
 
+            // trigger event to set the name of the file
+            FileTransferEvents.FileReceived = filePath;
+
             // attempt to connect 
             Console.WriteLine("Attempting to connect...");
             try
@@ -156,7 +158,7 @@ namespace StrategyPatternExample.Transfer_Strategies
             }
 
             // set amount of bytes to be receieved
-            totalBytesToBeReceived = (ulong) file.Length;
+            totalBytesToBeReceived = (ulong)file.Length;
 
             // start bandwith counter
             totalBytesReceived = 0;
@@ -197,19 +199,36 @@ namespace StrategyPatternExample.Transfer_Strategies
                 }
                 finally
                 {
-                    // close file
-                    if (bin != null)
-                    {
-                        bin.Close();
-                    }
                 }
+
             }
 
+            // close file
+            if (bin != null)
+            {
+                bin.Close();
+            }
 
-            // TODO: 
-            // reset file transfer
+            resetConnection();
 
-            // what to do with socket? 
+
+        }
+
+        /// <summary>
+        /// Reset all information and wait for new file
+        /// </summary>
+        private void resetConnection()
+        {
+            //isFirstPacket = true;
+            //filePath = "";
+            //totalBytesReceived = 0;
+            //totalBytesToBeReceived = 0;
+
+            timer.Stop();
+            timer = null;
+
+            // close socket
+            sendingSocket.Close();
 
         }
 
