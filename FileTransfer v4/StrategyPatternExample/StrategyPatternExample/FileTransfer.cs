@@ -198,19 +198,6 @@ namespace StrategyPatternExample
         }
 
 
-
-        private void radioTCP_CheckedChanged(object sender, EventArgs e)
-        {
-            if (radioTCP.Checked == true)
-            {
-                this.tf = new TransferFile(new TransferTCP());
-                this.tf.attach(new ConsoleObserver());
-                lblStatus.Text = "Status: Selected TCP";
-                tbFileName.Enabled = true;
-            }
-
-        }
-
         private void btnListen_Click(object sender, EventArgs e)
         {
             // get ip address and port 
@@ -267,18 +254,6 @@ namespace StrategyPatternExample
 
         }
 
-        private void radioTCPv2_CheckedChanged(object sender, EventArgs e)
-        {
-            if (radioTCPv2.Checked == true)
-            {
-                this.tf = new TransferFile(new TransferTCPv2());
-                this.tf.attach(new ConsoleObserver());
-
-                lblStatus.Text = "Status: Selected TCPv2";
-                tbFileName.Enabled = false;
-            }
-        }
-
         private void btnSelectSaveFolder_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog fbd = new FolderBrowserDialog();
@@ -331,6 +306,17 @@ namespace StrategyPatternExample
                 this.tf = new TransferFile(new TransferTCPv4());
                 this.tf.attach(new ConsoleObserver());
                 lblStatus.Text = "Status: Selected TCPv4";
+                tbFileName.Enabled = false;
+            }
+        }
+
+        private void radioTCPv5_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioTCPv5.Checked == true)
+            {
+                this.tf = new TransferFile(new TransferTCPv5());
+                this.tf.attach(new ConsoleObserver());
+                lblStatus.Text = "Status: Selected TCPv5";
                 tbFileName.Enabled = false;
             }
         }
