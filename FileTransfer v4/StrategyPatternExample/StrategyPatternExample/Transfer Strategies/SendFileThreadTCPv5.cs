@@ -30,8 +30,8 @@ namespace StrategyPatternExample.Transfer_Strategies
 
         BandwidthCounter counter = new BandwidthCounter();
 
-        ulong totalBytesReceived = 0;
-        ulong totalBytesToBeReceived = 0;
+        ulong totalBytesSent = 0;
+        ulong totalBytesToBeSent = 0;
 
         // timer to check mb/s kb/s etc
         // start timer for each transfer
@@ -158,14 +158,14 @@ namespace StrategyPatternExample.Transfer_Strategies
             FileTransferEvents.TransferStarted = file.Name;
 
             // set amount of bytes to be receieved
-            totalBytesToBeReceived = (ulong)file.Length;
+            totalBytesToBeSent = (ulong)file.Length;
 
             // start bandwith counter
-            totalBytesReceived = 0;
+            totalBytesSent = 0;
             counter = new BandwidthCounter();
 
             // add total to bandwith counter
-            counter.AddBytes((ulong)totalBytesToBeReceived);
+            counter.AddBytes((ulong)totalBytesToBeSent);
 
             // start timer to trigger kb/s mb/s progress event
             timer = new System.Timers.Timer() { Interval = 1000, Enabled = true };
@@ -177,12 +177,12 @@ namespace StrategyPatternExample.Transfer_Strategies
             byte[] buff = new byte[32768];
 
             // loop through file
-            while (totalBytesReceived < totalBytesToBeReceived)
+            while (totalBytesSent < totalBytesToBeSent)
             {
                 try
                 {
                     //sending buff's length.
-                    totalBytesReceived += (ulong)buff.Length;
+                    totalBytesSent += (ulong)buff.Length;
 
                     //p.Sock.Send(bin.ReadBytes(buff.Length));
                     sendingSocket.Send(bin.ReadBytes(buff.Length));
@@ -237,7 +237,7 @@ namespace StrategyPatternExample.Transfer_Strategies
         void timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             // trigger event with percentage increase 
-            float af = (float)totalBytesReceived / (float)totalBytesToBeReceived;
+            float af = (float)totalBytesSent / (float)totalBytesToBeSent;
             //progressbar equals rounded.
             byte tot = (byte)Math.Round(af * 100);
             if (tot < 100)
