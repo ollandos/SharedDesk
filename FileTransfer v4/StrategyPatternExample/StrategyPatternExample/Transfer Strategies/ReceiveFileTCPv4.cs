@@ -176,7 +176,9 @@ namespace StrategyPatternExample.Transfer_Strategies
 
                     // TODO: 
                     // check if fileName is valid
-                    // if file already exist (conflict)
+
+                    // TODO:
+                    // check if file already exist (conflict)
 
                     // Windows 1252 encoding 
                     Encoding encoding1252 = Encoding.GetEncoding(1252);
