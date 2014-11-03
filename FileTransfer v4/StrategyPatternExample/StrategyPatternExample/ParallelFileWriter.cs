@@ -37,6 +37,30 @@ namespace StrategyPatternExample
             }
 		}
 
+		public ParallelFileWriter(string filename, int maxQueueSize, bool appendToFile)
+		{
+            try
+            {
+                if (appendToFile)
+                {
+                    _stream = new FileStream(filename, FileMode.Append); 
+                }
+                else
+                {
+                    _stream = new FileStream(filename, FileMode.Create); 
+                }
+
+                _queue = new BlockingCollection<byte[]>(maxQueueSize);
+                _writerTask = Task.Run(() => writerTask());
+            }
+            catch (ArgumentException error)
+            {
+                // file name is not correct
+                throw new Exception("wrong file name! " + error.Message);
+
+            }
+		}
+
 		public void Write(byte[] data)
 		{
 			_queue.Add(data);

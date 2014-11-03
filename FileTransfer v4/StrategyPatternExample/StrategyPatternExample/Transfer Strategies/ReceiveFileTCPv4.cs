@@ -16,29 +16,29 @@ namespace StrategyPatternExample.Transfer_Strategies
         // start seperate thread
         Thread t1;
 
-        // where to save file
-        string receivePath = "";
+        // remote ip and port to listen for/on
+        // for now is set to ip is set to IPAdress.Any or 0.0.0.0
+        // this means we accept connections from any ip
         IPEndPoint remotePoint;
 
-        bool isFirstPacket = true;
-        string fileName = "";
-        int fileNameLength = 0;
-
-        // total size of file
-        long fileSize = 0;
+        private bool isFirstPacket = true;
+        private string fileName = "";
+        private string receivePath = "";
+        private int fileNameLength = 0;
+        private long fileSize = 0;
 
         // md5 hash of file to be received
-        byte[] md5 = null;
+        private byte[] md5 = null;
 
         // bytes written to file
         // plus filename and one byte
-        long totalBytesReceived = 0;
+        private long totalBytesReceived = 0;
 
         // fileName size (1 byte)
         // fileSize (8 bytes)
         // + filename
         // + file content
-        long totalBytesToBeReceived = 0;
+        private long totalBytesToBeReceived = 0;
 
         // used to calclate download speed per second
         BandwidthCounter counter = new BandwidthCounter();
@@ -132,7 +132,17 @@ namespace StrategyPatternExample.Transfer_Strategies
 
             StateObject state = new StateObject();
             state.workSocket = handler;
+ 
+            // handle if connection is closed by remote connection
+            //SocketError errorCode;
+            //int nBytesRec = state.workSocket.EndReceive(ar, out errorCode);
+            //if (errorCode != SocketError.Success)
+            //{
+            //    nBytesRec = 0;
+            //}
+
             handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReadCallback), state);
+
             //flag = 0;
         }
 
@@ -143,7 +153,7 @@ namespace StrategyPatternExample.Transfer_Strategies
             //String content = String.Empty;
             StateObject tempState = (StateObject)ar.AsyncState;
             Socket handler = tempState.workSocket;
- 
+
             // handle connection problems
             int bytesRead = 0;
             try
@@ -158,7 +168,7 @@ namespace StrategyPatternExample.Transfer_Strategies
                 // attempt to re-connect at regular interval for a period of time
 
                 Console.WriteLine("Socket error while transfering: " + socketError.Message);
-                return;
+
 
             }
             catch (Exception error)
@@ -256,6 +266,7 @@ namespace StrategyPatternExample.Transfer_Strategies
             try
             {
 
+
                 // TODO: 
                 // double check that file path is correct
 
@@ -270,11 +281,21 @@ namespace StrategyPatternExample.Transfer_Strategies
 
                     string savePathAndFileName = receivePath + "\\" + fileName;
 
-                    // creates a thread pool using BlockingCollection 
-                    // this will allow a queue of max 200 threads waiting to write to the file
-                    // if more than 200 threads are created, they are blocked and wait until the '
-                    // queue is free
-                    fileWriter = new ParallelFileWriter(savePathAndFileName, 200);
+                    // check if file already exist
+                    // if it does, simply append to the file
+                    if (File.Exists(savePathAndFileName))
+                    {
+                        fileWriter = new ParallelFileWriter(savePathAndFileName, 200, true);
+                    }
+                    else
+                    {
+                        // creates a thread pool using BlockingCollection 
+                        // this will allow a queue of max 200 threads waiting to write to the file
+                        // if more than 200 threads are created, they are blocked and wait until the '
+                        // queue is free
+                        fileWriter = new ParallelFileWriter(savePathAndFileName, 200);
+
+                    }
 
                     // the first packet contain information that should not be written to the file itself so
                     // if first packet then increase the index to size of fileName + one byte
@@ -347,7 +368,9 @@ namespace StrategyPatternExample.Transfer_Strategies
                         // the hash received before the file transfer is identical to the
                         // hash calculated with the new file
                         Console.WriteLine("SUCCESS: md5 hash match the md5 of received file");
-                    } else {
+                    }
+                    else
+                    {
 
                         // delete file? 
                         Console.WriteLine("ERROR: File is corrupt, md5 hash does NOT match the md5 of the file received");

@@ -207,7 +207,7 @@ namespace StrategyPatternExample.Transfer_Strategies
                 catch (SocketException socketError)
                 {
                     Console.WriteLine("Error connecting: " + socketError.Message);
-                    //attemptToReconnect();
+                    attemptToReconnect();
 
                     return;
 
@@ -261,7 +261,6 @@ namespace StrategyPatternExample.Transfer_Strategies
             }
             else
             {
-
                 Console.WriteLine(String.Format("{0} attempts to reconnect without success, giving up.", reConnectCounter));
             }
 
