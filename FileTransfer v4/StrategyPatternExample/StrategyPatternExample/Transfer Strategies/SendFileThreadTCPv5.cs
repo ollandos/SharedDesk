@@ -21,7 +21,6 @@ namespace StrategyPatternExample.Transfer_Strategies
         // remote ip and port
         private IPEndPoint endPoint;
         private Socket sendingSocket;
-        private bool connected = false;
 
         private BandwidthCounter counter = null;
         private string filePath;
@@ -34,9 +33,9 @@ namespace StrategyPatternExample.Transfer_Strategies
         System.Timers.Timer timer_calc_speed = null;
 
         // if connection fails, attempt to reconnect
-        // attempt to reconnect every 30 sec for 10 minutes
+        // attempt to reconnect every 30 sec for 5 minutes
         private int timeBetweenConnectionAttempts = 30000;
-        private byte reConnectAttempts = 20;
+        private byte reConnectAttempts = 10;
         private byte reConnectCounter = 0;
 
         public SendFileThreadTCPv5(string filePath, IPEndPoint endPoint)
@@ -148,12 +147,10 @@ namespace StrategyPatternExample.Transfer_Strategies
 
                 // cannot connect, attempt to reconnect
                 // reconnect every x ms, 1000 ms = 1 sec
-                while (connected == false)
-                {
-                    // attempt to reconnect a number of times 
-                    // every x seconds
-                    attemptToReconnect();
-                }
+
+                // this method will call itself basically (recursive)
+                attemptToReconnect();
+                return;
 
             }
             catch (Exception error)
@@ -170,8 +167,6 @@ namespace StrategyPatternExample.Transfer_Strategies
                 sendingSocket.Send(getPreBuffer());
 
             }
-
-            connected = true;
 
             Console.WriteLine("Sending file.");
 
@@ -212,14 +207,10 @@ namespace StrategyPatternExample.Transfer_Strategies
                 catch (SocketException socketError)
                 {
                     Console.WriteLine("Error connecting: " + socketError.Message);
+                    //attemptToReconnect();
 
-                    // attempt to reconnect
-                    while (connected == false)
-                    {
-                        // attempt to reconnect a number of times 
-                        // every x seconds
-                        attemptToReconnect();
-                    }
+                    return;
+
                 }
                 catch (Exception error)
                 {
@@ -257,34 +248,22 @@ namespace StrategyPatternExample.Transfer_Strategies
 
         private void attemptToReconnect()
         {
-            try
+            // attempt to reconnect
+            if (reConnectAttempts > reConnectCounter)
             {
+
+                Console.WriteLine(String.Format("Will reconnect in {0} milli seconds, for the {1} time", timeBetweenConnectionAttempts, reConnectCounter));
+                Thread.Sleep(timeBetweenConnectionAttempts);
+
                 reConnectCounter++;
-                sendingSocket.Connect(endPoint);
-                connected = true;
+                sendFile();
                 reConnectCounter = 0;
             }
-            catch (SocketException socketError)
+            else
             {
-                Console.WriteLine(String.Format("Error connecting to {0}:{1}, error: {2}", endPoint.Address.ToString(), endPoint.Port, socketError.Message));
-
-                if (reConnectAttempts > reConnectCounter)
-                {
-                    Console.WriteLine(String.Format("Will reconnect in {0} milli seconds, for the {1} time", timeBetweenConnectionAttempts, reConnectCounter));
-
-                    Thread.Sleep(timeBetweenConnectionAttempts);
-                    attemptToReconnect();
-                }
 
                 Console.WriteLine(String.Format("{0} attempts to reconnect without success, giving up.", reConnectCounter));
             }
-            catch (Exception error)
-            {
-                Console.WriteLine("Error reconnecting: " + error.Message);
-                //resetConnection();
-            }
-
-            //resetConnection();
 
         }
 
