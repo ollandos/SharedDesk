@@ -13,7 +13,7 @@ namespace StrategyPatternExample.Transfer_Strategies
         // Client socket.
         public Socket workSocket = null;
 
-        public const int BufferSize = 32768;
+        public const int BufferSize = 10240;
 
         // Receive buffer.
         public byte[] buffer = new byte[BufferSize];

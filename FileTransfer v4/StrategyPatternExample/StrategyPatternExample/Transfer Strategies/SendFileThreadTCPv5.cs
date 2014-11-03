@@ -130,7 +130,7 @@ namespace StrategyPatternExample.Transfer_Strategies
                 // Create a TCP socket.
                 sendingSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 //sendingSocket.SendBufferSize = 8192;
-                sendingSocket.SendBufferSize = 32768;
+                sendingSocket.SendBufferSize = 10240;
                 //sendingSocket.SendBufferSize = 65536;
 
                 // Don't allow another socket to bind to this port.
@@ -174,7 +174,7 @@ namespace StrategyPatternExample.Transfer_Strategies
 
             // create buffer
             //byte[] buff = new byte[2048];
-            byte[] buff = new byte[32768];
+            byte[] buff = new byte[10240];
 
             // loop through file
             while (totalBytesSent < totalBytesToBeSent)
@@ -194,6 +194,14 @@ namespace StrategyPatternExample.Transfer_Strategies
                 catch (Exception error)
                 {
                     Console.WriteLine("Error transfering: " + error.Message);
+
+                    // close file
+                    if (bin != null)
+                    {
+                        bin.Close();
+                    }
+
+                    resetConnection();
                     return;
 
                 }
