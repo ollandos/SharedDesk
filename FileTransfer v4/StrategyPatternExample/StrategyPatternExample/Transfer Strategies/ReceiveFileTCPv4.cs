@@ -143,13 +143,37 @@ namespace StrategyPatternExample.Transfer_Strategies
             //String content = String.Empty;
             StateObject tempState = (StateObject)ar.AsyncState;
             Socket handler = tempState.workSocket;
-            int bytesRead = handler.EndReceive(ar);
+ 
+            // handle connection problems
+            int bytesRead = 0;
+            try
+            {
+                bytesRead = handler.EndReceive(ar);
+            }
+            catch (SocketException socketError)
+            {
+                // TODO: 
+                // handle connection problems
+                // if connection is closed by remote host mid transfer
+                // attempt to re-connect at regular interval for a period of time
+
+                Console.WriteLine("Socket error while transfering: " + socketError.Message);
+                return;
+
+            }
+            catch (Exception error)
+            {
+
+                Console.WriteLine("Error while transfering: " + error.Message);
+                return;
+            }
 
             if (bytesRead <= 0)
             {
                 return;
             }
 
+            // add to counter
             counter.AddBytes((uint)bytesRead);
 
             if (isFirstPacket)

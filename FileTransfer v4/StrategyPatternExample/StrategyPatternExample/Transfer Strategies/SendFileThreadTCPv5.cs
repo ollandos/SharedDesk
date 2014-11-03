@@ -164,9 +164,6 @@ namespace StrategyPatternExample.Transfer_Strategies
             totalBytesSent = 0;
             counter = new BandwidthCounter();
 
-            // add total to bandwith counter
-            counter.AddBytes((ulong)totalBytesToBeSent);
-
             // start timer to trigger kb/s mb/s progress event
             timer = new System.Timers.Timer() { Interval = 1000, Enabled = true };
             timer.Elapsed += timer_Elapsed;
@@ -220,6 +217,7 @@ namespace StrategyPatternExample.Transfer_Strategies
             resetConnection();
 
             FileTransferEvents.Percentage = 100;
+            Console.WriteLine("File sent");
 
 
         }

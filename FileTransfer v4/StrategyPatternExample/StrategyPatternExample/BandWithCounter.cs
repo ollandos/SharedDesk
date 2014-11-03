@@ -123,7 +123,7 @@ namespace StrategyPatternExample
                     string s = ret.ToString();
                     if (s.Length > 6)
                         s = s.Substring(0, 6);
-                    return s + " B";
+                    return s + " b";
                 }
             }
         }
