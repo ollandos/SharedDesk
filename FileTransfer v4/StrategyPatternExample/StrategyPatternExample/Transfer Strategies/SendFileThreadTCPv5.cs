@@ -142,12 +142,12 @@ namespace StrategyPatternExample.Transfer_Strategies
                 // Connect the socket to the remote endpoint.
                 sendingSocket.Connect(endPoint);
             }
-            catch (Exception error)
+            catch (SocketException socketError)
             {
-                Console.WriteLine("Error connecting: " + error.Message);
+                Console.WriteLine("Error connecting: " + socketError.Message);
 
                 // cannot connect, attempt to reconnect
-                // reconnect every 1000 ms = 1 sec
+                // reconnect every x ms, 1000 ms = 1 sec
                 while (connected == false)
                 {
                     // attempt to reconnect a number of times 
@@ -155,7 +155,12 @@ namespace StrategyPatternExample.Transfer_Strategies
                     attemptToReconnect();
                 }
 
-                //return;
+            }
+            catch (Exception error)
+            {
+
+                Console.WriteLine("Error: " + error.Message);
+                return;
             }
 
             if (isFirstPacket)
@@ -203,6 +208,18 @@ namespace StrategyPatternExample.Transfer_Strategies
                     // add to counter
                     counter.AddBytes((uint)buff.Length);
 
+                }
+                catch (SocketException socketError)
+                {
+                    Console.WriteLine("Error connecting: " + socketError.Message);
+
+                    // attempt to reconnect
+                    while (connected == false)
+                    {
+                        // attempt to reconnect a number of times 
+                        // every x seconds
+                        attemptToReconnect();
+                    }
                 }
                 catch (Exception error)
                 {
@@ -264,7 +281,11 @@ namespace StrategyPatternExample.Transfer_Strategies
             catch (Exception error)
             {
                 Console.WriteLine("Error reconnecting: " + error.Message);
+                //resetConnection();
             }
+
+            //resetConnection();
+
         }
 
         /// <summary>
