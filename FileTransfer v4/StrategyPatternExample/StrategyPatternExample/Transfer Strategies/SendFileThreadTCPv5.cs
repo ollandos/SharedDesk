@@ -37,6 +37,8 @@ namespace StrategyPatternExample.Transfer_Strategies
         private int timeBetweenConnectionAttempts = 30000;
         private byte reConnectAttempts = 10;
         private byte reConnectCounter = 0;
+        
+        BinaryReader bin = null;
 
         public SendFileThreadTCPv5(string filePath, IPEndPoint endPoint)
         {
@@ -104,7 +106,7 @@ namespace StrategyPatternExample.Transfer_Strategies
         public void sendFile()
         {
 
-            BinaryReader bin = null;
+            //BinaryReader bin = null;
             FileInfo file = null;
 
             // attempt to get read from file
@@ -114,8 +116,12 @@ namespace StrategyPatternExample.Transfer_Strategies
                 // get file info
                 file = new FileInfo(filePath);
 
-                // open file
-                bin = new BinaryReader(File.OpenRead(filePath));
+                // only open file again if it has not already been opened
+                // if the binaryReader is already set, continue where it left off
+                if (bin == null)
+                {
+                    bin = new BinaryReader(File.OpenRead(filePath));
+                }
 
             }
             catch (Exception error)
@@ -160,6 +166,8 @@ namespace StrategyPatternExample.Transfer_Strategies
                 return;
             }
 
+            Console.WriteLine(String.Format("Connected to {0}:{1}", endPoint.Address.ToString(), endPoint.Port));
+
             if (isFirstPacket)
             {
                 // send prebuffer
@@ -177,8 +185,11 @@ namespace StrategyPatternExample.Transfer_Strategies
             totalBytesToBeSent = (ulong)file.Length;
 
             // start bandwith counter
-            totalBytesSent = 0;
-            counter = new BandwidthCounter();
+            if (counter == null)
+            {
+                totalBytesSent = 0;
+                counter = new BandwidthCounter();
+            }
 
             // start timer to trigger kb/s mb/s progress event
             timer_calc_speed = new System.Timers.Timer() { Interval = 1000, Enabled = true };
@@ -194,6 +205,13 @@ namespace StrategyPatternExample.Transfer_Strategies
             {
                 try
                 {
+                    // TODO: 
+                    // if part of the file has been transfered already
+                    // then the connection dropped and then a reconnect happened
+                    // make sure the transfer continue where it left off and don't
+                    // just start from the beginning again. 
+
+
                     //sending buff's length.
                     totalBytesSent += (ulong)buff.Length;
 
@@ -248,14 +266,26 @@ namespace StrategyPatternExample.Transfer_Strategies
 
         private void attemptToReconnect()
         {
+
+            // stop timer, the speed is 0 b/s without any connection always
+            if (timer_calc_speed != null)
+            {
+                timer_calc_speed.Stop(); 
+                timer_calc_speed = null;
+            }
+
             // attempt to reconnect
             if (reConnectAttempts > reConnectCounter)
             {
-
-                Console.WriteLine(String.Format("Will reconnect in {0} milli seconds, for the {1} time", timeBetweenConnectionAttempts, reConnectCounter));
+                reConnectCounter++;
+                Console.WriteLine(String.Format("Will reconnect in {0} seconds, for the {1} time", timeBetweenConnectionAttempts / 1000, reConnectCounter));
                 Thread.Sleep(timeBetweenConnectionAttempts);
 
-                reConnectCounter++;
+                // send pre-buffer again
+                isFirstPacket = true;
+
+                // send file again, but don't reset the binaryReader
+                // continue where it left off
                 sendFile();
                 reConnectCounter = 0;
             }

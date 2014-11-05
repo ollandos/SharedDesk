@@ -224,9 +224,6 @@ namespace StrategyPatternExample.Transfer_Strategies
                     // TODO: 
                     // check if fileName is valid
 
-                    // TODO:
-                    // check if file already exist (conflict)
-
                     // Windows 1252 encoding 
                     Encoding encoding1252 = Encoding.GetEncoding(1252);
                     fileName = encoding1252.GetString(tempState.buffer, 1, fileNameLength);
@@ -279,10 +276,6 @@ namespace StrategyPatternExample.Transfer_Strategies
             try
             {
 
-
-                // TODO: 
-                // double check that file path is correct
-
                 // TODO:
                 // only open file while it is not in use
                 // wait until file is ready to be written to
@@ -292,12 +285,26 @@ namespace StrategyPatternExample.Transfer_Strategies
                     // old way
                     //writer = new BinaryWriter(File.Open(savePathAndFileName, FileMode.Append));
 
+                    // TODO: 
+                    // check that file name and path is correct
+
                     string savePathAndFileName = receivePath + "\\" + fileName;
 
                     // check if file already exist
                     // if it does, simply append to the file
                     if (File.Exists(savePathAndFileName))
                     {
+                        // TODO: 
+                        // check if md5 hash of existing file is correct
+                        // if so, stop transfer
+
+                        // TODO: 
+                        // if md5 hash is not the same, check file size of existing file
+                        // if its bigger than it's supposed too, remove it
+                        // if not, start appending to the file
+
+
+                        Console.WriteLine("File already exist, appending to file...");
                         fileWriter = new ParallelFileWriter(savePathAndFileName, 200, true);
                     }
                     else
