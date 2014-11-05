@@ -17,7 +17,7 @@ namespace SharedDesk
 
         public Protocol()
         {
-            socket.BeginReceive(buff, 0, buff.Length - 1, SocketFlags.None, new AsyncCallback(Listen), p.Sock);
+            socket.BeginReceive(buff, 0, buff.Length - 1, SocketFlags.None, new AsyncCallback(Listen), socket);
         }
 
         public void Listen(IAsyncResult ar)
@@ -47,7 +47,7 @@ namespace SharedDesk
                 return;
             }
 
-	    Console.WriteLine(String.Format("received {0} bytes", received);
+	    Console.WriteLine(String.Format("received {0} bytes", received));
 
         }
 
