@@ -20,22 +20,25 @@ namespace StrategyPatternExample.Transfer_Strategies
 
         // remote ip and port
         private IPEndPoint endPoint;
-
         private Socket sendingSocket;
 
-        // file to send
+        private BandwidthCounter counter = null;
         private string filePath;
-
-        bool isFirstPacket = true;
-
-        BandwidthCounter counter = new BandwidthCounter();
-
-        ulong totalBytesReceived = 0;
-        ulong totalBytesToBeReceived = 0;
+        private bool isFirstPacket = true;
+        private ulong totalBytesSent = 0;
+        private ulong totalBytesToBeSent = 0;
 
         // timer to check mb/s kb/s etc
         // start timer for each transfer
-        System.Timers.Timer timer = null;
+        System.Timers.Timer timer_calc_speed = null;
+
+        // if connection fails, attempt to reconnect
+        // attempt to reconnect every 30 sec for 5 minutes
+        private int timeBetweenConnectionAttempts = 30000;
+        private byte reConnectAttempts = 10;
+        private byte reConnectCounter = 0;
+        
+        BinaryReader bin = null;
 
         public SendFileThreadTCPv5(string filePath, IPEndPoint endPoint)
         {
@@ -103,7 +106,7 @@ namespace StrategyPatternExample.Transfer_Strategies
         public void sendFile()
         {
 
-            BinaryReader bin = null;
+            //BinaryReader bin = null;
             FileInfo file = null;
 
             // attempt to get read from file
@@ -113,8 +116,12 @@ namespace StrategyPatternExample.Transfer_Strategies
                 // get file info
                 file = new FileInfo(filePath);
 
-                // open file
-                bin = new BinaryReader(File.OpenRead(filePath));
+                // only open file again if it has not already been opened
+                // if the binaryReader is already set, continue where it left off
+                if (bin == null)
+                {
+                    bin = new BinaryReader(File.OpenRead(filePath));
+                }
 
             }
             catch (Exception error)
@@ -130,7 +137,7 @@ namespace StrategyPatternExample.Transfer_Strategies
                 // Create a TCP socket.
                 sendingSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 //sendingSocket.SendBufferSize = 8192;
-                sendingSocket.SendBufferSize = 32768;
+                sendingSocket.SendBufferSize = 10240;
                 //sendingSocket.SendBufferSize = 65536;
 
                 // Don't allow another socket to bind to this port.
@@ -140,11 +147,26 @@ namespace StrategyPatternExample.Transfer_Strategies
                 // Connect the socket to the remote endpoint.
                 sendingSocket.Connect(endPoint);
             }
+            catch (SocketException socketError)
+            {
+                Console.WriteLine("Error connecting: " + socketError.Message);
+
+                // cannot connect, attempt to reconnect
+                // reconnect every x ms, 1000 ms = 1 sec
+
+                // this method will call itself basically (recursive)
+                attemptToReconnect();
+                return;
+
+            }
             catch (Exception error)
             {
-                Console.WriteLine("Error connecting: " + error.Message);
+
+                Console.WriteLine("Error: " + error.Message);
                 return;
             }
+
+            Console.WriteLine(String.Format("Connected to {0}:{1}", endPoint.Address.ToString(), endPoint.Port));
 
             if (isFirstPacket)
             {
@@ -154,35 +176,44 @@ namespace StrategyPatternExample.Transfer_Strategies
 
             }
 
+            Console.WriteLine("Sending file.");
+
             // trigger event
             FileTransferEvents.TransferStarted = file.Name;
 
             // set amount of bytes to be receieved
-            totalBytesToBeReceived = (ulong)file.Length;
+            totalBytesToBeSent = (ulong)file.Length;
 
             // start bandwith counter
-            totalBytesReceived = 0;
-            counter = new BandwidthCounter();
-
-            // add total to bandwith counter
-            counter.AddBytes((ulong)totalBytesToBeReceived);
+            if (counter == null)
+            {
+                totalBytesSent = 0;
+                counter = new BandwidthCounter();
+            }
 
             // start timer to trigger kb/s mb/s progress event
-            timer = new System.Timers.Timer() { Interval = 1000, Enabled = true };
-            timer.Elapsed += timer_Elapsed;
-            timer.Start();
+            timer_calc_speed = new System.Timers.Timer() { Interval = 1000, Enabled = true };
+            timer_calc_speed.Elapsed += timer_calc_speed_Elapsed;
+            timer_calc_speed.Start();
 
             // create buffer
             //byte[] buff = new byte[2048];
-            byte[] buff = new byte[32768];
+            byte[] buff = new byte[10240];
 
             // loop through file
-            while (totalBytesReceived < totalBytesToBeReceived)
+            while (totalBytesSent < totalBytesToBeSent)
             {
                 try
                 {
+                    // TODO: 
+                    // if part of the file has been transfered already
+                    // then the connection dropped and then a reconnect happened
+                    // make sure the transfer continue where it left off and don't
+                    // just start from the beginning again. 
+
+
                     //sending buff's length.
-                    totalBytesReceived += (ulong)buff.Length;
+                    totalBytesSent += (ulong)buff.Length;
 
                     //p.Sock.Send(bin.ReadBytes(buff.Length));
                     sendingSocket.Send(bin.ReadBytes(buff.Length));
@@ -191,9 +222,25 @@ namespace StrategyPatternExample.Transfer_Strategies
                     counter.AddBytes((uint)buff.Length);
 
                 }
+                catch (SocketException socketError)
+                {
+                    Console.WriteLine("Error connecting: " + socketError.Message);
+                    attemptToReconnect();
+
+                    return;
+
+                }
                 catch (Exception error)
                 {
                     Console.WriteLine("Error transfering: " + error.Message);
+
+                    // close file
+                    if (bin != null)
+                    {
+                        bin.Close();
+                    }
+
+                    resetConnection();
                     return;
 
                 }
@@ -212,7 +259,40 @@ namespace StrategyPatternExample.Transfer_Strategies
             resetConnection();
 
             FileTransferEvents.Percentage = 100;
+            Console.WriteLine("File sent");
 
+
+        }
+
+        private void attemptToReconnect()
+        {
+
+            // stop timer, the speed is 0 b/s without any connection always
+            if (timer_calc_speed != null)
+            {
+                timer_calc_speed.Stop(); 
+                timer_calc_speed = null;
+            }
+
+            // attempt to reconnect
+            if (reConnectAttempts > reConnectCounter)
+            {
+                reConnectCounter++;
+                Console.WriteLine(String.Format("Will reconnect in {0} seconds, for the {1} time", timeBetweenConnectionAttempts / 1000, reConnectCounter));
+                Thread.Sleep(timeBetweenConnectionAttempts);
+
+                // send pre-buffer again
+                isFirstPacket = true;
+
+                // send file again, but don't reset the binaryReader
+                // continue where it left off
+                sendFile();
+                reConnectCounter = 0;
+            }
+            else
+            {
+                Console.WriteLine(String.Format("{0} attempts to reconnect without success, giving up.", reConnectCounter));
+            }
 
         }
 
@@ -226,18 +306,18 @@ namespace StrategyPatternExample.Transfer_Strategies
             //totalBytesReceived = 0;
             //totalBytesToBeReceived = 0;
 
-            timer.Stop();
-            timer = null;
+            timer_calc_speed.Stop();
+            timer_calc_speed = null;
 
             // close socket
             sendingSocket.Close();
 
         }
 
-        void timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        void timer_calc_speed_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             // trigger event with percentage increase 
-            float af = (float)totalBytesReceived / (float)totalBytesToBeReceived;
+            float af = (float)totalBytesSent / (float)totalBytesToBeSent;
             //progressbar equals rounded.
             byte tot = (byte)Math.Round(af * 100);
             if (tot < 100)

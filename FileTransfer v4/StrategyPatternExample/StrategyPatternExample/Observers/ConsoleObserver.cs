@@ -37,8 +37,8 @@ namespace StrategyPatternExample.Observers
                 }
                 else
                 {
-                    Console.WriteLine("*** SENDING FILE COMPLETE ***");
-                    Console.WriteLine(String.Format("TO IP: {0} : {1}", endPoint.Address.ToString(), endPoint.Port));
+                    //Console.WriteLine("*** SENDING FILE COMPLETE ***");
+                    //Console.WriteLine(String.Format("TO IP: {0} : {1}", endPoint.Address.ToString(), endPoint.Port));
                 }
 
                 Console.WriteLine(String.Format("FILE: {0}", filePath));
@@ -53,8 +53,8 @@ namespace StrategyPatternExample.Observers
                 }
                 else
                 {
-                    Console.WriteLine("*** RECEIVING FILE COMPLETE***");
-                    Console.WriteLine(String.Format("FROM IP: {0} : {1}", endPoint.Address.ToString(), endPoint.Port));
+                    //Console.WriteLine("*** RECEIVING FILE COMPLETE***");
+                    //Console.WriteLine(String.Format("FROM IP: {0} : {1}", endPoint.Address.ToString(), endPoint.Port));
                 }
 
                 Console.WriteLine(String.Format("FOLDER: {0}", filePath));

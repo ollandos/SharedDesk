@@ -36,7 +36,8 @@ namespace StrategyPatternExample
         // when you change the static FileReceived variable
         public static string FileReceived
         {
-            set { 
+            set
+            {
                 filename = value;
                 downloadComplete.Invoke(new ChangedEvent(value));
             }
@@ -44,7 +45,8 @@ namespace StrategyPatternExample
 
         public static string TransferStarted
         {
-            set { 
+            set
+            {
                 filename = value;
                 transferStarted.Invoke(new ChangedEvent(value));
             }
@@ -52,17 +54,28 @@ namespace StrategyPatternExample
 
         public static byte Percentage
         {
-            set {
-                percent = value; 
-                progress.Invoke(new ChangedEvent(value)); 
+            set
+            {
+                percent = value;
+                progress.Invoke(new ChangedEvent(value));
             }
         }
 
-        public static string transferSpeed 
+        public static string transferSpeed
         {
-            set {
+            set
+            {
                 speed = value;
-                speedChange.Invoke(new ChangedEvent(value)); 
+
+                // BUG:
+                // for slow transfers it tend to show 0 kb/s 
+                // then suddenly 10 kb - 20 kb and 0 kb/s again
+
+                // Quick fix
+                if (speed != "0 b/s")
+                {
+                    speedChange.Invoke(new ChangedEvent(value));
+                }
             }
         }
 
