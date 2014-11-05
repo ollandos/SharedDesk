@@ -32,12 +32,16 @@
             this.labelGUID = new System.Windows.Forms.Label();
             this.labelIP = new System.Windows.Forms.Label();
             this.labelPort = new System.Windows.Forms.Label();
-            this.labelID = new System.Windows.Forms.Label();
+            this.lblGUID = new System.Windows.Forms.Label();
             this.buttonSearch = new System.Windows.Forms.Button();
             this.buttonPing = new System.Windows.Forms.Button();
             this.textTarget = new System.Windows.Forms.TextBox();
             this.listResponses = new System.Windows.Forms.ListBox();
             this.labelResponse = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.tbPort = new System.Windows.Forms.TextBox();
+            this.lblIP = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // listRoutingTable
@@ -75,18 +79,18 @@
             this.labelPort.TabIndex = 3;
             this.labelPort.Text = "Port";
             // 
-            // labelID
+            // lblGUID
             // 
-            this.labelID.AutoSize = true;
-            this.labelID.Location = new System.Drawing.Point(44, 148);
-            this.labelID.Name = "labelID";
-            this.labelID.Size = new System.Drawing.Size(61, 13);
-            this.labelID.TabIndex = 4;
-            this.labelID.Text = "TempGUID";
+            this.lblGUID.AutoSize = true;
+            this.lblGUID.Location = new System.Drawing.Point(44, 158);
+            this.lblGUID.Name = "lblGUID";
+            this.lblGUID.Size = new System.Drawing.Size(34, 13);
+            this.lblGUID.TabIndex = 4;
+            this.lblGUID.Text = "GUID";
             // 
             // buttonSearch
             // 
-            this.buttonSearch.Location = new System.Drawing.Point(94, 171);
+            this.buttonSearch.Location = new System.Drawing.Point(247, 222);
             this.buttonSearch.Name = "buttonSearch";
             this.buttonSearch.Size = new System.Drawing.Size(75, 23);
             this.buttonSearch.TabIndex = 5;
@@ -95,7 +99,7 @@
             // 
             // buttonPing
             // 
-            this.buttonPing.Location = new System.Drawing.Point(184, 171);
+            this.buttonPing.Location = new System.Drawing.Point(166, 222);
             this.buttonPing.Name = "buttonPing";
             this.buttonPing.Size = new System.Drawing.Size(75, 23);
             this.buttonPing.TabIndex = 6;
@@ -106,37 +110,76 @@
             // 
             this.textTarget.Location = new System.Drawing.Point(47, 174);
             this.textTarget.Name = "textTarget";
-            this.textTarget.Size = new System.Drawing.Size(31, 20);
+            this.textTarget.Size = new System.Drawing.Size(66, 20);
             this.textTarget.TabIndex = 7;
+            this.textTarget.Text = "0";
             // 
             // listResponses
             // 
             this.listResponses.FormattingEnabled = true;
-            this.listResponses.Location = new System.Drawing.Point(321, 41);
+            this.listResponses.Location = new System.Drawing.Point(340, 41);
             this.listResponses.Name = "listResponses";
-            this.listResponses.Size = new System.Drawing.Size(212, 95);
+            this.listResponses.Size = new System.Drawing.Size(212, 225);
             this.listResponses.TabIndex = 8;
             // 
             // labelResponse
             // 
             this.labelResponse.AutoSize = true;
-            this.labelResponse.Location = new System.Drawing.Point(318, 25);
+            this.labelResponse.Location = new System.Drawing.Point(337, 9);
             this.labelResponse.Name = "labelResponse";
             this.labelResponse.Size = new System.Drawing.Size(60, 13);
             this.labelResponse.TabIndex = 9;
             this.labelResponse.Text = "Responses";
             // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(128, 174);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(104, 20);
+            this.textBox1.TabIndex = 10;
+            this.textBox1.Text = "192.168.1.10";
+            // 
+            // tbPort
+            // 
+            this.tbPort.Location = new System.Drawing.Point(247, 174);
+            this.tbPort.Name = "tbPort";
+            this.tbPort.Size = new System.Drawing.Size(75, 20);
+            this.tbPort.TabIndex = 11;
+            this.tbPort.Text = "8080";
+            // 
+            // lblIP
+            // 
+            this.lblIP.AutoSize = true;
+            this.lblIP.Location = new System.Drawing.Point(130, 158);
+            this.lblIP.Name = "lblIP";
+            this.lblIP.Size = new System.Drawing.Size(17, 13);
+            this.lblIP.TabIndex = 12;
+            this.lblIP.Text = "IP";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(245, 158);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(25, 13);
+            this.label1.TabIndex = 13;
+            this.label1.Text = "port";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(585, 355);
+            this.ClientSize = new System.Drawing.Size(577, 299);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lblIP);
+            this.Controls.Add(this.tbPort);
+            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.labelResponse);
             this.Controls.Add(this.listResponses);
             this.Controls.Add(this.textTarget);
             this.Controls.Add(this.buttonPing);
             this.Controls.Add(this.buttonSearch);
-            this.Controls.Add(this.labelID);
+            this.Controls.Add(this.lblGUID);
             this.Controls.Add(this.labelPort);
             this.Controls.Add(this.labelIP);
             this.Controls.Add(this.labelGUID);
@@ -155,12 +198,16 @@
         private System.Windows.Forms.Label labelGUID;
         private System.Windows.Forms.Label labelIP;
         private System.Windows.Forms.Label labelPort;
-        private System.Windows.Forms.Label labelID;
+        private System.Windows.Forms.Label lblGUID;
         private System.Windows.Forms.Button buttonSearch;
         private System.Windows.Forms.Button buttonPing;
         private System.Windows.Forms.TextBox textTarget;
         private System.Windows.Forms.ListBox listResponses;
         private System.Windows.Forms.Label labelResponse;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox tbPort;
+        private System.Windows.Forms.Label lblIP;
+        private System.Windows.Forms.Label label1;
     }
 }
 

@@ -17,6 +17,7 @@ namespace SharedDesk
 
         public Protocol()
         {
+            socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Udp);
             socket.BeginReceive(buff, 0, buff.Length - 1, SocketFlags.None, new AsyncCallback(Listen), socket);
         }
 
@@ -47,7 +48,34 @@ namespace SharedDesk
                 return;
             }
 
-	    Console.WriteLine(String.Format("received {0} bytes", received));
+            Console.WriteLine(String.Format("received {0} bytes", received));
+
+            byte firstByte = buff[0];
+            if (firstByte == 0)
+            {
+		// error
+                return;
+            }
+
+            //switch (firstByte)
+            //{
+            //    case 0:
+            //// error
+
+            //    default:
+            //        break;
+            //}
+
+
+	    // TDOO: 
+	    // take the first byte of the packet
+
+	    // Options: 
+	    // 0 - error
+	    // 1 - ping
+	    // 2 - routing table
+	    // 3 - find closest peer 
+	    // 4 - listen on port (for file transfer)
 
         }
 
