@@ -9,12 +9,15 @@ namespace SharedDesk
     class RoutingTable
     {
         private List<PeerInfo> table;
+        private PeerInfo myInfo;
+
         public RoutingTable() 
         {
             table = new List<PeerInfo>();
+            myInfo = new PeerInfo(666, "getMyIP", 666);
         }
 
-        public PeerInfo findClosest(int senderGUID, int targetGUID)
+        public PeerInfo findClosest(int targetGUID)
         {
             PeerInfo closest = null;
             int target = targetGUID;
@@ -24,7 +27,21 @@ namespace SharedDesk
                 {
                     closest = p;
                 }
-                else if (calculateXOR(p.getGUID(), target) < calculateXOR(closest.getGUID(), target) && senderGUID != -1)
+                else if (calculateXOR(p.getGUID(), target) < calculateXOR(closest.getGUID(), target) )
+                {
+                    closest = p;
+                }
+            }
+            return closest;
+        }
+
+        public PeerInfo findClosestFor(int senderGUID, int Target)
+        {
+            PeerInfo closest = myInfo;
+            int target = Target;
+            foreach (PeerInfo p in table)
+            {
+                if (calculateXOR(p.getGUID(), target) < calculateXOR(closest.getGUID(), target) && senderGUID != p.getGUID())
                 {
                     closest = p;
                 }

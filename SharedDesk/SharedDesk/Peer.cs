@@ -26,7 +26,7 @@ namespace SharedDesk
             foreach (int guid in targetGUIDs)
             {
                 //Find closest peer in own table
-                PeerInfo closest = routingTable.findClosest(-1, guid);
+                PeerInfo closest = routingTable.findClosest(guid);
                 //Sets target
                 int target = guid;
                 PeerInfo prevClosest = null;
@@ -48,20 +48,10 @@ namespace SharedDesk
             }
         }
 
-        //public int askForClosestPeer(int senderGUID, int Target)
-        //{
-        //    int closest = GUID;
-        //    int target = Target;
-        //    foreach (int p in table)
-        //    {
-        //        if (calculateXOR(p, target) < calculateXOR(closest, target) && senderGUID != p)
-        //        {
-        //            closest = p;
-        //        }
-        //    }
-        //    return closest;
-        //}
-
+        public PeerInfo askForClosestPeer(int senderGUID, int target) 
+        {
+            return routingTable.findClosestFor(senderGUID, target);
+        }
         
     }
 }
