@@ -89,6 +89,8 @@ namespace SharedDesk
             // 3 - find closest peer 
             // 4 - listen on port (for file transfer)
 
+
+            socket.BeginReceive(buff, 0, buff.Length - 1, SocketFlags.None, new AsyncCallback(Listen), socket);
         }
 
 
