@@ -6,7 +6,30 @@ using System.Threading.Tasks;
 
 namespace SharedDesk
 {
-    class PeerInfo
+    public class PeerInfo
     {
+        private int GUID;
+        private string IP;
+        private int PORT;
+        public PeerInfo(int guid, string ip, int port)
+        {
+            this.GUID = guid;
+            this.IP = ip;
+            this.PORT = port;
+        }
+
+        public int getGUID() {
+            return this.GUID;
+        }
+
+        public string getIP()
+        {
+            return this.IP;
+        }
+
+        public int getPORT()
+        {
+            return this.PORT;
+        }
     }
 }
