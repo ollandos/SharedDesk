@@ -7,3 +7,6 @@ C:\Users\Administrator\Development\SimpleP2PExample\SimpleP2PExample\obj\Debug\S
 C:\Users\Administrator\Development\SharedDesk\SimpleP2PExample\bin\Debug\SimpleP2PExample.exe.config
 C:\Users\Administrator\Development\SharedDesk\SimpleP2PExample\obj\Debug\SimpleP2PExample.exe
 C:\Users\Administrator\Development\SharedDesk\SimpleP2PExample\obj\Debug\SimpleP2PExample.pdb
+C:\Users\John\Documents\Visual Studio 2012\SharedDesk\SimpleP2PExample\bin\Debug\SimpleP2PExample.exe.config
+C:\Users\John\Documents\Visual Studio 2012\SharedDesk\SimpleP2PExample\obj\Debug\SimpleP2PExample.exe
+C:\Users\John\Documents\Visual Studio 2012\SharedDesk\SimpleP2PExample\obj\Debug\SimpleP2PExample.pdb
