@@ -21,7 +21,6 @@ namespace SharedDesk
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            Protocol p = new Protocol();
         }
 
         private void buttonPing_Click(object sender, EventArgs e)
@@ -49,6 +48,13 @@ namespace SharedDesk
 
             socket.SendTo(send_buffer, endPoint);
 
+        }
+
+        private void btnListen_Click(object sender, EventArgs e)
+        {
+
+            int port = Convert.ToInt32(tbListenPort.Text);
+            Protocol p = new Protocol(port);
         }
     }
 }

@@ -16,11 +16,11 @@ namespace SharedDesk
         private Socket socket = null;
         private byte[] buff = new byte[2048];
 
-        public Protocol()
+        public Protocol(int port)
         {
 
-            IPEndPoint ServerEndPoint = new IPEndPoint(IPAddress.Any, 8080);
-            Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+            IPEndPoint ServerEndPoint = new IPEndPoint(IPAddress.Any, port);
+            socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
             socket.Bind(ServerEndPoint);
             socket.BeginReceive(buff, 0, buff.Length - 1, SocketFlags.None, new AsyncCallback(Listen), socket);
             Console.Write("Listening on port 8080");
