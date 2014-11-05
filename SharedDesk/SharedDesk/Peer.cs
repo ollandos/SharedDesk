@@ -19,6 +19,9 @@ namespace SharedDesk
             GUID = guid;
         }
 
+        private void init() { }
+
+        //Refresing/Creating the routingTable
         public void makeTable(Dictionary<int, Peer> net)
         {
             RoutingTable newRoutingTable = new RoutingTable();
@@ -48,6 +51,29 @@ namespace SharedDesk
             }
         }
 
+        //JOINING THE NETWORK
+        //Joining Peer will tell all peers in his table to add him.
+        public void joinToTable()
+        {
+            foreach (PeerInfo p in routingTable.getPeers())
+            {
+                    //p.Value.acceptPeer(routingTable.get);
+            }
+        }
+
+        //Accepting newly joined Peer
+        public void acceptPeer(PeerInfo peer)
+        {
+            bool isDuplicated = routingTable.Contains(peer);
+
+            if (!isDuplicated)
+            {
+                routingTable.Add(peer);
+            }
+
+        }
+        
+        //Responding with closest found Peer
         public PeerInfo askForClosestPeer(int senderGUID, int target) 
         {
             return routingTable.findClosestFor(senderGUID, target);

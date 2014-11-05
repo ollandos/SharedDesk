@@ -62,6 +62,11 @@ namespace SharedDesk
             return targetGUIDs;
         }
 
+        public List<PeerInfo> getPeers() 
+        {
+            return table;
+        }
+
         public int calculateXOR(int value1, int value2)
         {
             int result = 0;
