@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,8 +18,19 @@ namespace SharedDesk
 
         public Protocol()
         {
-            socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Udp);
+
+            IPEndPoint ServerEndPoint = new IPEndPoint(IPAddress.Any, 8080);
+            Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+            socket.Bind(ServerEndPoint);
             socket.BeginReceive(buff, 0, buff.Length - 1, SocketFlags.None, new AsyncCallback(Listen), socket);
+            Console.Write("Listening on port 8080");
+
+            //IPEndPoint sender = new IPEndPoint(IPAddress.Any, 0);
+            //EndPoint Remote = (EndPoint)(sender);
+            //int recv = socket.ReceiveFrom(data, ref Remote);
+            //Console.WriteLine("Message received from {0}:", Remote.ToString());
+            //Console.WriteLine(Encoding.ASCII.GetString(data, 0, recv));
+
         }
 
         public void Listen(IAsyncResult ar)
@@ -53,7 +65,7 @@ namespace SharedDesk
             byte firstByte = buff[0];
             if (firstByte == 0)
             {
-		// error
+                // error
                 return;
             }
 
@@ -67,15 +79,15 @@ namespace SharedDesk
             //}
 
 
-	    // TDOO: 
-	    // take the first byte of the packet
+            // TDOO: 
+            // take the first byte of the packet
 
-	    // Options: 
-	    // 0 - error
-	    // 1 - ping
-	    // 2 - routing table
-	    // 3 - find closest peer 
-	    // 4 - listen on port (for file transfer)
+            // Options: 
+            // 0 - error
+            // 1 - ping
+            // 2 - routing table
+            // 3 - find closest peer 
+            // 4 - listen on port (for file transfer)
 
         }
 

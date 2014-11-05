@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Protocol.cs" />
     <Compile Include="RoutingTable.cs" />
     <Compile Include="Peer.cs" />
     <Compile Include="PeerInfo.cs" />

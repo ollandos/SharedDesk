@@ -38,7 +38,7 @@
             this.textTarget = new System.Windows.Forms.TextBox();
             this.listResponses = new System.Windows.Forms.ListBox();
             this.labelResponse = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.tbIp = new System.Windows.Forms.TextBox();
             this.tbPort = new System.Windows.Forms.TextBox();
             this.lblIP = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -105,6 +105,7 @@
             this.buttonPing.TabIndex = 6;
             this.buttonPing.Text = "Ping";
             this.buttonPing.UseVisualStyleBackColor = true;
+            this.buttonPing.Click += new System.EventHandler(this.buttonPing_Click);
             // 
             // textTarget
             // 
@@ -131,13 +132,13 @@
             this.labelResponse.TabIndex = 9;
             this.labelResponse.Text = "Responses";
             // 
-            // textBox1
+            // tbIp
             // 
-            this.textBox1.Location = new System.Drawing.Point(128, 174);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(104, 20);
-            this.textBox1.TabIndex = 10;
-            this.textBox1.Text = "192.168.1.10";
+            this.tbIp.Location = new System.Drawing.Point(128, 174);
+            this.tbIp.Name = "tbIp";
+            this.tbIp.Size = new System.Drawing.Size(104, 20);
+            this.tbIp.TabIndex = 10;
+            this.tbIp.Text = "192.168.1.10";
             // 
             // tbPort
             // 
@@ -173,7 +174,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.lblIP);
             this.Controls.Add(this.tbPort);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.tbIp);
             this.Controls.Add(this.labelResponse);
             this.Controls.Add(this.listResponses);
             this.Controls.Add(this.textTarget);
@@ -204,7 +205,7 @@
         private System.Windows.Forms.TextBox textTarget;
         private System.Windows.Forms.ListBox listResponses;
         private System.Windows.Forms.Label labelResponse;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox tbIp;
         private System.Windows.Forms.TextBox tbPort;
         private System.Windows.Forms.Label lblIP;
         private System.Windows.Forms.Label label1;
