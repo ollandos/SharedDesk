@@ -84,8 +84,8 @@
     <Compile Include="Interfaces\IObservable.cs" />
     <Compile Include="Interfaces\ITransferStrategy.cs" />
     <Compile Include="Transfer Strategies\ReceiveFileTCPv4.cs" />
-    <Compile Include="Transfer Strategies\ReceiveFileTCPv5.cs" />
     <Compile Include="Transfer Strategies\ReceiveFileTCPv3.cs" />
+    <Compile Include="Transfer Strategies\ReceiveFileTCPv5.cs" />
     <Compile Include="Transfer Strategies\SendFileThreadTCPv5.cs" />
     <Compile Include="Transfer Strategies\SendFileThreadTCPv4.cs" />
     <Compile Include="Transfer Strategies\SendFileThreadTCPv3.cs" />
