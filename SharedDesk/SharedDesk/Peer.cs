@@ -8,7 +8,7 @@ namespace SharedDesk
 {
     class Peer
     {
-        List<PeerInfo> routingTable;
+        private List<PeerInfo> routingTable;
         PeerInfo bootPeer;
         int GUID;
 
