@@ -57,7 +57,7 @@ namespace SharedDesk
         {
             foreach (PeerInfo p in routingTable.getPeers())
             {
-                    p.Value.acceptPeer(PeerInfo);
+                    //p.Value.acceptPeer(PeerInfo);
             }
         }
 
