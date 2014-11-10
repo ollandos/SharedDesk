@@ -42,6 +42,9 @@
             this.tbPort = new System.Windows.Forms.TextBox();
             this.lblIP = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.tbListenPort = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.btnListen = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // listRoutingTable
@@ -90,7 +93,7 @@
             // 
             // buttonSearch
             // 
-            this.buttonSearch.Location = new System.Drawing.Point(247, 222);
+            this.buttonSearch.Location = new System.Drawing.Point(238, 209);
             this.buttonSearch.Name = "buttonSearch";
             this.buttonSearch.Size = new System.Drawing.Size(75, 23);
             this.buttonSearch.TabIndex = 5;
@@ -99,7 +102,7 @@
             // 
             // buttonPing
             // 
-            this.buttonPing.Location = new System.Drawing.Point(166, 222);
+            this.buttonPing.Location = new System.Drawing.Point(157, 209);
             this.buttonPing.Name = "buttonPing";
             this.buttonPing.Size = new System.Drawing.Size(75, 23);
             this.buttonPing.TabIndex = 6;
@@ -166,11 +169,40 @@
             this.label1.TabIndex = 13;
             this.label1.Text = "port";
             // 
+            // tbListenPort
+            // 
+            this.tbListenPort.Location = new System.Drawing.Point(47, 255);
+            this.tbListenPort.Name = "tbListenPort";
+            this.tbListenPort.Size = new System.Drawing.Size(100, 20);
+            this.tbListenPort.TabIndex = 14;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(44, 239);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(56, 13);
+            this.label2.TabIndex = 15;
+            this.label2.Text = "Listen port";
+            // 
+            // btnListen
+            // 
+            this.btnListen.Location = new System.Drawing.Point(157, 254);
+            this.btnListen.Name = "btnListen";
+            this.btnListen.Size = new System.Drawing.Size(75, 23);
+            this.btnListen.TabIndex = 16;
+            this.btnListen.Text = "Listen";
+            this.btnListen.UseVisualStyleBackColor = true;
+            this.btnListen.Click += new System.EventHandler(this.btnListen_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(577, 299);
+            this.Controls.Add(this.btnListen);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.tbListenPort);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.lblIP);
             this.Controls.Add(this.tbPort);
@@ -209,6 +241,9 @@
         private System.Windows.Forms.TextBox tbPort;
         private System.Windows.Forms.Label lblIP;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox tbListenPort;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button btnListen;
     }
 }
 
