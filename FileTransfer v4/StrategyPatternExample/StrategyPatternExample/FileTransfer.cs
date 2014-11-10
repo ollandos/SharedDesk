@@ -52,17 +52,17 @@ namespace StrategyPatternExample
                 tbSaveFolder.Text = currentDir;
 
                 tbReceiveIP.Text = getLocalIpAddress();
-                tbReceivePort.Text = "60000";
+                tbReceivePort.Text = "8080";
 
                 tbSendIP.Text = getLocalIpAddress();
-                tbSendPort.Text = "60000";
+                tbSendPort.Text = "8080";
 
                 // Set Transfer file protocol
-                tf = new TransferFile(new TransferTCPv3());
+                tf = new TransferFile(new TransferTCPv4());
 
                 // attach IObservable interface to monitor 
                 tf.attach(new ConsoleObserver());
-                lblStatus.Text = "Status: Selected TCPv3";
+                lblStatus.Text = "Status: Selected TCPv4";
                 tbFileName.Enabled = false;
 
                 // a notify icon in the corner
@@ -79,9 +79,12 @@ namespace StrategyPatternExample
                 FileTransferEvents.downloadComplete += FileTransferEvents_downloadComplete;
                 FileTransferEvents.progress += FileTransferEvents_progress;
                 FileTransferEvents.speedChange += FileTransferEvents_speedChange;
+                FileTransferEvents.transferStarted += FileTransferEvents_transferStarted;
             }
 
         }
+
+
 
         void FileTransferEvents_speedChange(ChangedEvent e)
         {
@@ -129,6 +132,16 @@ namespace StrategyPatternExample
 
             updateListBoxOfTransfers((string)e.Message, 100, "0 kb/s");
 
+        }
+
+        void FileTransferEvents_transferStarted(ChangedEvent e)
+        {
+            // notify icon
+            notifyIcon1.BalloonTipTitle = "Sending File";
+            notifyIcon1.BalloonTipText = (string)e.Message;
+            notifyIcon1.ShowBalloonTip(2000);
+
+            updateListBoxOfTransfers(FileTransferEvents.filename, 0, FileTransferEvents.speed);
         }
 
 
@@ -181,9 +194,9 @@ namespace StrategyPatternExample
                     lblStatus.Text = String.Format("Sending file to {0}:{1}", ip.ToString(), port);
 
                     // list box
-                    lbFileTransfers.Items.Add("Sending:\t\t" + this.fileName);
-                    lbFileTransfers.Items.Add("Progress:\t\t0%");
-                    lbFileTransfers.Items.Add("");
+                    lbFileTransfers.Items.Add("Sending: " + this.fileName);
+                    //lbFileTransfers.Items.Add("Progress:\t\t0%");
+                    //lbFileTransfers.Items.Add("");
                 }
 
             }
@@ -197,19 +210,6 @@ namespace StrategyPatternExample
 
         }
 
-
-
-        private void radioTCP_CheckedChanged(object sender, EventArgs e)
-        {
-            if (radioTCP.Checked == true)
-            {
-                this.tf = new TransferFile(new TransferTCP());
-                this.tf.attach(new ConsoleObserver());
-                lblStatus.Text = "Status: Selected TCP";
-                tbFileName.Enabled = true;
-            }
-
-        }
 
         private void btnListen_Click(object sender, EventArgs e)
         {
@@ -267,18 +267,6 @@ namespace StrategyPatternExample
 
         }
 
-        private void radioTCPv2_CheckedChanged(object sender, EventArgs e)
-        {
-            if (radioTCPv2.Checked == true)
-            {
-                this.tf = new TransferFile(new TransferTCPv2());
-                this.tf.attach(new ConsoleObserver());
-
-                lblStatus.Text = "Status: Selected TCPv2";
-                tbFileName.Enabled = false;
-            }
-        }
-
         private void btnSelectSaveFolder_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog fbd = new FolderBrowserDialog();
@@ -322,6 +310,28 @@ namespace StrategyPatternExample
             string[] IpAndPort = mPnrpManager.getIPv4AndPort(classifier);
             tbSendIP.Text = IpAndPort[0];
             tbSendPort.Text = IpAndPort[1];
+        }
+
+        private void radioTCPv4_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioTCPv4.Checked == true)
+            {
+                this.tf = new TransferFile(new TransferTCPv4());
+                this.tf.attach(new ConsoleObserver());
+                lblStatus.Text = "Status: Selected TCPv4";
+                tbFileName.Enabled = false;
+            }
+        }
+
+        private void radioTCPv5_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioTCPv5.Checked == true)
+            {
+                this.tf = new TransferFile(new TransferTCPv5());
+                this.tf.attach(new ConsoleObserver());
+                lblStatus.Text = "Status: Selected TCPv5";
+                tbFileName.Enabled = false;
+            }
         }
 
 

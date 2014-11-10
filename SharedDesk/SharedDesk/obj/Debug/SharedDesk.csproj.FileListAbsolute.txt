@@ -1,0 +1,9 @@
+C:\Users\John\Documents\Visual Studio 2012\SharedDesk\SharedDesk\SharedDesk\bin\Debug\SharedDesk.exe.config
+C:\Users\John\Documents\Visual Studio 2012\SharedDesk\SharedDesk\SharedDesk\bin\Debug\SharedDesk.exe
+C:\Users\John\Documents\Visual Studio 2012\SharedDesk\SharedDesk\SharedDesk\bin\Debug\SharedDesk.pdb
+C:\Users\John\Documents\Visual Studio 2012\SharedDesk\SharedDesk\SharedDesk\obj\Debug\SharedDesk.csprojResolveAssemblyReference.cache
+C:\Users\John\Documents\Visual Studio 2012\SharedDesk\SharedDesk\SharedDesk\obj\Debug\SharedDesk.Form1.resources
+C:\Users\John\Documents\Visual Studio 2012\SharedDesk\SharedDesk\SharedDesk\obj\Debug\SharedDesk.Properties.Resources.resources
+C:\Users\John\Documents\Visual Studio 2012\SharedDesk\SharedDesk\SharedDesk\obj\Debug\SharedDesk.csproj.GenerateResource.Cache
+C:\Users\John\Documents\Visual Studio 2012\SharedDesk\SharedDesk\SharedDesk\obj\Debug\SharedDesk.exe
+C:\Users\John\Documents\Visual Studio 2012\SharedDesk\SharedDesk\SharedDesk\obj\Debug\SharedDesk.pdb

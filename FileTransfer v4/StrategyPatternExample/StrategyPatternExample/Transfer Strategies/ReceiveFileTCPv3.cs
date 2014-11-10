@@ -44,26 +44,20 @@ namespace StrategyPatternExample.Transfer_Strategies
         // should enable extremely fast download/writing speeds
         ParallelFileWriter fileWriter;
 
+        // timer to check mb/s kb/s etc
+        // start timer for each transfer
+        System.Timers.Timer timer = null;
+
         public ReceiveFileTCPv3(string filePath, IPEndPoint remotePoint)
         {
             this.receivePath = filePath;
             this.remotePoint = remotePoint;
+
             // start thread
             this.t1 = new Thread(new ThreadStart(StartListening));
+            this.t1.Name = "Listen_on_" + this.remotePoint.Port.ToString();
+            this.t1.IsBackground = true;
             this.t1.Start();
-        }
-
-        public class StateObject
-        {
-            // Client socket.
-            public Socket workSocket = null;
-
-            //public const int BufferSize = 8192;
-            public const int BufferSize = 32768;
-            //public const int BufferSize = 65536;
-
-            // Receive buffer.
-            public byte[] buffer = new byte[BufferSize];
         }
 
         /// <summary>
@@ -82,6 +76,10 @@ namespace StrategyPatternExample.Transfer_Strategies
             // Should perhaps consider this one
             //listener.ExclusiveAddressUse = true;
 
+            // tried TcpListner and it didn't really work...
+            //TcpListener listener2 = new TcpListener(remotePoint);
+            //listener2.AllowNatTraversal(true);
+
             try
             {
 
@@ -92,6 +90,7 @@ namespace StrategyPatternExample.Transfer_Strategies
                 {
                     allDone.Reset();
                     listener.BeginAccept(new AsyncCallback(AcceptCallback), listener);
+                    //listener2.BeginAcceptSocket(new AsyncCallback(AcceptCallback), listener2);
                     allDone.WaitOne();
                 }
             }
@@ -113,6 +112,9 @@ namespace StrategyPatternExample.Transfer_Strategies
             fileSize = 0;
             totalBytesReceived = 0;
             totalBytesToBeReceived = 0;
+
+            timer.Stop();
+            timer = null;
         }
 
 
@@ -196,7 +198,7 @@ namespace StrategyPatternExample.Transfer_Strategies
 
                     // start timer that will execute an event every 1 sec
                     // that shows mb/s kb/s etc
-                    System.Timers.Timer timer = new System.Timers.Timer() { Interval = 1000, Enabled = true };
+                    timer = new System.Timers.Timer() { Interval = 1000, Enabled = true };
                     timer.Elapsed += timer_Elapsed;
                     timer.Start();
 

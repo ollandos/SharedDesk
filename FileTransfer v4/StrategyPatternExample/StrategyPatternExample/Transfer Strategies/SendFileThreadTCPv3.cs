@@ -1,42 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace StrategyPatternExample.Transfer_Strategies
 {
-
-    public class StateObject
-    {
-        // Client socket.
-        public Socket workSocket = null;
-
-        public const int BufferSize = 8192;
-        // Receive buffer.
-        public byte[] buffer = new byte[BufferSize];
-    }
-
-
-    class SendFileThreadTCPv3
+    internal class SendFileThreadTCPv3
     {
         // start seperate thread
-        Thread t1;
+        private Thread t1;
 
         // remote ip and port
-        IPEndPoint endPoint;
-        Socket sendingSocket;
+        private IPEndPoint endPoint;
+
+        private Socket sendingSocket;
 
         // file to send
-        string filePath;
+        private string filePath;
 
-        // TODO: 
-        // add events for updating speed and percentage using 
+        // TODO:
+        // add events for updating speed and percentage using
         // BandWIthCounter
 
         public SendFileThreadTCPv3(string filePath, IPEndPoint endPoint)
@@ -52,7 +37,6 @@ namespace StrategyPatternExample.Transfer_Strategies
 
         public void startSending()
         {
-
             try
             {
                 // Create a TCP socket.
@@ -68,10 +52,9 @@ namespace StrategyPatternExample.Transfer_Strategies
                 // Connect the socket to the remote endpoint.
                 sendingSocket.Connect(endPoint);
 
-
-                // TODO: 
+                // TODO:
                 // use preBuffer and postBuffer to send filename, size, etc
-                // use postBuffer to send MD5 hash of file or something like that 
+                // use postBuffer to send MD5 hash of file or something like that
                 // also look at SocketFlags http://msdn.microsoft.com/en-us/library/system.net.sockets.socketflags%28v=vs.110%29.aspx
 
                 FileInfo f = new FileInfo(filePath);
@@ -97,26 +80,22 @@ namespace StrategyPatternExample.Transfer_Strategies
                 filenameSizePlusFilename.CopyTo(preBuffer, 0);
                 Array.Copy(fileSizeB, 0, preBuffer, fileName.Length + 1, 8);
 
-                // format the transfer like this: 
+                // format the transfer like this:
                 // byte = filename size
                 // file name
                 // long = file size in bytes, ulong is 64 bit so filesize could be limitless
                 // file content
 
-
-
-                // TODO: 
+                // TODO:
                 // Send FileInfo object of the file
-                // this will include timestamps, metadata, attributes etc 
+                // this will include timestamps, metadata, attributes etc
                 // as well as file size
 
-                // FileInfo also have a build in replace method for creating a new file and then 
+                // FileInfo also have a build in replace method for creating a new file and then
                 // taking a content of another file (the temp file of a file transfer) and add it to a new file
 
                 // sends size of filename (0-255) + filename and then disconnect after file has been queued for transmission
                 sendingSocket.BeginSendFile(filePath, preBuffer, null, TransmitFileOptions.Disconnect, new AsyncCallback(FileSendCallback), sendingSocket);
-
-
             }
             catch (Exception ex)
             {
@@ -124,14 +103,12 @@ namespace StrategyPatternExample.Transfer_Strategies
             }
             finally
             {
-
                 // this method starts a new  AsyncCallback(ReadCallback)
                 // and this method is ReadCallback so it works as a recursive method
                 //handler.BeginReceive(tempState.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReadCallback), tempState);
 
                 //Thread.CurrentThread.Interrupt();
             }
-
         }
 
         /// <summary>
@@ -163,9 +140,6 @@ namespace StrategyPatternExample.Transfer_Strategies
                 client.Shutdown(SocketShutdown.Both);
                 client.Close();
             }
-
         }
-
-
     }
 }

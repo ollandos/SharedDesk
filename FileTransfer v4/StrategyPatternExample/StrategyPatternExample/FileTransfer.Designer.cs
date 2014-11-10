@@ -30,9 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.radioTCPv4 = new System.Windows.Forms.RadioButton();
             this.radioTCPv3 = new System.Windows.Forms.RadioButton();
-            this.radioTCPv2 = new System.Windows.Forms.RadioButton();
-            this.radioTCP = new System.Windows.Forms.RadioButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btnSelectFile = new System.Windows.Forms.Button();
             this.tbSendIP = new System.Windows.Forms.TextBox();
@@ -57,6 +56,7 @@
             this.btnFind = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.tbPeerName = new System.Windows.Forms.TextBox();
+            this.radioTCPv5 = new System.Windows.Forms.RadioButton();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -66,9 +66,9 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.radioTCPv5);
+            this.groupBox1.Controls.Add(this.radioTCPv4);
             this.groupBox1.Controls.Add(this.radioTCPv3);
-            this.groupBox1.Controls.Add(this.radioTCPv2);
-            this.groupBox1.Controls.Add(this.radioTCP);
             this.groupBox1.Location = new System.Drawing.Point(12, 417);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(313, 70);
@@ -76,40 +76,28 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Method";
             // 
+            // radioTCPv4
+            // 
+            this.radioTCPv4.AutoSize = true;
+            this.radioTCPv4.Checked = true;
+            this.radioTCPv4.Location = new System.Drawing.Point(95, 29);
+            this.radioTCPv4.Name = "radioTCPv4";
+            this.radioTCPv4.Size = new System.Drawing.Size(58, 17);
+            this.radioTCPv4.TabIndex = 5;
+            this.radioTCPv4.Text = "TCPv4";
+            this.radioTCPv4.UseVisualStyleBackColor = true;
+            this.radioTCPv4.CheckedChanged += new System.EventHandler(this.radioTCPv4_CheckedChanged);
+            // 
             // radioTCPv3
             // 
             this.radioTCPv3.AutoSize = true;
-            this.radioTCPv3.Checked = true;
-            this.radioTCPv3.Location = new System.Drawing.Point(12, 29);
+            this.radioTCPv3.Location = new System.Drawing.Point(170, 29);
             this.radioTCPv3.Name = "radioTCPv3";
             this.radioTCPv3.Size = new System.Drawing.Size(58, 17);
             this.radioTCPv3.TabIndex = 4;
-            this.radioTCPv3.TabStop = true;
             this.radioTCPv3.Text = "TCPv3";
             this.radioTCPv3.UseVisualStyleBackColor = true;
             this.radioTCPv3.CheckedChanged += new System.EventHandler(this.radioTCPv3_CheckedChanged);
-            // 
-            // radioTCPv2
-            // 
-            this.radioTCPv2.AutoSize = true;
-            this.radioTCPv2.Location = new System.Drawing.Point(97, 29);
-            this.radioTCPv2.Name = "radioTCPv2";
-            this.radioTCPv2.Size = new System.Drawing.Size(58, 17);
-            this.radioTCPv2.TabIndex = 3;
-            this.radioTCPv2.Text = "TCPv2";
-            this.radioTCPv2.UseVisualStyleBackColor = true;
-            this.radioTCPv2.CheckedChanged += new System.EventHandler(this.radioTCPv2_CheckedChanged);
-            // 
-            // radioTCP
-            // 
-            this.radioTCP.AutoSize = true;
-            this.radioTCP.Location = new System.Drawing.Point(174, 29);
-            this.radioTCP.Name = "radioTCP";
-            this.radioTCP.Size = new System.Drawing.Size(46, 17);
-            this.radioTCP.TabIndex = 1;
-            this.radioTCP.Text = "TCP";
-            this.radioTCP.UseVisualStyleBackColor = true;
-            this.radioTCP.CheckedChanged += new System.EventHandler(this.radioTCP_CheckedChanged);
             // 
             // groupBox2
             // 
@@ -338,6 +326,17 @@
             this.tbPeerName.Size = new System.Drawing.Size(125, 20);
             this.tbPeerName.TabIndex = 0;
             // 
+            // radioTCPv5
+            // 
+            this.radioTCPv5.AutoSize = true;
+            this.radioTCPv5.Location = new System.Drawing.Point(15, 29);
+            this.radioTCPv5.Name = "radioTCPv5";
+            this.radioTCPv5.Size = new System.Drawing.Size(58, 17);
+            this.radioTCPv5.TabIndex = 6;
+            this.radioTCPv5.Text = "TCPv5";
+            this.radioTCPv5.UseVisualStyleBackColor = true;
+            this.radioTCPv5.CheckedChanged += new System.EventHandler(this.radioTCPv5_CheckedChanged);
+            // 
             // FileTransfer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -371,7 +370,6 @@
         #endregion
 
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.RadioButton radioTCP;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button btnSend;
         private System.Windows.Forms.TextBox tbReceivePort;
@@ -390,7 +388,6 @@
         private System.Windows.Forms.TextBox tbFileName;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel lblStatus;
-        private System.Windows.Forms.RadioButton radioTCPv2;
         private System.Windows.Forms.ListBox lbFileTransfers;
         private System.Windows.Forms.NotifyIcon notifyIcon1;
         private System.Windows.Forms.RadioButton radioTCPv3;
@@ -398,6 +395,8 @@
         private System.Windows.Forms.Button btnFind;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox tbPeerName;
+        private System.Windows.Forms.RadioButton radioTCPv4;
+        private System.Windows.Forms.RadioButton radioTCPv5;
     }
 }
 

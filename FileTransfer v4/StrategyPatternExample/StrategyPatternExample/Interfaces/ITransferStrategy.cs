@@ -8,14 +8,12 @@ using System.Threading.Tasks;
 
 namespace StrategyPatternExample
 {
-    abstract class ITransferStrategy
+    interface ITransferStrategy
     {
 
-        public abstract void sendFile(string filePath, IPEndPoint endPoint);
+        void sendFile(string filePath, IPEndPoint endPoint);
 
-        public abstract void listenForFile(string filePath, IPEndPoint remotePoint);
-
-        public abstract void send(string filePath);
+        void listenForFile(string filePath, IPEndPoint remotePoint);
 
     }
 }

@@ -1,0 +1,695 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
+  dslVersion="1.0.0.0"
+  Id="08dc66ed-eae3-46f7-9f47-9fd57c8db3a6"
+  name="Observers"
+  visibility="Private" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <referencesInternal>
+    <reference
+      Id="1a21aeff-a62a-4823-8ebb-9f5de4603220"
+      handle="viewcode://./CodeSchema_Namespace?Namespace%3DStrategyPatternExample.Observers"
+      tag="ViewCode" />
+  </referencesInternal>
+  <packagedElements>
+    <packageHasNamedElement>
+      <class
+        Id="1721ebb8-6f27-41a1-b08d-7585984e45df"
+        name="ConsoleObserver"
+        visibility="Package"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <referencesInternal>
+          <reference
+            Id="05835f0d-71bb-40e7-868d-2bbc8f29fc4f"
+            handle="viewcode://./CodeSchema_Class?Assembly%3D&quot;file:%2F%2F%2FF:%2FDropbox%2Fprogramming%2FWCF%2FSharedDesk v2%2FFileTransfer v4%2FStrategyPatternExample%2FStrategyPatternExample%2Fbin%2FDebug%2FFileTransfer v4.exe&quot; Namespace%3DStrategyPatternExample.Observers Type%3DConsoleObserver"
+            tag="ViewCode" />
+        </referencesInternal>
+        <appliedStereotypesInternal>
+          <stereotypeInstance
+            Id="0b1d4578-bd07-4e7c-b15b-d2befb449d3e"
+            name="class"
+            profile="CSharpProfile">
+            <propertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="eaf34afe-a69c-462f-8c2f-50d15380cbad">
+                <propertyInstance
+                  Id="94924cdd-6bea-4d48-ad61-70fed3221cbf"
+                  name="ClrAttributes" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="f86f07b6-f5ea-4a8d-9438-e981b6948c21">
+                <propertyInstance
+                  Id="7d630a09-fb4a-46fe-bbc0-f1eef709d977"
+                  name="IsPartial"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="3c5b4468-850a-487c-a716-da7bd3331c4e">
+                <propertyInstance
+                  Id="466803e3-4c12-46d3-9428-e7cb88092825"
+                  name="IsStatic"
+                  value="False" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="33e7c48b-f0b1-4e8d-b1fe-af904ca4cdd9">
+                <propertyInstance
+                  Id="bf1e7645-21c3-47d4-b538-f545bfd0abc3"
+                  name="IsUnsafe"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="81c0ee6f-aa13-4337-b2bf-14b69be7be3f">
+                <propertyInstance
+                  Id="6de952ba-c0b0-4001-800a-5afa95163e96"
+                  name="PackageVisibility"
+                  value="internal" />
+              </stereotypeInstanceHasPropertyInstances>
+            </propertyInstances>
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+        <suppliersInternal>
+          <interfaceRealization
+            Id="d0682e2e-d574-4c07-a941-598ff33ca7ad">
+            <interfaceMoniker
+              Id="7e8b8acf-bdde-4652-a7a1-cd009f795893"
+              LastKnownName="IObservable"
+              LastKnownLocation="Package_1305.uml" />
+          </interfaceRealization>
+        </suppliersInternal>
+        <ownedOperationsInternal>
+          <operation
+            Id="bd4396b8-44e4-47e2-aea4-603934148355"
+            name="notify"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <referencesInternal>
+              <reference
+                Id="9e51c81a-afed-45bf-bc1d-acb6706c2855"
+                handle="viewcode://./CodeSchema_Method?Assembly%3D&quot;file:%2F%2F%2FF:%2FDropbox%2Fprogramming%2FWCF%2FSharedDesk v2%2FFileTransfer v4%2FStrategyPatternExample%2FStrategyPatternExample%2Fbin%2FDebug%2FFileTransfer v4.exe&quot; Namespace%3DStrategyPatternExample.Observers Type%3DConsoleObserver Member%3D(Name%3Dnotify OverloadingParameters%3D[(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DString)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2FSystem.dll&quot; Namespace%3DSystem.Net Type%3DIPEndPoint)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DBoolean)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DBoolean)])"
+                tag="ViewCode" />
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance
+                Id="e83bd3e0-753a-42d1-acd3-5d0cc0c46fa6"
+                name="method"
+                profile="CSharpProfile">
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="e39bf3b1-44ed-4038-9f2c-cf433f007e27">
+                    <propertyInstance
+                      Id="7e1d39d9-e69d-40f5-a9e3-3cf729fea56a"
+                      name="ClrAttributes" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="12fbe693-5401-424d-a67f-5a4d99bd6112">
+                    <propertyInstance
+                      Id="71a42ab9-7aaa-45b3-9160-c4bef9586ed9"
+                      name="IsPartial"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="a49ea37b-2bf5-4824-8e04-08a634a7bb59">
+                    <propertyInstance
+                      Id="938aec6d-4b4c-4df6-b979-82d0f1e8122b"
+                      name="IsUnsafe"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="40742141-7fd6-407d-86c4-bbb74e3df739">
+                    <propertyInstance
+                      Id="7cdc9a19-4c0a-44ed-b4d2-f7c0ea19cfd7"
+                      name="Inheritance"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="bf70c467-102e-47ab-bf29-a48f8a77d868">
+                    <propertyInstance
+                      Id="c345744c-8e11-4b00-bc76-17b3769d077e"
+                      name="PackageVisibility"
+                      value="internal" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="59fee153-f57d-4d96-96d1-24d192a4a61a">
+                    <propertyInstance
+                      Id="a3e6ebb0-04a6-444e-bf1d-8622052a57c6"
+                      name="params"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="44deedd1-16d6-4e42-9e6a-769aed3a18f9"
+                  name="filePath"
+                  direction="In">
+                  <referencesInternal>
+                    <reference
+                      Id="90f72e14-76e9-4506-b702-a00912dff444"
+                      handle="viewcode://./CodeSchema_Parameter?Assembly%3D&quot;file:%2F%2F%2FF:%2FDropbox%2Fprogramming%2FWCF%2FSharedDesk v2%2FFileTransfer v4%2FStrategyPatternExample%2FStrategyPatternExample%2Fbin%2FDebug%2FFileTransfer v4.exe&quot; Namespace%3DStrategyPatternExample.Observers Type%3DConsoleObserver Member%3D(Name%3Dnotify OverloadingParameters%3D[(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DString)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2FSystem.dll&quot; Namespace%3DSystem.Net Type%3DIPEndPoint)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DBoolean)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DBoolean)]) ParameterIdentifier%3DfilePath"
+                      tag="ViewCode" />
+                  </referencesInternal>
+                  <type_NamedElement>
+                    <primitiveTypeMoniker
+                      Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
+                      LastKnownName="String"
+                      LastKnownLocation="FileTransferModelingProject.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="5e4a9df7-9555-40f8-a36a-ffdcc4d07b86"
+                  name="endPoint"
+                  direction="In">
+                  <referencesInternal>
+                    <reference
+                      Id="a355935a-f3fa-44ae-906f-076ecb8a160c"
+                      handle="viewcode://./CodeSchema_Parameter?Assembly%3D&quot;file:%2F%2F%2FF:%2FDropbox%2Fprogramming%2FWCF%2FSharedDesk v2%2FFileTransfer v4%2FStrategyPatternExample%2FStrategyPatternExample%2Fbin%2FDebug%2FFileTransfer v4.exe&quot; Namespace%3DStrategyPatternExample.Observers Type%3DConsoleObserver Member%3D(Name%3Dnotify OverloadingParameters%3D[(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DString)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2FSystem.dll&quot; Namespace%3DSystem.Net Type%3DIPEndPoint)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DBoolean)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DBoolean)]) ParameterIdentifier%3DendPoint"
+                      tag="ViewCode" />
+                  </referencesInternal>
+                  <type_NamedElement>
+                    <classMoniker
+                      Id="3f77b108-0c20-43df-806c-2baa75956924"
+                      LastKnownName="IPEndPoint"
+                      LastKnownLocation="Package1_1305.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="38048de6-0baa-47af-bcd0-96efb75c3735"
+                  name="sending"
+                  direction="In">
+                  <referencesInternal>
+                    <reference
+                      Id="d8ee8196-9748-477f-841d-b4a6835d0443"
+                      handle="viewcode://./CodeSchema_Parameter?Assembly%3D&quot;file:%2F%2F%2FF:%2FDropbox%2Fprogramming%2FWCF%2FSharedDesk v2%2FFileTransfer v4%2FStrategyPatternExample%2FStrategyPatternExample%2Fbin%2FDebug%2FFileTransfer v4.exe&quot; Namespace%3DStrategyPatternExample.Observers Type%3DConsoleObserver Member%3D(Name%3Dnotify OverloadingParameters%3D[(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DString)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2FSystem.dll&quot; Namespace%3DSystem.Net Type%3DIPEndPoint)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DBoolean)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DBoolean)]) ParameterIdentifier%3Dsending"
+                      tag="ViewCode" />
+                  </referencesInternal>
+                  <type_NamedElement>
+                    <primitiveTypeMoniker
+                      Id="8943dc84-709e-4f62-b15a-a3273aa6f165"
+                      LastKnownName="Boolean"
+                      LastKnownLocation="FileTransferModelingProject.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="e40afbfb-733e-4b37-9683-da57fcf45303"
+                  name="transferComplete"
+                  direction="In">
+                  <referencesInternal>
+                    <reference
+                      Id="75ae8e34-c52f-41c3-b4be-015f93cc533f"
+                      handle="viewcode://./CodeSchema_Parameter?Assembly%3D&quot;file:%2F%2F%2FF:%2FDropbox%2Fprogramming%2FWCF%2FSharedDesk v2%2FFileTransfer v4%2FStrategyPatternExample%2FStrategyPatternExample%2Fbin%2FDebug%2FFileTransfer v4.exe&quot; Namespace%3DStrategyPatternExample.Observers Type%3DConsoleObserver Member%3D(Name%3Dnotify OverloadingParameters%3D[(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DString)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2FSystem.dll&quot; Namespace%3DSystem.Net Type%3DIPEndPoint)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DBoolean)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DBoolean)]) ParameterIdentifier%3DtransferComplete"
+                      tag="ViewCode" />
+                  </referencesInternal>
+                  <type_NamedElement>
+                    <primitiveTypeMoniker
+                      Id="8943dc84-709e-4f62-b15a-a3273aa6f165"
+                      LastKnownName="Boolean"
+                      LastKnownLocation="FileTransferModelingProject.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation
+            Id="713c7d85-bca3-4a0c-ae80-c441d09aa6b9"
+            name="notify"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <referencesInternal>
+              <reference
+                Id="4f792c1c-d981-4bc0-9807-1821e223a7da"
+                handle="viewcode://./CodeSchema_Method?Assembly%3D&quot;file:%2F%2F%2FF:%2FDropbox%2Fprogramming%2FWCF%2FSharedDesk v2%2FFileTransfer v4%2FStrategyPatternExample%2FStrategyPatternExample%2Fbin%2FDebug%2FFileTransfer v4.exe&quot; Namespace%3DStrategyPatternExample.Observers Type%3DConsoleObserver Member%3D(Name%3Dnotify OverloadingParameters%3D[(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DString)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2FSystem.dll&quot; Namespace%3DSystem.Net Type%3DIPEndPoint)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DBoolean)])"
+                tag="ViewCode" />
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance
+                Id="c09ec7f6-830a-4f71-997e-a287f137578c"
+                name="method"
+                profile="CSharpProfile">
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="dc3f3f39-3384-466c-8264-0c318c28218a">
+                    <propertyInstance
+                      Id="2ba6c9ae-701c-46ec-ba91-280091463c3e"
+                      name="ClrAttributes" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="5f1f983a-f4d4-499b-be4e-783e60b8cc0c">
+                    <propertyInstance
+                      Id="4b3b84a6-d46a-4c69-8b00-a7caa0f17d7a"
+                      name="IsPartial"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="65acec52-f702-4b95-a640-5b6538b6a912">
+                    <propertyInstance
+                      Id="2564776d-c3ee-4a0c-99e8-05e74d48c0d8"
+                      name="IsUnsafe"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="f3f3dc34-d025-44cb-9447-da813ada25f5">
+                    <propertyInstance
+                      Id="de6d31eb-530b-4d12-8d5b-2c713987117b"
+                      name="Inheritance"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="d42d6eae-68b8-47ae-99ad-0a48eb12af29">
+                    <propertyInstance
+                      Id="fbdf7abd-b6c3-43ab-a052-c0b67b65d3c3"
+                      name="PackageVisibility"
+                      value="internal" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="81db334f-1b79-48c2-a4f2-c144d58a6996">
+                    <propertyInstance
+                      Id="90823277-2e0c-4f8a-9868-cbaa675e63e3"
+                      name="params"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="4692e704-0c10-4bc2-94f2-084df78bf045"
+                  name="filePath"
+                  direction="In">
+                  <referencesInternal>
+                    <reference
+                      Id="5cf4fbf1-803b-404b-90e2-e6f3ad0ff18d"
+                      handle="viewcode://./CodeSchema_Parameter?Assembly%3D&quot;file:%2F%2F%2FF:%2FDropbox%2Fprogramming%2FWCF%2FSharedDesk v2%2FFileTransfer v4%2FStrategyPatternExample%2FStrategyPatternExample%2Fbin%2FDebug%2FFileTransfer v4.exe&quot; Namespace%3DStrategyPatternExample.Observers Type%3DConsoleObserver Member%3D(Name%3Dnotify OverloadingParameters%3D[(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DString)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2FSystem.dll&quot; Namespace%3DSystem.Net Type%3DIPEndPoint)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DBoolean)]) ParameterIdentifier%3DfilePath"
+                      tag="ViewCode" />
+                  </referencesInternal>
+                  <type_NamedElement>
+                    <primitiveTypeMoniker
+                      Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
+                      LastKnownName="String"
+                      LastKnownLocation="FileTransferModelingProject.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="7d122e75-7fda-45d6-95ea-c7394442bb20"
+                  name="endPoint"
+                  direction="In">
+                  <referencesInternal>
+                    <reference
+                      Id="b5d6289b-71ea-4b73-af1b-3651b19d36c2"
+                      handle="viewcode://./CodeSchema_Parameter?Assembly%3D&quot;file:%2F%2F%2FF:%2FDropbox%2Fprogramming%2FWCF%2FSharedDesk v2%2FFileTransfer v4%2FStrategyPatternExample%2FStrategyPatternExample%2Fbin%2FDebug%2FFileTransfer v4.exe&quot; Namespace%3DStrategyPatternExample.Observers Type%3DConsoleObserver Member%3D(Name%3Dnotify OverloadingParameters%3D[(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DString)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2FSystem.dll&quot; Namespace%3DSystem.Net Type%3DIPEndPoint)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DBoolean)]) ParameterIdentifier%3DendPoint"
+                      tag="ViewCode" />
+                  </referencesInternal>
+                  <type_NamedElement>
+                    <classMoniker
+                      Id="3f77b108-0c20-43df-806c-2baa75956924"
+                      LastKnownName="IPEndPoint"
+                      LastKnownLocation="Package1_1305.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="5fb919cb-0558-4cb6-98f7-37cd6b076ec5"
+                  name="sending"
+                  direction="In">
+                  <referencesInternal>
+                    <reference
+                      Id="044c4560-8584-4e37-a293-012e0de70ae9"
+                      handle="viewcode://./CodeSchema_Parameter?Assembly%3D&quot;file:%2F%2F%2FF:%2FDropbox%2Fprogramming%2FWCF%2FSharedDesk v2%2FFileTransfer v4%2FStrategyPatternExample%2FStrategyPatternExample%2Fbin%2FDebug%2FFileTransfer v4.exe&quot; Namespace%3DStrategyPatternExample.Observers Type%3DConsoleObserver Member%3D(Name%3Dnotify OverloadingParameters%3D[(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DString)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2FSystem.dll&quot; Namespace%3DSystem.Net Type%3DIPEndPoint)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DBoolean)]) ParameterIdentifier%3Dsending"
+                      tag="ViewCode" />
+                  </referencesInternal>
+                  <type_NamedElement>
+                    <primitiveTypeMoniker
+                      Id="8943dc84-709e-4f62-b15a-a3273aa6f165"
+                      LastKnownName="Boolean"
+                      LastKnownLocation="FileTransferModelingProject.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation
+            Id="9b71f957-c389-4f50-b951-ecf2bb3d294b"
+            name="ConsoleObserver"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <referencesInternal>
+              <reference
+                Id="d1cdae03-7edb-479b-af38-065f78e2af4f"
+                handle="viewcode://./CodeSchema_Method?Assembly%3D&quot;file:%2F%2F%2FF:%2FDropbox%2Fprogramming%2FWCF%2FSharedDesk v2%2FFileTransfer v4%2FStrategyPatternExample%2FStrategyPatternExample%2Fbin%2FDebug%2FFileTransfer v4.exe&quot; Namespace%3DStrategyPatternExample.Observers Type%3DConsoleObserver Member%3D.ctor"
+                tag="ViewCode" />
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance
+                Id="2c90eeaa-deb9-4369-97c7-9e08c29d3a25"
+                name="method"
+                profile="CSharpProfile">
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="82736ae2-521e-4669-bed4-430a5c126960">
+                    <propertyInstance
+                      Id="2afbcc22-6ceb-4e42-b09e-6a026cb91368"
+                      name="ClrAttributes" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="65a91776-e4cf-4f7f-9e87-808aa286de46">
+                    <propertyInstance
+                      Id="0e258736-37f1-4119-a836-2f0e4aefc636"
+                      name="IsPartial"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="32095193-ff82-4e39-8523-6c3a90accc3f">
+                    <propertyInstance
+                      Id="c1200f3d-78d7-4f00-829c-abe53fbd4b8d"
+                      name="IsUnsafe"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="3d82523f-1715-456e-9933-cec9c84f32e2">
+                    <propertyInstance
+                      Id="ea2506dd-b11a-4929-b5f9-a6175b092a24"
+                      name="Inheritance"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="a04e82a7-f288-4e1d-95fd-787a78cb1caf">
+                    <propertyInstance
+                      Id="c2224c9f-2553-4a4b-8ccd-02c3bc71f738"
+                      name="PackageVisibility"
+                      value="internal" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="de9d4459-32fc-4092-a4d3-4f386eee8fb0">
+                    <propertyInstance
+                      Id="cb36b6f7-81cb-40a3-baf2-c5594bed43fd"
+                      name="params"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="bde5594e-cfc9-4335-b77a-bcf472fc82cb"
+        name="NotificationBarObserver"
+        visibility="Package"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <referencesInternal>
+          <reference
+            Id="f73bb172-75c7-42ce-b56e-514669ce74d9"
+            handle="viewcode://./CodeSchema_Class?Assembly%3D&quot;file:%2F%2F%2FF:%2FDropbox%2Fprogramming%2FWCF%2FSharedDesk v2%2FFileTransfer v4%2FStrategyPatternExample%2FStrategyPatternExample%2Fbin%2FDebug%2FFileTransfer v4.exe&quot; Namespace%3DStrategyPatternExample.Observers Type%3DNotificationBarObserver"
+            tag="ViewCode" />
+        </referencesInternal>
+        <appliedStereotypesInternal>
+          <stereotypeInstance
+            Id="f3aaf6c9-b946-4172-a231-950234479f5e"
+            name="class"
+            profile="CSharpProfile">
+            <propertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="bd0f7a67-ef8d-43ce-b7cf-0d547cd9d7df">
+                <propertyInstance
+                  Id="cfe8e8c8-1eec-4c09-8a5d-4293742aa39d"
+                  name="ClrAttributes" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="faba821b-5c03-4ae1-a8af-529cc92ef5ef">
+                <propertyInstance
+                  Id="3739e54f-94f9-4453-b46f-bfde0bd6cf2b"
+                  name="IsPartial"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="a198ccf7-8f38-4267-bc20-a6b5058cd06d">
+                <propertyInstance
+                  Id="4aba9aad-c412-4998-a38a-fba42924e7e4"
+                  name="IsStatic"
+                  value="False" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="1fda506c-3f8d-4bc7-ac51-9557a09e8fe0">
+                <propertyInstance
+                  Id="e6d8a33e-b09a-4359-8415-c9751c680a60"
+                  name="IsUnsafe"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="e16ff6ee-6c55-411b-b503-1fed6815b722">
+                <propertyInstance
+                  Id="71593915-066a-4729-8fbc-ebecbd8cbddc"
+                  name="PackageVisibility"
+                  value="internal" />
+              </stereotypeInstanceHasPropertyInstances>
+            </propertyInstances>
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+        <suppliersInternal>
+          <interfaceRealization
+            Id="ae6c4577-d077-4eb6-b202-c7b8c425e1af">
+            <interfaceMoniker
+              Id="7e8b8acf-bdde-4652-a7a1-cd009f795893"
+              LastKnownName="IObservable"
+              LastKnownLocation="Package_1305.uml" />
+          </interfaceRealization>
+        </suppliersInternal>
+        <ownedOperationsInternal>
+          <operation
+            Id="6b758d56-0bfa-4723-9c74-ec1ae7f0a0c5"
+            name="notify"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <referencesInternal>
+              <reference
+                Id="4913e70e-6598-4e8e-a7e5-ec14c96781f6"
+                handle="viewcode://./CodeSchema_Method?Assembly%3D&quot;file:%2F%2F%2FF:%2FDropbox%2Fprogramming%2FWCF%2FSharedDesk v2%2FFileTransfer v4%2FStrategyPatternExample%2FStrategyPatternExample%2Fbin%2FDebug%2FFileTransfer v4.exe&quot; Namespace%3DStrategyPatternExample.Observers Type%3DNotificationBarObserver Member%3D(Name%3Dnotify OverloadingParameters%3D[(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DString)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2FSystem.dll&quot; Namespace%3DSystem.Net Type%3DIPEndPoint)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DBoolean)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DBoolean)])"
+                tag="ViewCode" />
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance
+                Id="8db33c34-3090-478a-b12b-d167c6c09c96"
+                name="method"
+                profile="CSharpProfile">
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="7a144173-e332-4db0-a570-c1c3042b2d72">
+                    <propertyInstance
+                      Id="024d937d-1963-4c49-b040-4e9bb472edbc"
+                      name="ClrAttributes" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="09dd5fff-ef2d-4088-a0a7-d13d2a443af1">
+                    <propertyInstance
+                      Id="000dcf80-1cbc-4ae3-be1e-ce4643b27069"
+                      name="IsPartial"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="4170e342-9201-4d52-987c-3087105b4be7">
+                    <propertyInstance
+                      Id="4ee702e6-3709-4994-aa8c-b3e46217bab5"
+                      name="IsUnsafe"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="2e94f3c9-35cf-424f-ad14-5ad778b4184e">
+                    <propertyInstance
+                      Id="43b48330-3799-43be-ae11-ab55c5f16899"
+                      name="Inheritance"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="d16fa1d6-1e82-4568-963e-7c2d1ab2dcdc">
+                    <propertyInstance
+                      Id="d38b1fe1-62ff-4577-9d5f-21ea2ea53a92"
+                      name="PackageVisibility"
+                      value="internal" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="429be14c-1984-453a-a8cb-bc80f410aad0">
+                    <propertyInstance
+                      Id="e86b9d32-39fb-4bdb-9a98-f7550eb6781e"
+                      name="params"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="a5444e3b-6fda-414d-8453-cc302a9d5b5f"
+                  name="filePath"
+                  direction="In">
+                  <referencesInternal>
+                    <reference
+                      Id="42897720-6753-4689-be98-ce1b774d9b7d"
+                      handle="viewcode://./CodeSchema_Parameter?Assembly%3D&quot;file:%2F%2F%2FF:%2FDropbox%2Fprogramming%2FWCF%2FSharedDesk v2%2FFileTransfer v4%2FStrategyPatternExample%2FStrategyPatternExample%2Fbin%2FDebug%2FFileTransfer v4.exe&quot; Namespace%3DStrategyPatternExample.Observers Type%3DNotificationBarObserver Member%3D(Name%3Dnotify OverloadingParameters%3D[(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DString)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2FSystem.dll&quot; Namespace%3DSystem.Net Type%3DIPEndPoint)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DBoolean)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DBoolean)]) ParameterIdentifier%3DfilePath"
+                      tag="ViewCode" />
+                  </referencesInternal>
+                  <type_NamedElement>
+                    <primitiveTypeMoniker
+                      Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
+                      LastKnownName="String"
+                      LastKnownLocation="FileTransferModelingProject.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="7a5c6407-d0c0-4934-9dfa-3a8f9a05ea0d"
+                  name="endPoint"
+                  direction="In">
+                  <referencesInternal>
+                    <reference
+                      Id="456fe146-a53d-4ddd-bb57-2fc30a7c126f"
+                      handle="viewcode://./CodeSchema_Parameter?Assembly%3D&quot;file:%2F%2F%2FF:%2FDropbox%2Fprogramming%2FWCF%2FSharedDesk v2%2FFileTransfer v4%2FStrategyPatternExample%2FStrategyPatternExample%2Fbin%2FDebug%2FFileTransfer v4.exe&quot; Namespace%3DStrategyPatternExample.Observers Type%3DNotificationBarObserver Member%3D(Name%3Dnotify OverloadingParameters%3D[(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DString)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2FSystem.dll&quot; Namespace%3DSystem.Net Type%3DIPEndPoint)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DBoolean)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DBoolean)]) ParameterIdentifier%3DendPoint"
+                      tag="ViewCode" />
+                  </referencesInternal>
+                  <type_NamedElement>
+                    <classMoniker
+                      Id="3f77b108-0c20-43df-806c-2baa75956924"
+                      LastKnownName="IPEndPoint"
+                      LastKnownLocation="Package1_1305.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="464bab3a-c5c5-43c7-a938-7903363c4f8e"
+                  name="sending"
+                  direction="In">
+                  <referencesInternal>
+                    <reference
+                      Id="a0b25581-59d0-4ddd-8795-2427c71c4ffb"
+                      handle="viewcode://./CodeSchema_Parameter?Assembly%3D&quot;file:%2F%2F%2FF:%2FDropbox%2Fprogramming%2FWCF%2FSharedDesk v2%2FFileTransfer v4%2FStrategyPatternExample%2FStrategyPatternExample%2Fbin%2FDebug%2FFileTransfer v4.exe&quot; Namespace%3DStrategyPatternExample.Observers Type%3DNotificationBarObserver Member%3D(Name%3Dnotify OverloadingParameters%3D[(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DString)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2FSystem.dll&quot; Namespace%3DSystem.Net Type%3DIPEndPoint)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DBoolean)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DBoolean)]) ParameterIdentifier%3Dsending"
+                      tag="ViewCode" />
+                  </referencesInternal>
+                  <type_NamedElement>
+                    <primitiveTypeMoniker
+                      Id="8943dc84-709e-4f62-b15a-a3273aa6f165"
+                      LastKnownName="Boolean"
+                      LastKnownLocation="FileTransferModelingProject.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="5db0df03-3c21-4c42-ba0a-35973242fb8b"
+                  name="transferComplete"
+                  direction="In">
+                  <referencesInternal>
+                    <reference
+                      Id="c3ea3f1c-ae67-4d27-8bce-fe42471eb849"
+                      handle="viewcode://./CodeSchema_Parameter?Assembly%3D&quot;file:%2F%2F%2FF:%2FDropbox%2Fprogramming%2FWCF%2FSharedDesk v2%2FFileTransfer v4%2FStrategyPatternExample%2FStrategyPatternExample%2Fbin%2FDebug%2FFileTransfer v4.exe&quot; Namespace%3DStrategyPatternExample.Observers Type%3DNotificationBarObserver Member%3D(Name%3Dnotify OverloadingParameters%3D[(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DString)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2FSystem.dll&quot; Namespace%3DSystem.Net Type%3DIPEndPoint)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DBoolean)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DBoolean)]) ParameterIdentifier%3DtransferComplete"
+                      tag="ViewCode" />
+                  </referencesInternal>
+                  <type_NamedElement>
+                    <primitiveTypeMoniker
+                      Id="8943dc84-709e-4f62-b15a-a3273aa6f165"
+                      LastKnownName="Boolean"
+                      LastKnownLocation="FileTransferModelingProject.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation
+            Id="856b4441-0b8e-4ef7-ac1a-e86cbb4ba485"
+            name="NotificationBarObserver"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <referencesInternal>
+              <reference
+                Id="199e5b5b-1bfe-449a-844d-f75d35724003"
+                handle="viewcode://./CodeSchema_Method?Assembly%3D&quot;file:%2F%2F%2FF:%2FDropbox%2Fprogramming%2FWCF%2FSharedDesk v2%2FFileTransfer v4%2FStrategyPatternExample%2FStrategyPatternExample%2Fbin%2FDebug%2FFileTransfer v4.exe&quot; Namespace%3DStrategyPatternExample.Observers Type%3DNotificationBarObserver Member%3D.ctor"
+                tag="ViewCode" />
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance
+                Id="d8195281-6d1f-4a5c-8cc0-d87efead4432"
+                name="method"
+                profile="CSharpProfile">
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="0b46774d-a866-4ca1-99ce-3438d9284fb9">
+                    <propertyInstance
+                      Id="471ff74c-ccee-4485-b4e2-e97a2ad536eb"
+                      name="ClrAttributes" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="e5a5a55e-0cbe-4a02-bc21-64ed75c1bb71">
+                    <propertyInstance
+                      Id="19c8717f-23b9-4446-ae94-fae0e050c2d6"
+                      name="IsPartial"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="8a770c28-262a-4d15-8d03-9f61662a0810">
+                    <propertyInstance
+                      Id="f1f967f2-a3fc-4016-a582-5aaea93fb427"
+                      name="IsUnsafe"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="bedf3980-3a5e-40fb-ba47-4ee19e4587fa">
+                    <propertyInstance
+                      Id="fd516b21-9b1c-47cc-8f12-51d61b7cd12e"
+                      name="Inheritance"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="aaa5b1f4-a26c-4603-ac64-4c9152bb359e">
+                    <propertyInstance
+                      Id="128057e9-f184-415b-9e4d-5427c1e71ca9"
+                      name="PackageVisibility"
+                      value="internal" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="239cd66c-0ad3-4fb1-96a1-52ad9afdd9ad">
+                    <propertyInstance
+                      Id="1d05e101-74b2-41f9-acc0-e13ea7a698f5"
+                      name="params"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </packageHasNamedElement>
+  </packagedElements>
+</package>
