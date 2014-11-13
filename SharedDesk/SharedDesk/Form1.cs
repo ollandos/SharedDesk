@@ -31,6 +31,7 @@ namespace SharedDesk
 
             Console.WriteLine("The unique 128 bit GUID:");
             Console.WriteLine(guid);
+            Console.WriteLine("as int: {0}", Int32.Parse(guid.ToString()));
 
             toolStatus.Text = "Status: Guid generated, " + guid.ToString();
 

@@ -47,6 +47,7 @@
             this.btnListen = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this.btnGetRoutingTable = new System.Windows.Forms.Button();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -96,7 +97,7 @@
             // 
             // buttonSearch
             // 
-            this.buttonSearch.Location = new System.Drawing.Point(238, 209);
+            this.buttonSearch.Location = new System.Drawing.Point(247, 201);
             this.buttonSearch.Name = "buttonSearch";
             this.buttonSearch.Size = new System.Drawing.Size(75, 23);
             this.buttonSearch.TabIndex = 5;
@@ -105,7 +106,7 @@
             // 
             // buttonPing
             // 
-            this.buttonPing.Location = new System.Drawing.Point(157, 209);
+            this.buttonPing.Location = new System.Drawing.Point(166, 201);
             this.buttonPing.Name = "buttonPing";
             this.buttonPing.Size = new System.Drawing.Size(75, 23);
             this.buttonPing.TabIndex = 6;
@@ -126,7 +127,7 @@
             this.listResponses.FormattingEnabled = true;
             this.listResponses.Location = new System.Drawing.Point(340, 41);
             this.listResponses.Name = "listResponses";
-            this.listResponses.Size = new System.Drawing.Size(212, 225);
+            this.listResponses.Size = new System.Drawing.Size(212, 303);
             this.listResponses.TabIndex = 8;
             // 
             // labelResponse
@@ -174,7 +175,7 @@
             // 
             // tbListenPort
             // 
-            this.tbListenPort.Location = new System.Drawing.Point(47, 255);
+            this.tbListenPort.Location = new System.Drawing.Point(47, 307);
             this.tbListenPort.Name = "tbListenPort";
             this.tbListenPort.Size = new System.Drawing.Size(100, 20);
             this.tbListenPort.TabIndex = 14;
@@ -183,7 +184,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(44, 239);
+            this.label2.Location = new System.Drawing.Point(44, 291);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(56, 13);
             this.label2.TabIndex = 15;
@@ -191,7 +192,7 @@
             // 
             // btnListen
             // 
-            this.btnListen.Location = new System.Drawing.Point(157, 254);
+            this.btnListen.Location = new System.Drawing.Point(157, 306);
             this.btnListen.Name = "btnListen";
             this.btnListen.Size = new System.Drawing.Size(75, 23);
             this.btnListen.TabIndex = 16;
@@ -203,9 +204,9 @@
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStatus});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 307);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 366);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(577, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(582, 22);
             this.statusStrip1.TabIndex = 17;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -215,11 +216,21 @@
             this.toolStatus.Size = new System.Drawing.Size(45, 17);
             this.toolStatus.Text = "Status: ";
             // 
+            // btnGetRoutingTable
+            // 
+            this.btnGetRoutingTable.Location = new System.Drawing.Point(166, 230);
+            this.btnGetRoutingTable.Name = "btnGetRoutingTable";
+            this.btnGetRoutingTable.Size = new System.Drawing.Size(156, 23);
+            this.btnGetRoutingTable.TabIndex = 18;
+            this.btnGetRoutingTable.Text = "Get routing table";
+            this.btnGetRoutingTable.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(577, 329);
+            this.ClientSize = new System.Drawing.Size(582, 388);
+            this.Controls.Add(this.btnGetRoutingTable);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.btnListen);
             this.Controls.Add(this.label2);
@@ -269,6 +280,7 @@
         private System.Windows.Forms.Button btnListen;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStatus;
+        private System.Windows.Forms.Button btnGetRoutingTable;
     }
 }
 

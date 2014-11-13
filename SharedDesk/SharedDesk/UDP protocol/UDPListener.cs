@@ -108,7 +108,7 @@ namespace SharedDesk
 
                     //byte[] portByteArray = buff.Skip(1).Take(16).ToArray();
                     int port = BitConverter.ToInt32(buff, 1);
-                    Console.WriteLine("Receved a ping from: {0}, listen port: {1}", remoteEnd, port);
+                    Console.WriteLine("Received a ping from: {0}, listen port: {1}", remoteEnd, port);
 
                     // create ip end point from udp packet ip and listen port received
                     IPEndPoint remoteIpEndPoint = remoteEnd as IPEndPoint;
