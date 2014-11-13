@@ -40,7 +40,7 @@ namespace SharedDesk
             // start listening
             //socket.BeginReceive(buff, 0, buff.Length, SocketFlags.None, new AsyncCallback(Listen), socket);
             socket.BeginReceiveFrom(buff, 0, buff.Length, SocketFlags.None, ref remoteEndPoint, new AsyncCallback(Listen), socket);
-            Console.Write("Listening on port 8080");
+            Console.Write("Listening on port {0} ", port);
 
         }
 
@@ -121,7 +121,12 @@ namespace SharedDesk
                     break;
                 case 2:
                     // GUID (ping response)
-                    Console.WriteLine("Received a guid from: {0}, guid: xxx", remoteEnd);
+                    
+                    byte[] guidByteArray = buff.Skip(1).Take(16).ToArray();
+                    Guid remoteGuid = new Guid(guidByteArray);
+
+                    Console.WriteLine("Received a guid from: {0}, guid: {1}", remoteEnd, remoteGuid.ToString());
+
                     break;
                 case 3:
                     // routing table request
