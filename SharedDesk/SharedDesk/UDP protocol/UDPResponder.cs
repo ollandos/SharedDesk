@@ -44,6 +44,21 @@ namespace SharedDesk.UDP_protocol
             socket.SendTo(sendBuffer, endPoint);
         }
 
+        public void sendGUID(byte[] guid)
+        {
+            // byte indicating what type of packet it is
+            byte[] pingByte = new byte[] { 2 };
+
+            // buffer to send
+            byte[] sendBuffer = combineBytes(pingByte, guid);
+
+            socket.SendTo(sendBuffer, endPoint);
+            Console.WriteLine("\nUDP Responder port: {0}", listenPort); 
+            Console.WriteLine("Sending guid to {0}", endPoint);
+
+        }
+
+
         /// <summary>
         /// Combine byte arrays
         /// </summary>

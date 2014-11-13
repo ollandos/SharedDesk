@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SharedDesk.UDP_protocol;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -21,11 +22,13 @@ namespace SharedDesk
 
         // ref remoteEndPoint
         private EndPoint remoteEndPoint = new IPEndPoint(IPAddress.Any, 0);
+        private int listenPort;
 
         public UDPListener(int port, byte[] guid)
         {
             // set guid
             this.guid = guid;
+            this.listenPort = port;
 
             // listen for any IP
             IPEndPoint ServerEndPoint = new IPEndPoint(IPAddress.Any, port);
@@ -56,7 +59,7 @@ namespace SharedDesk
                 //received = s.EndReceiveMessageFrom(ar, ref flags, ref remoteEnd, out packetInfo);
                 received = s.EndReceiveFrom(ar, ref remoteEnd);
 
-                Console.WriteLine("\nUDP Listner: "); 
+                Console.WriteLine("\nUDP Listner port: {0}", listenPort); 
                 Console.WriteLine(
                     //"{0} bytes received from {1} to {2}",
                     "{0} bytes received from {1}",
@@ -94,9 +97,6 @@ namespace SharedDesk
             // 6 - peer info object (response from find closest peer request)
             // 7 - file transfer
 
-
-            Console.WriteLine(String.Format("received {0} bytes", received));
-
             byte firstByte = buff[0];
             switch (firstByte)
             {
@@ -105,16 +105,23 @@ namespace SharedDesk
                     break;
                 case 1:
                     // ping
+
                     //byte[] portByteArray = buff.Skip(1).Take(16).ToArray();
                     int port = BitConverter.ToInt32(buff, 1);
                     Console.WriteLine("Receved a ping from: {0}, listen port: {1}", remoteEnd, port);
 
-                    // TODO:
-                    // respond to ping
+                    // create ip end point from udp packet ip and listen port received
+                    IPEndPoint remoteIpEndPoint = remoteEnd as IPEndPoint;
+                    remoteIpEndPoint.Port = port;
+
+                    // respond to ping (send guid)
+                    UDPResponder udpResponse = new UDPResponder(remoteIpEndPoint, port);
+                    udpResponse.sendGUID(guid);
 
                     break;
                 case 2:
-                    // ping response
+                    // GUID (ping response)
+                    Console.WriteLine("Received a guid from: {0}, guid: xxx", remoteEnd);
                     break;
                 case 3:
                     // routing table request
