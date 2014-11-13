@@ -31,7 +31,6 @@ namespace SharedDesk
 
             Console.WriteLine("The unique 128 bit GUID:");
             Console.WriteLine(guid);
-            Console.WriteLine("as int: {0}", Int32.Parse(guid.ToString()));
 
             toolStatus.Text = "Status: Guid generated, " + guid.ToString();
 
@@ -41,9 +40,29 @@ namespace SharedDesk
         {
 
             // get ip address and port 
-            IPAddress ip = IPAddress.Parse(tbIp.Text);
-            int remotePort = Convert.ToInt32(tbPort.Text);
-            int listenPort = Convert.ToInt32(tbListenPort.Text);
+            IPAddress ip;
+            try
+            {
+                ip = IPAddress.Parse(tbIp.Text);
+            }
+            catch (Exception)
+            {
+                toolStatus.Text = "ERROR: wrong ip";
+                return;
+            }
+
+            int remotePort;
+            int listenPort;
+            try
+            {
+                remotePort = Convert.ToInt32(tbPort.Text);
+                listenPort = Convert.ToInt32(tbListenPort.Text);
+            }
+            catch (Exception)
+            {
+                toolStatus.Text = "ERROR: wrong port";
+                return;
+            }
 
             // check that port nr is between 0 and 65535
             if (remotePort < 0 || remotePort > 65535)
@@ -76,7 +95,16 @@ namespace SharedDesk
                 return;
             }
 
-            int port = Convert.ToInt32(tbListenPort.Text);
+            int port;
+            try
+            {
+                port = Convert.ToInt32(tbListenPort.Text);
+            }
+            catch (Exception)
+            {
+                toolStatus.Text = "ERROR: wrong port";
+                return;
+            }
 
             // check that port nr is between 0 and 65535
             if (port < 0 || port > 65535)
