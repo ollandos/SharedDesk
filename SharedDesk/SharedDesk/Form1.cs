@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SharedDesk.UDP_protocol;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -39,22 +40,27 @@ namespace SharedDesk
 
             // create end point
             IPEndPoint endPoint = new IPEndPoint(ip, port);
-
-	    // connect to endpoint
-            Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-
-            string text = "Hello";
-            byte[] send_buffer = Encoding.ASCII.GetBytes(text);
-
-            socket.SendTo(send_buffer, endPoint);
+            UDPResponder udpResponse = new UDPResponder(endPoint);
+            udpResponse.sendPing();
 
         }
 
         private void btnListen_Click(object sender, EventArgs e)
         {
+            if (tbListenPort.Text == "")
+            {
+                return;
+            }
 
             int port = Convert.ToInt32(tbListenPort.Text);
-            Protocol p = new Protocol(port);
+
+            // check that port nr is between 0 and 65535
+            if (port < 0 || port > 65535)
+            {
+                return;
+            }
+
+            UDPListener p = new UDPListener(port);
         }
     }
 }

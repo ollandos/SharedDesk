@@ -11,18 +11,18 @@ namespace SharedDesk
     /// <summary>
     /// Class that will handle the UDP socket
     /// </summary>
-    class Protocol
+    class UDPListener
     {
         private Socket socket = null;
         private byte[] buff = new byte[2048];
 
-        public Protocol(int port)
+        public UDPListener(int port)
         {
 
             IPEndPoint ServerEndPoint = new IPEndPoint(IPAddress.Any, port);
             socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
             socket.Bind(ServerEndPoint);
-            socket.BeginReceive(buff, 0, buff.Length - 1, SocketFlags.None, new AsyncCallback(Listen), socket);
+            socket.BeginReceive(buff, 0, buff.Length, SocketFlags.None, new AsyncCallback(Listen), socket);
             Console.Write("Listening on port 8080");
 
             //IPEndPoint sender = new IPEndPoint(IPAddress.Any, 0);
@@ -59,29 +59,7 @@ namespace SharedDesk
             {
                 return;
             }
-
-            Console.WriteLine(String.Format("received {0} bytes", received));
-
-            byte firstByte = buff[0];
-            if (firstByte == 0)
-            {
-                // error
-                return;
-            }
-
-            //switch (firstByte)
-            //{
-            //    case 0:
-            //// error
-
-            //    default:
-            //        break;
-            //}
-
-
-            // TDOO: 
-            // take the first byte of the packet
-
+ 
             // Options: 
             // 0 - error
             // 1 - ping
@@ -93,7 +71,43 @@ namespace SharedDesk
             // 7 - file transfer
 
 
-            socket.BeginReceive(buff, 0, buff.Length - 1, SocketFlags.None, new AsyncCallback(Listen), socket);
+            Console.WriteLine(String.Format("received {0} bytes", received));
+
+            byte firstByte = buff[0];
+            switch (firstByte)
+            {
+                case 0:
+                    // error
+                    break;
+                case 1:
+                    // ping
+                    Console.WriteLine("Receved a ping");
+                    break;
+                case 2:
+                    // ping response
+                    break;
+                case 3:
+                    // routing table request
+                    break;
+                case 4:
+                    // routing table
+                    break;
+                case 5:
+                    // find closest peer
+                    break;
+                case 6:
+                    // peer info object
+                    break;
+                case 7:
+                    // file transfer
+                    break;
+                default:
+                    Console.WriteLine("Not a valid command...");
+                    return;
+            }
+
+
+            socket.BeginReceive(buff, 0, buff.Length, SocketFlags.None, new AsyncCallback(Listen), socket);
         }
 
 

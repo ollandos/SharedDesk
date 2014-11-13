@@ -44,10 +44,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Protocol.cs" />
-    <Compile Include="RoutingTable.cs" />
-    <Compile Include="Peer.cs" />
-    <Compile Include="PeerInfo.cs" />
+    <Compile Include="UDP protocol\UDPListener.cs" />
+    <Compile Include="Kadelima\RoutingTable.cs" />
+    <Compile Include="Kadelima\Peer.cs" />
+    <Compile Include="Kadelima\PeerInfo.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -56,6 +56,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UDP protocol\UDPResponder.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

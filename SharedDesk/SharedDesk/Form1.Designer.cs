@@ -141,7 +141,7 @@
             this.tbIp.Name = "tbIp";
             this.tbIp.Size = new System.Drawing.Size(104, 20);
             this.tbIp.TabIndex = 10;
-            this.tbIp.Text = "192.168.1.10";
+            this.tbIp.Text = "127.0.0.1";
             // 
             // tbPort
             // 
