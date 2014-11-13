@@ -13,13 +13,17 @@ namespace SharedDesk.UDP_protocol
     /// </summary>
     class UDPResponder
     {
-
+        // remote ip and port to send to
         private IPEndPoint endPoint;
         private Socket socket;
 
-        public UDPResponder(IPEndPoint endPoint) 
+        // port the remote peer can respond to
+        private int listenPort;
+
+        public UDPResponder(IPEndPoint remotePoint, int listenPort) 
         {
-            this.endPoint = endPoint;
+            this.endPoint = remotePoint;
+            this.listenPort = listenPort;
 
             // init socket
             socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
@@ -27,10 +31,40 @@ namespace SharedDesk.UDP_protocol
 
         public void sendPing()
         {
-            // ping
-            byte[] sendBuffer = new byte[] { 1 };
+
+            // byte indicating what type of packet it is
+            byte[] pingByte = new byte[] { 1 };
+
+            // byte array with port 
+            byte[] listenPortByteArray = BitConverter.GetBytes(listenPort);
+            
+            // buffer to send
+            byte[] sendBuffer = combineBytes(pingByte, listenPortByteArray);
+
             socket.SendTo(sendBuffer, endPoint);
         }
+
+        /// <summary>
+        /// Combine byte arrays
+        /// </summary>
+        public byte[] combineBytes(byte[] first, byte[] second)
+        {
+            byte[] ret = new byte[first.Length + second.Length];
+            Buffer.BlockCopy(first, 0, ret, 0, first.Length);
+            Buffer.BlockCopy(second, 0, ret, first.Length, second.Length);
+            return ret;
+        }
+
+        public byte[] combineBytes(byte[] first, byte[] second, byte[] third)
+        {
+            byte[] ret = new byte[first.Length + second.Length + third.Length];
+            Buffer.BlockCopy(first, 0, ret, 0, first.Length);
+            Buffer.BlockCopy(second, 0, ret, first.Length, second.Length);
+            Buffer.BlockCopy(third, 0, ret, first.Length + second.Length,
+                             third.Length);
+            return ret;
+        }
+
 
     }
 }

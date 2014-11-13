@@ -105,9 +105,12 @@ namespace SharedDesk
                     break;
                 case 1:
                     // ping
-                    Console.WriteLine("Receved a ping");
+                    //byte[] portByteArray = buff.Skip(1).Take(16).ToArray();
+                    int port = BitConverter.ToInt32(buff, 1);
+                    Console.WriteLine("Receved a ping from: {0}, listen port: {1}", remoteEnd, port);
 
-                    // get ip and port to respond to
+                    // TODO:
+                    // respond to ping
 
                     break;
                 case 2:

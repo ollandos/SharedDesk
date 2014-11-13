@@ -32,6 +32,8 @@ namespace SharedDesk
             Console.WriteLine("The unique 128 bit GUID:");
             Console.WriteLine(guid);
 
+            toolStatus.Text = "Status: Guid generated, " + guid.ToString();
+
         }
 
         private void buttonPing_Click(object sender, EventArgs e)
@@ -39,19 +41,29 @@ namespace SharedDesk
 
             // get ip address and port 
             IPAddress ip = IPAddress.Parse(tbIp.Text);
-            int port = Convert.ToInt32(tbPort.Text);
+            int remotePort = Convert.ToInt32(tbPort.Text);
+            int listenPort = Convert.ToInt32(tbListenPort.Text);
 
             // check that port nr is between 0 and 65535
-            if (port < 0 || port > 65535)
+            if (remotePort < 0 || remotePort > 65535)
             {
-                //lblStatus.Text = "Error: Wrong port";
+                toolStatus.Text = "ERROR: wrong port";
+                return;
+            }
+
+            // check that port nr is between 0 and 65535
+            if (listenPort < 0 || listenPort > 65535)
+            {
+                toolStatus.Text = "ERROR: wrong port";
                 return;
             }
 
             // create end point
-            IPEndPoint endPoint = new IPEndPoint(ip, port);
-            UDPResponder udpResponse = new UDPResponder(endPoint);
+            IPEndPoint remotePoint = new IPEndPoint(ip, remotePort);
+            UDPResponder udpResponse = new UDPResponder(remotePoint, listenPort);
             udpResponse.sendPing();
+
+            toolStatus.Text = "Status: Sent ping";
 
         }
 
@@ -59,6 +71,7 @@ namespace SharedDesk
         {
             if (tbListenPort.Text == "")
             {
+                toolStatus.Text = "ERROR: wrong port";
                 return;
             }
 
@@ -67,10 +80,12 @@ namespace SharedDesk
             // check that port nr is between 0 and 65535
             if (port < 0 || port > 65535)
             {
+                toolStatus.Text = "ERROR: wrong port";
                 return;
             }
 
             UDPListener p = new UDPListener(port, guid.ToByteArray());
+            toolStatus.Text = "Status: Listening on port " + port.ToString();
         }
     }
 }
