@@ -85,9 +85,12 @@ namespace SharedDesk
             // Options: 
             // 0 - error
             // 1 - ping
-            // 2 - routing table
-            // 3 - find closest peer 
-            // 4 - listen on port (for file transfer)
+            // 2 - ping response
+            // 3 - routing table request
+            // 4 - routing table
+            // 5 - find closest peer request
+            // 6 - peer info object (response from find closest peer request)
+            // 7 - file transfer
 
 
             socket.BeginReceive(buff, 0, buff.Length - 1, SocketFlags.None, new AsyncCallback(Listen), socket);
