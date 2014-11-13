@@ -175,6 +175,7 @@
             this.tbListenPort.Name = "tbListenPort";
             this.tbListenPort.Size = new System.Drawing.Size(100, 20);
             this.tbListenPort.TabIndex = 14;
+            this.tbListenPort.Text = "8080";
             // 
             // label2
             // 

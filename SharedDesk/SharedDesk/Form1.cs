@@ -15,6 +15,10 @@ namespace SharedDesk
 {
     public partial class Form1 : Form
     {
+
+        // GUID 
+        Guid guid;
+
         public Form1()
         {
             InitializeComponent();
@@ -22,6 +26,12 @@ namespace SharedDesk
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            // generate GUID 
+            guid = Guid.NewGuid();
+
+            Console.WriteLine("The unique 128 bit GUID:");
+            Console.WriteLine(guid);
+
         }
 
         private void buttonPing_Click(object sender, EventArgs e)
@@ -60,7 +70,7 @@ namespace SharedDesk
                 return;
             }
 
-            UDPListener p = new UDPListener(port);
+            UDPListener p = new UDPListener(port, guid.ToByteArray());
         }
     }
 }

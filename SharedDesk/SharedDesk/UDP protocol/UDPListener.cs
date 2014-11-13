@@ -16,20 +16,28 @@ namespace SharedDesk
         private Socket socket = null;
         private byte[] buff = new byte[2048];
 
-        public UDPListener(int port)
+        // The unique 128 bit GUID
+        private byte[] guid;
+
+        // ref remoteEndPoint
+        private EndPoint remoteEndPoint = new IPEndPoint(IPAddress.Any, 0);
+
+        public UDPListener(int port, byte[] guid)
         {
+            // set guid
+            this.guid = guid;
 
+            // listen for any IP
             IPEndPoint ServerEndPoint = new IPEndPoint(IPAddress.Any, port);
-            socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-            socket.Bind(ServerEndPoint);
-            socket.BeginReceive(buff, 0, buff.Length, SocketFlags.None, new AsyncCallback(Listen), socket);
-            Console.Write("Listening on port 8080");
 
-            //IPEndPoint sender = new IPEndPoint(IPAddress.Any, 0);
-            //EndPoint Remote = (EndPoint)(sender);
-            //int recv = socket.ReceiveFrom(data, ref Remote);
-            //Console.WriteLine("Message received from {0}:", Remote.ToString());
-            //Console.WriteLine(Encoding.ASCII.GetString(data, 0, recv));
+            // init socket
+            this.socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+            socket.Bind(ServerEndPoint);
+
+            // start listening
+            //socket.BeginReceive(buff, 0, buff.Length, SocketFlags.None, new AsyncCallback(Listen), socket);
+            socket.BeginReceiveFrom(buff, 0, buff.Length, SocketFlags.None, ref remoteEndPoint, new AsyncCallback(Listen), socket);
+            Console.Write("Listening on port 8080");
 
         }
 
@@ -38,11 +46,27 @@ namespace SharedDesk
 
             int received = 0;
             Socket s = null;
+            //IPPacketInformation packetInfo;
+            EndPoint remoteEnd = new IPEndPoint(IPAddress.Any, 0);
+            //SocketFlags flags = SocketFlags.None;
 
             try
             {
-                s = (Socket)ar.AsyncState; //Grab our socket's state from the ASync return handler.
-                received = s.EndReceive(ar); //Tell our socket to stop receiving data because our buffer is full.
+                s = (Socket)ar.AsyncState;
+                //received = s.EndReceiveMessageFrom(ar, ref flags, ref remoteEnd, out packetInfo);
+                received = s.EndReceiveFrom(ar, ref remoteEnd);
+
+                Console.WriteLine("\nUDP Listner: "); 
+                Console.WriteLine(
+                    //"{0} bytes received from {1} to {2}",
+                    "{0} bytes received from {1}",
+                    received,
+                    remoteEnd
+                    //packetInfo.Address
+                );
+
+                //s = (Socket)ar.AsyncState; //Grab our socket's state from the ASync return handler.
+                //received = s.EndReceive(ar); //Tell our socket to stop receiving data because our buffer is full.
             }
             catch (SocketException socketError)
             {
@@ -63,7 +87,7 @@ namespace SharedDesk
             // Options: 
             // 0 - error
             // 1 - ping
-            // 2 - ping response
+            // 2 - ping response (guid)
             // 3 - routing table request
             // 4 - routing table
             // 5 - find closest peer request
@@ -82,6 +106,9 @@ namespace SharedDesk
                 case 1:
                     // ping
                     Console.WriteLine("Receved a ping");
+
+                    // get ip and port to respond to
+
                     break;
                 case 2:
                     // ping response
@@ -107,7 +134,8 @@ namespace SharedDesk
             }
 
 
-            socket.BeginReceive(buff, 0, buff.Length, SocketFlags.None, new AsyncCallback(Listen), socket);
+            //socket.BeginReceive(buff, 0, buff.Length, SocketFlags.None, new AsyncCallback(Listen), socket);
+            socket.BeginReceiveFrom(buff, 0, buff.Length, SocketFlags.None, ref remoteEndPoint, new AsyncCallback(Listen), socket);
         }
 
 
