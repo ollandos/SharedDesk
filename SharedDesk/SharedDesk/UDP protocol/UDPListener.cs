@@ -105,6 +105,12 @@ namespace SharedDesk
                     break;
                 case 1:
                     // ping
+                    // Packet should be exactly 5 bytes
+                    if (received != 5)
+                    {
+                        Console.WriteLine("GUID packet recevied wrong size...");
+                        return;
+                    }
 
                     //byte[] portByteArray = buff.Skip(1).Take(16).ToArray();
                     int port = BitConverter.ToInt32(buff, 1);
@@ -121,7 +127,13 @@ namespace SharedDesk
                     break;
                 case 2:
                     // GUID (ping response)
-                    
+                    // Packet should be exactly 17 bytes
+                    if (received != 17)
+                    {
+                        Console.WriteLine("GUID packet recevied wrong size...");
+                        return;
+                    }
+
                     byte[] guidByteArray = buff.Skip(1).Take(16).ToArray();
                     Guid remoteGuid = new Guid(guidByteArray);
 
