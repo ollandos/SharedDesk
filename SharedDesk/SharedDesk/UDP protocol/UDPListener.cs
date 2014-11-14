@@ -59,7 +59,7 @@ namespace SharedDesk
                 //received = s.EndReceiveMessageFrom(ar, ref flags, ref remoteEnd, out packetInfo);
                 received = s.EndReceiveFrom(ar, ref remoteEnd);
 
-                Console.WriteLine("\nUDP Listner port: {0}", listenPort); 
+                Console.WriteLine("\nUDP Listner port: {0}", listenPort);
                 Console.WriteLine(
                     //"{0} bytes received from {1} to {2}",
                     "{0} bytes received from {1}",
@@ -86,7 +86,7 @@ namespace SharedDesk
             {
                 return;
             }
- 
+
             // Options: 
             // 0 - error
             // 1 - ping
@@ -108,7 +108,7 @@ namespace SharedDesk
                     // Packet should be exactly 5 bytes
                     if (received != 5)
                     {
-                        Console.WriteLine("GUID packet recevied wrong size...");
+                        Console.WriteLine("Ping packet recevied wrong size...");
                         return;
                     }
 
@@ -138,6 +138,13 @@ namespace SharedDesk
                     Guid remoteGuid = new Guid(guidByteArray);
 
                     Console.WriteLine("Received a guid from: {0}, guid: {1}", remoteEnd, remoteGuid.ToString());
+
+                    // TODO: 
+                    // Create PeerInfo object with the ip, port, guid and timestamp 
+                    // Add to list of PeerInfoObjects if it does not already exist
+                    // If peer exist in List, update timestamp of peer (last activity)
+                    // Save PeerInfoObjects to file 
+                    // can do backups of peer list this with a timer, update peers.txt every 2 min for example
 
                     break;
                 case 3:
