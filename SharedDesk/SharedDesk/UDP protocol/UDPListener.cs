@@ -112,17 +112,7 @@ namespace SharedDesk
                         return;
                     }
 
-                    //byte[] portByteArray = buff.Skip(1).Take(16).ToArray();
-                    int port = BitConverter.ToInt32(buff, 1);
-                    Console.WriteLine("Received a ping from: {0}, listen port: {1}", remoteEnd, port);
-
-                    // create ip end point from udp packet ip and listen port received
-                    IPEndPoint remoteIpEndPoint = remoteEnd as IPEndPoint;
-                    remoteIpEndPoint.Port = port;
-
-                    // respond to ping (send guid)
-                    UDPResponder udpResponse = new UDPResponder(remoteIpEndPoint, port);
-                    udpResponse.sendGUID(guid);
+                    handlePing(remoteEnd);
 
                     break;
                 case 2:
@@ -134,21 +124,23 @@ namespace SharedDesk
                         return;
                     }
 
-                    byte[] guidByteArray = buff.Skip(1).Take(16).ToArray();
-                    Guid remoteGuid = new Guid(guidByteArray);
-
-                    Console.WriteLine("Received a guid from: {0}, guid: {1}", remoteEnd, remoteGuid.ToString());
-
-                    // TODO: 
-                    // Create PeerInfo object with the ip, port, guid and timestamp 
-                    // Add to list of PeerInfoObjects if it does not already exist
-                    // If peer exist in List, update timestamp of peer (last activity)
-                    // Save PeerInfoObjects to file 
-                    // can do backups of peer list this with a timer, update peers.txt every 2 min for example
+                    handleGuid(remoteEnd);
 
                     break;
                 case 3:
                     // routing table request
+
+                    int port = BitConverter.ToInt32(buff, 1);
+                    Console.WriteLine("Received a routing table request from: {0}, listen port: {1}", remoteEnd, port);
+
+                    // create ip end point from udp packet ip and listen port received
+                    IPEndPoint remoteIpEndPoint = remoteEnd as IPEndPoint;
+                    remoteIpEndPoint.Port = port;
+
+                    // respond to ping (send guid)
+                    //UDPResponder udpResponse = new UDPResponder(remoteIpEndPoint, port);
+                    //udpResponse.sendGUID(guid);
+
                     break;
                 case 4:
                     // routing table
@@ -170,6 +162,36 @@ namespace SharedDesk
 
             //socket.BeginReceive(buff, 0, buff.Length, SocketFlags.None, new AsyncCallback(Listen), socket);
             socket.BeginReceiveFrom(buff, 0, buff.Length, SocketFlags.None, ref remoteEndPoint, new AsyncCallback(Listen), socket);
+        }
+
+        private void handleGuid(EndPoint remoteEnd)
+        {
+            byte[] guidByteArray = buff.Skip(1).Take(16).ToArray();
+            Guid remoteGuid = new Guid(guidByteArray);
+
+            Console.WriteLine("Received a guid from: {0}, guid: {1}", remoteEnd, remoteGuid.ToString());
+
+            // TODO: 
+            // Create PeerInfo object with the ip, port, guid and timestamp 
+            // Add to list of PeerInfoObjects if it does not already exist
+            // If peer exist in List, update timestamp of peer (last activity)
+            // Save PeerInfoObjects to file 
+            // can do backups of peer list this with a timer, update peers.txt every 2 min for example
+        }
+
+        private void handlePing(EndPoint remoteEnd)
+        {
+            //byte[] portByteArray = buff.Skip(1).Take(16).ToArray();
+            int port = BitConverter.ToInt32(buff, 1);
+            Console.WriteLine("Received a ping from: {0}, listen port: {1}", remoteEnd, port);
+
+            // create ip end point from udp packet ip and listen port received
+            IPEndPoint remoteIpEndPoint = remoteEnd as IPEndPoint;
+            remoteIpEndPoint.Port = port;
+
+            // respond to ping (send guid)
+            UDPResponder udpResponse = new UDPResponder(remoteIpEndPoint, port);
+            udpResponse.sendGUID(guid);
         }
 
 
