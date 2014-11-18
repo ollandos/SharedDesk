@@ -51,7 +51,7 @@ namespace SharedDesk
 
             try
             {
-                ip = IPAddress.Parse(tbIp.Text);
+                ip = IPAddress.Parse(tbIP.Text);
             }
             catch (Exception)
             {
@@ -61,7 +61,7 @@ namespace SharedDesk
 
             try
             {
-                remotePort = Convert.ToInt32(tbPort.Text);
+                remotePort = Convert.ToInt32(tbPORT.Text);
                 listenPort = Convert.ToInt32(tbListenPort.Text);
             }
             catch (Exception)
@@ -133,11 +133,8 @@ namespace SharedDesk
         private void btnGetRoutingTable_Click(object sender, EventArgs e)
         {
             validateForm();
-
-            peer.init();
-
+            peer.init(Convert.ToInt32(tbGUID.Text),tbIP.Text,Convert.ToInt32(tbPORT.Text));
             toolStatus.Text = "Status: Sent routing table request";
-
         }
     }
 }

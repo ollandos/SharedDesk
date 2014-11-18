@@ -35,11 +35,11 @@
             this.lblGUID = new System.Windows.Forms.Label();
             this.buttonSearch = new System.Windows.Forms.Button();
             this.buttonPing = new System.Windows.Forms.Button();
-            this.textTarget = new System.Windows.Forms.TextBox();
+            this.tbGUID = new System.Windows.Forms.TextBox();
             this.listResponses = new System.Windows.Forms.ListBox();
             this.labelResponse = new System.Windows.Forms.Label();
-            this.tbIp = new System.Windows.Forms.TextBox();
-            this.tbPort = new System.Windows.Forms.TextBox();
+            this.tbIP = new System.Windows.Forms.TextBox();
+            this.tbPORT = new System.Windows.Forms.TextBox();
             this.lblIP = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.tbListenPort = new System.Windows.Forms.TextBox();
@@ -114,13 +114,13 @@
             this.buttonPing.UseVisualStyleBackColor = true;
             this.buttonPing.Click += new System.EventHandler(this.buttonPing_Click);
             // 
-            // textTarget
+            // tbGUID
             // 
-            this.textTarget.Location = new System.Drawing.Point(47, 174);
-            this.textTarget.Name = "textTarget";
-            this.textTarget.Size = new System.Drawing.Size(66, 20);
-            this.textTarget.TabIndex = 7;
-            this.textTarget.Text = "0";
+            this.tbGUID.Location = new System.Drawing.Point(47, 174);
+            this.tbGUID.Name = "tbGUID";
+            this.tbGUID.Size = new System.Drawing.Size(66, 20);
+            this.tbGUID.TabIndex = 7;
+            this.tbGUID.Text = "0";
             // 
             // listResponses
             // 
@@ -139,21 +139,21 @@
             this.labelResponse.TabIndex = 9;
             this.labelResponse.Text = "Responses";
             // 
-            // tbIp
+            // tbIP
             // 
-            this.tbIp.Location = new System.Drawing.Point(128, 174);
-            this.tbIp.Name = "tbIp";
-            this.tbIp.Size = new System.Drawing.Size(104, 20);
-            this.tbIp.TabIndex = 10;
-            this.tbIp.Text = "127.0.0.1";
+            this.tbIP.Location = new System.Drawing.Point(128, 174);
+            this.tbIP.Name = "tbIP";
+            this.tbIP.Size = new System.Drawing.Size(104, 20);
+            this.tbIP.TabIndex = 10;
+            this.tbIP.Text = "127.0.0.1";
             // 
-            // tbPort
+            // tbPORT
             // 
-            this.tbPort.Location = new System.Drawing.Point(247, 174);
-            this.tbPort.Name = "tbPort";
-            this.tbPort.Size = new System.Drawing.Size(75, 20);
-            this.tbPort.TabIndex = 11;
-            this.tbPort.Text = "8080";
+            this.tbPORT.Location = new System.Drawing.Point(247, 174);
+            this.tbPORT.Name = "tbPORT";
+            this.tbPORT.Size = new System.Drawing.Size(75, 20);
+            this.tbPORT.TabIndex = 11;
+            this.tbPORT.Text = "8080";
             // 
             // lblIP
             // 
@@ -238,11 +238,11 @@
             this.Controls.Add(this.tbListenPort);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.lblIP);
-            this.Controls.Add(this.tbPort);
-            this.Controls.Add(this.tbIp);
+            this.Controls.Add(this.tbPORT);
+            this.Controls.Add(this.tbIP);
             this.Controls.Add(this.labelResponse);
             this.Controls.Add(this.listResponses);
-            this.Controls.Add(this.textTarget);
+            this.Controls.Add(this.tbGUID);
             this.Controls.Add(this.buttonPing);
             this.Controls.Add(this.buttonSearch);
             this.Controls.Add(this.lblGUID);
@@ -269,11 +269,11 @@
         private System.Windows.Forms.Label lblGUID;
         private System.Windows.Forms.Button buttonSearch;
         private System.Windows.Forms.Button buttonPing;
-        private System.Windows.Forms.TextBox textTarget;
+        private System.Windows.Forms.TextBox tbGUID;
         private System.Windows.Forms.ListBox listResponses;
         private System.Windows.Forms.Label labelResponse;
-        private System.Windows.Forms.TextBox tbIp;
-        private System.Windows.Forms.TextBox tbPort;
+        private System.Windows.Forms.TextBox tbIP;
+        private System.Windows.Forms.TextBox tbPORT;
         private System.Windows.Forms.Label lblIP;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox tbListenPort;

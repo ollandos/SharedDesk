@@ -184,6 +184,7 @@ namespace SharedDesk.UDP_protocol
             Console.WriteLine("Received a find closest to {0} from: {1}", targetGuid, senderGuid);
 
 
+
             // create ip end point from udp packet ip and listen port received
             IPEndPoint remoteIpEndPoint = remoteEnd as IPEndPoint;
             remoteIpEndPoint.Port = port;
@@ -236,15 +237,15 @@ namespace SharedDesk.UDP_protocol
 
         private void handleClosest()
         {
-            byte[] data = buff.Skip(1).ToArray();
-            byte[] channelGUID = buff.Skip(1).Take(2).ToArray();
+            byte[] data = buff.Skip(2).ToArray();
+            byte[] channelGUID = buff.Skip(1).Take(1).ToArray();
             PeerInfo pInfo = UDPResponder.ByteArrayToPeerInfo(data);
-            int targetGUID = BitConverter.ToInt32(channelGUID, 0);
+            int targetGUID = (int)channelGUID[0];
+
+            Console.WriteLine("Received a responsse for closest to {0}, with GUID: {1}", targetGUID, pInfo.getGUID());
 
             //get the corresponding channel
-
-            
-            
+            receiveClosest(targetGUID, pInfo);
         }
 
         public RoutingTable setRoutingtable

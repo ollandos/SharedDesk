@@ -12,10 +12,10 @@ namespace SharedDesk
         private List<PeerInfo> table;
         private PeerInfo myInfo;
 
-        public RoutingTable() 
+        public RoutingTable(PeerInfo myInfo) 
         {
             table = new List<PeerInfo>();
-            myInfo = new PeerInfo(666, "getMyIP", 666);
+            this.myInfo = myInfo;
         }
 
         public PeerInfo findClosest(int targetGUID)
@@ -93,6 +93,11 @@ namespace SharedDesk
         public int Count() 
         {
             return table.Count;
+        }
+
+        public PeerInfo getMyInfo
+        {
+            get { return myInfo; }
         }
 
         public string toString()

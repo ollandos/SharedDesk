@@ -17,37 +17,36 @@ namespace SharedDesk
         int GUID;
 
 
-        private RoutingTable mNewRoutingTable = new RoutingTable();
+        private RoutingTable mNewRoutingTable;
 
         private List<SearchChannel> channels;
 
         public Peer()
         {
             channels = new List<SearchChannel>();
-            routingTable = new RoutingTable();
-            bootPeer = new PeerInfo(0, "127.0.0.1", 6666);
-            routingTable.Add(bootPeer);
-            GUID = 0;
-
+            bootPeer = new PeerInfo(0, "192.168.1.19", 6666);
         }
 
-        public void init()
+        public void init(int guid, string ip, int port)
         {
+            GUID = guid;
+            routingTable = new RoutingTable(new PeerInfo(guid, ip, port));
+            routingTable.Add(bootPeer);
             // create end point
-            listener = new UDPListener(6666, Guid.NewGuid().ToByteArray());
+            listener = new UDPListener(port, Guid.NewGuid().ToByteArray());
             listener.setRoutingtable = routingTable;
             subscribeToListener(listener);
 
             IPEndPoint remotePoint = new IPEndPoint(IPAddress.Parse(bootPeer.getIP()), bootPeer.getPORT());
             
-            UDPResponder responder = new UDPResponder(remotePoint, 6666);
+            UDPResponder responder = new UDPResponder(remotePoint, port);
             responder.sendRequestRoutingTable();
         }
 
         //Refresing/Creating the routingTable
         public void makeTable()
         {
-            RoutingTable newRoutingTable = new RoutingTable();
+            RoutingTable newRoutingTable = new RoutingTable(routingTable.getMyInfo);
             List<int> targetGUIDs = newRoutingTable.getTargetGUIDs(GUID);
             foreach (int guid in targetGUIDs)
             {
@@ -106,13 +105,20 @@ namespace SharedDesk
 
         private void searchTargetPeers()
         {
-            RoutingTable newRoutingTable = new RoutingTable();
-            List<int> targetGUIDs = newRoutingTable.getTargetGUIDs(GUID);
+            mNewRoutingTable = new RoutingTable(routingTable.getMyInfo);
+            List<int> targetGUIDs = mNewRoutingTable.getTargetGUIDs(GUID);
             foreach (int guid in targetGUIDs)
             {
+                PeerInfo closest = routingTable.findClosest(guid);
                 SearchChannel channel = new SearchChannel(this, guid);
+                channel.onReceiveClosest(closest);
                 channels.Add(channel);
             }
+        }
+
+        public int getGUID
+        {
+            get { return this.GUID; }
         }
 
         /// <summary>
@@ -132,20 +138,21 @@ namespace SharedDesk
         public void handleRequestClosest(IPEndPoint remotePoint, int sender, int target)
         {
             PeerInfo targetInfo = askForClosestPeer(sender, target);
-            UDPResponder responder = new UDPResponder(remotePoint, 6666);
-            //responder.sendClosest(targetInfo, target);
+            UDPResponder responder = new UDPResponder(remotePoint, remotePoint.Port);
+            responder.sendClosest(target, targetInfo);
         }
 
         // Handling the received routing table
         public void handleTable(RoutingTable table)
         {
             this.routingTable = table;
+            searchTargetPeers();
         }
 
         // Handling the routing table request
         public void handleTableRequest(IPEndPoint remotePoint)
         {
-            UDPResponder responder = new UDPResponder(remotePoint, 6666);
+            UDPResponder responder = new UDPResponder(remotePoint, remotePoint.Port);
             responder.sendRoutingTable(routingTable);
         }
 
@@ -162,7 +169,7 @@ namespace SharedDesk
         public void addPeerInfo(PeerInfo pInfo)
         {
             Boolean isDuplicated = mNewRoutingTable.Contains(pInfo);
-            if (!isDuplicated)
+            if (!isDuplicated && pInfo.getGUID() != GUID)
             {
                 mNewRoutingTable.Add(pInfo);
             }
