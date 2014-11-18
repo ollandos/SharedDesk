@@ -17,7 +17,7 @@ namespace SharedDesk
     /// Ping peers until we find one that is online (sort by timestamp first)
     /// then request routing table from that peer
     /// </summary>
-    class FileHelper
+    public class FileHelper
     {
 
 	/// <summary>

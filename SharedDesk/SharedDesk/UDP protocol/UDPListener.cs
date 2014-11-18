@@ -14,7 +14,7 @@ namespace SharedDesk.UDP_protocol
     /// <summary>
     /// Class that will handle the UDP socket
     /// </summary>
-    class UDPListener
+    public class UDPListener
     {
         private Socket socket = null;
         private byte[] buff = new byte[2048];

@@ -4,18 +4,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SharedDesk.UDP_protocol;
+using SharedDesk.Kadelima;
 using System.Net;
 
 namespace SharedDesk
 {
-    class Peer
+    public class Peer
     {
         private RoutingTable routingTable;
         PeerInfo bootPeer;
         UDPListener listener;
         int GUID;
 
-        //
+
+        private RoutingTable mNewRoutingTable = new RoutingTable();
+
+        private List<SearchChannel> channels;
+
         public Peer()
         {
             routingTable = new RoutingTable();
@@ -74,7 +79,9 @@ namespace SharedDesk
         {
             foreach (PeerInfo p in routingTable.getPeers())
             {
+                    //p.Value.acceptPeer(PeerInfo);
                 //p.Value.acceptPeer(routingTable.get);
+
             }
         }
 
@@ -119,8 +126,24 @@ namespace SharedDesk
             responder.sendRoutingTable(routingTable);
         }
 
+        private void searchTargetPeers()
+        {
+            RoutingTable newRoutingTable = new RoutingTable();
+            List<int> targetGUIDs = newRoutingTable.getTargetGUIDs(GUID);
+            foreach (int guid in targetGUIDs)
+            {
+                SearchChannel channel = new SearchChannel(this, guid);
+                channels.Add( channel );
+            }
+        }
 
-        
-
+        public void addPeerInfo(PeerInfo pInfo)
+        {
+            Boolean isDuplicated = mNewRoutingTable.Contains(pInfo);
+            if (!isDuplicated)
+            {
+                mNewRoutingTable.Add(pInfo);
+            }
+        }
     }
 }

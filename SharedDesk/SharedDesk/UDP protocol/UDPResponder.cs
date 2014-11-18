@@ -13,7 +13,7 @@ namespace SharedDesk.UDP_protocol
     /// <summary>
     /// Class for responding to UDP packets
     /// </summary>
-    class UDPResponder
+    public class UDPResponder
     {
         // remote ip and port to send to
         private IPEndPoint endPoint;

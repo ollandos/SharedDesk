@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace SharedDesk
 {
     [Serializable()]
-    class RoutingTable
+    public class RoutingTable
     {
         private List<PeerInfo> table;
         private PeerInfo myInfo;
