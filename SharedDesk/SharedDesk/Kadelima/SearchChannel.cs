@@ -18,8 +18,9 @@ namespace SharedDesk.Kadelima
         {
             mOwner = owner;
             mCurrentTargetGUID = guid;
-            
-            //responder.requestRindClosest
+
+            // UDPResponder.requestFindClosest();
+            //responder.requestFindClosest
         }
 
         public int getTargetGUID() 
