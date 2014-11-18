@@ -104,21 +104,27 @@ namespace SharedDesk.UDP_protocol
         }
 
         //sends the closest found PeerInfo to the endpoint
-        public void sendRequestClosest(RoutingTable t)
+        public void sendRequestClosest(int self, int target)
         {
-            // Convert RoutingTable to byte[]
-            byte[] table = routingTableToByteArray(t);
+            // Command byte
+            byte[] commandByte = new byte[] { 5 };
 
-            // byte indicating what type of packet it is
-            byte[] commandByte = new byte[] { 4 };
+            // Own Guid to byte[]
+            byte[] own_guid = new byte[1] { (byte)self };
+            // Target Guid to byte[]
+            byte[] target_guid = new byte[1] { (byte)target };
+            // Combining Guids
+            byte[] guids = combineBytes(own_guid, target_guid);
 
-            // buffer to send
-            byte[] sendBuffer = combineBytes(commandByte, table);
+            // Listen port to byte[] 
+            byte[] listenPortByteArray = BitConverter.GetBytes(listenPort);
 
-            // Sending UPD packet
+            // Creating buffer to send
+            byte[] sendBuffer = combineBytes(commandByte, guids, listenPortByteArray);
+
             socket.SendTo(sendBuffer, endPoint);
             Console.WriteLine("\nUDP Responder");
-            Console.WriteLine("Sending routing table to {0}", endPoint);
+            Console.WriteLine("Sending find closest to {0} request to {1}", target, endPoint);
         }
 
         //sends the closest found PeerInfo to the endpoint

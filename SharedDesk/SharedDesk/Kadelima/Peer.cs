@@ -23,6 +23,7 @@ namespace SharedDesk
 
         public Peer()
         {
+            channels = new List<SearchChannel>();
             routingTable = new RoutingTable();
             bootPeer = new PeerInfo(0, "127.0.0.1", 6666);
             routingTable.Add(bootPeer);
@@ -103,6 +104,17 @@ namespace SharedDesk
             return routingTable.findClosestFor(senderGUID, target);
         }
 
+        private void searchTargetPeers()
+        {
+            RoutingTable newRoutingTable = new RoutingTable();
+            List<int> targetGUIDs = newRoutingTable.getTargetGUIDs(GUID);
+            foreach (int guid in targetGUIDs)
+            {
+                SearchChannel channel = new SearchChannel(this, guid);
+                channels.Add(channel);
+            }
+        }
+
         /// <summary>
         /// EVENT HANDLERS
         /// </summary>
@@ -113,14 +125,24 @@ namespace SharedDesk
             l.receiveTableRequest += new UDPListener.handlerTableRequest(handleTableRequest);
             l.receiveTable += new UDPListener.handlerTable(handleTable);
             l.receiveClosest += new UDPListener.handlerFindChannel(handleReceiveClosest);
+            l.receiveRequestClosest += new UDPListener.handlerRequestClosest(handleRequestClosest);
         }
 
-        // Handling receive routing table request
+        // Handling the routing table request
+        public void handleRequestClosest(IPEndPoint remotePoint, int sender, int target)
+        {
+            PeerInfo targetInfo = askForClosestPeer(sender, target);
+            UDPResponder responder = new UDPResponder(remotePoint, 6666);
+            //responder.sendClosest(targetInfo, target);
+        }
+
+        // Handling the received routing table
         public void handleTable(RoutingTable table)
         {
             this.routingTable = table;
         }
 
+        // Handling the routing table request
         public void handleTableRequest(IPEndPoint remotePoint)
         {
             UDPResponder responder = new UDPResponder(remotePoint, 6666);
@@ -134,17 +156,6 @@ namespace SharedDesk
                 if (guid == c.getTargetGUID()) {
                     c.onReceiveClosest(currentClosest);
                 }
-            }
-        }
-
-        private void searchTargetPeers()
-        {
-            RoutingTable newRoutingTable = new RoutingTable();
-            List<int> targetGUIDs = newRoutingTable.getTargetGUIDs(GUID);
-            foreach (int guid in targetGUIDs)
-            {
-                SearchChannel channel = new SearchChannel(this, guid);
-                channels.Add( channel );
             }
         }
 

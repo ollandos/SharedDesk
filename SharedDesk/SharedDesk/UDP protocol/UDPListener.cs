@@ -38,8 +38,12 @@ namespace SharedDesk.UDP_protocol
         public event handlerTable receiveTable;
         public delegate void handlerTable(RoutingTable table);
 
+
         public event handlerFindChannel receiveClosest;
         public delegate void handlerFindChannel(int guid, PeerInfo pInfo);
+
+        public event handlerRequestClosest receiveRequestClosest;
+        public delegate void handlerRequestClosest(IPEndPoint endpoint, int sender, int target);
 
         public UDPListener(int port, byte[] guid)
         {
@@ -152,7 +156,7 @@ namespace SharedDesk.UDP_protocol
                     break;
                 case 5:
                     // Handles the UDP packet containing a find closest request
-                    handleClosestRequest(remoteEnd);
+                    handleRequestClosest(remoteEnd);
                     break;
                 case 6:
                     // Handles the UDP packet containing a reply to find closest request
@@ -168,18 +172,23 @@ namespace SharedDesk.UDP_protocol
             socket.BeginReceiveFrom(buff, 0, buff.Length, SocketFlags.None, ref remoteEndPoint, new AsyncCallback(Listen), socket);
         }
 
-        private void handleClosestRequest(EndPoint remoteEnd)
+        private void handleRequestClosest(EndPoint remoteEnd)
         {
-            int port = BitConverter.ToInt32(buff, 1);
+            int port = BitConverter.ToInt32(buff, 3);
             Console.WriteLine("Received a ping from: {0}, listen port: {1}", remoteEnd, port);
+
+
+            byte[] guidByteArray = buff.Skip(1).Take(2).ToArray();
+            int senderGuid = guidByteArray[0];
+            int targetGuid = guidByteArray[1];
+            Console.WriteLine("Received a find closest to {0} from: {1}", targetGuid, senderGuid);
+
 
             // create ip end point from udp packet ip and listen port received
             IPEndPoint remoteIpEndPoint = remoteEnd as IPEndPoint;
             remoteIpEndPoint.Port = port;
 
-            // respond to ping (send guid)
-            UDPResponder udpResponse = new UDPResponder(remoteIpEndPoint, port);
-            //udpResponse.send(guid);
+            receiveRequestClosest(remoteIpEndPoint, senderGuid, targetGuid);
         }
 
         private void handleGuid(EndPoint remoteEnd)
@@ -209,13 +218,12 @@ namespace SharedDesk.UDP_protocol
             int port = BitConverter.ToInt32(buff, 1);
             Console.WriteLine("Received a routing table request from: {0}, listen port: {1}", remoteEnd, port);
 
-            // create ip end point from udp packet ip and listen port received
+            // Create ip end point from udp packet ip and listen port received
             IPEndPoint remoteIpEndPoint = remoteEnd as IPEndPoint;
             remoteIpEndPoint.Port = port;
 
+            //Fire the event for routing table request
             receiveTableRequest(remoteIpEndPoint);
-            //UDPResponder udpResponse = new UDPResponder(remoteIpEndPoint, remoteIpEndPoint.Port);
-            //udpResponse.sendRoutingTable(routing_table);
         }
 
         private void handleTable(EndPoint remoteEnd)
