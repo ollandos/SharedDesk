@@ -24,21 +24,26 @@ namespace SharedDesk
         public Peer()
         {
             channels = new List<SearchChannel>();
-            bootPeer = new PeerInfo(0, "192.168.1.19", 6666);
+            bootPeer = new PeerInfo(0, "192.168.1.25", 6666);
         }
 
         public void init(int guid, string ip, int port)
         {
+            // Assign GUID
             GUID = guid;
+            
+            // Create Routing Table and adding boot peer
             routingTable = new RoutingTable(new PeerInfo(guid, ip, port));
             routingTable.Add(bootPeer);
-            // create end point
-            listener = new UDPListener(port, Guid.NewGuid().ToByteArray());
-            listener.setRoutingtable = routingTable;
+
+            // Create UDP listen and add events
+            listener = new UDPListener(port);
             subscribeToListener(listener);
 
+            // Create end point
             IPEndPoint remotePoint = new IPEndPoint(IPAddress.Parse(bootPeer.getIP()), bootPeer.getPORT());
             
+            // Sending routing table request
             UDPResponder responder = new UDPResponder(remotePoint, port);
             responder.sendRequestRoutingTable();
         }
@@ -103,6 +108,7 @@ namespace SharedDesk
             return routingTable.findClosestFor(senderGUID, target);
         }
 
+        //Searches for closest peers in the network
         private void searchTargetPeers()
         {
             mNewRoutingTable = new RoutingTable(routingTable.getMyInfo);
@@ -128,7 +134,7 @@ namespace SharedDesk
         // Subscribe to UDP listener events
         public void subscribeToListener(UDPListener l)
         {
-            l.receiveTableRequest += new UDPListener.handlerTableRequest(handleTableRequest);
+            l.receiveTableRequest += new UDPListener.handlerRequestTable(handleRequestTable);
             l.receiveTable += new UDPListener.handlerTable(handleTable);
             l.receiveClosest += new UDPListener.handlerFindChannel(handleReceiveClosest);
             l.receiveRequestClosest += new UDPListener.handlerRequestClosest(handleRequestClosest);
@@ -150,7 +156,7 @@ namespace SharedDesk
         }
 
         // Handling the routing table request
-        public void handleTableRequest(IPEndPoint remotePoint)
+        public void handleRequestTable(IPEndPoint remotePoint)
         {
             UDPResponder responder = new UDPResponder(remotePoint, remotePoint.Port);
             responder.sendRoutingTable(routingTable);
@@ -160,12 +166,14 @@ namespace SharedDesk
         public void handleReceiveClosest(int guid, PeerInfo currentClosest)
         {
             foreach (SearchChannel c in channels) {
-                if (guid == c.getTargetGUID()) {
+                if (guid == c.getTargetGUID()) 
+                {
                     c.onReceiveClosest(currentClosest);
                 }
             }
         }
 
+        // Handling the find closest final result
         public void addPeerInfo(PeerInfo pInfo)
         {
             Boolean isDuplicated = mNewRoutingTable.Contains(pInfo);

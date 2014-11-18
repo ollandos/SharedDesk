@@ -15,9 +15,11 @@ namespace SharedDesk
 {
     public partial class Form1 : Form
     {
+        // Peer Object
         Peer peer;
+
         // GUID 
-        Guid guid;
+        //Guid guid;
  
         IPAddress ip;
         int remotePort;
@@ -30,22 +32,20 @@ namespace SharedDesk
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            // Creating Peer
             peer = new Peer();
-            // generate GUID 
-            guid = Guid.NewGuid();
 
-            Console.WriteLine("The unique 128 bit GUID:");
-            Console.WriteLine(guid);
-
-            toolStatus.Text = "Status: Guid generated, " + guid.ToString();
-
+            // Generate GUID 
+            //guid = Guid.NewGuid();
+            //Console.WriteLine("The unique 128 bit GUID:");
+            //Console.WriteLine(guid);
+            //toolStatus.Text = "Status: Guid generated, " + guid.ToString();
         }
 
         /// <summary>
         /// Check all forms to and make sure 
         /// ip and port all is filled in and correct
         /// </summary>
-        /// <returns></returns>
         private bool validateForm()
         {
 
@@ -126,10 +126,11 @@ namespace SharedDesk
                 return;
             }
 
-            UDPListener p = new UDPListener(port, guid.ToByteArray());
+            UDPListener p = new UDPListener(port);
             toolStatus.Text = "Status: Listening on port " + port.ToString();
         }
 
+        // Gets routing table from boot peer and starts the process of finding closest peers
         private void btnGetRoutingTable_Click(object sender, EventArgs e)
         {
             validateForm();
