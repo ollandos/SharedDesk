@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace SharedDesk
 {
+    [Serializable()]
     public class PeerInfo
     {
         private int GUID;
@@ -30,6 +31,11 @@ namespace SharedDesk
         public int getPORT()
         {
             return this.PORT;
+        }
+
+        public string toString()
+        {
+            return "GUID: " + GUID + " IP: " + IP + " PORT: " + PORT;
         }
     }
 }

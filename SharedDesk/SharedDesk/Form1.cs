@@ -15,9 +15,13 @@ namespace SharedDesk
 {
     public partial class Form1 : Form
     {
-
+        Peer peer;
         // GUID 
         Guid guid;
+ 
+        IPAddress ip;
+        int remotePort;
+        int listenPort;
 
         public Form1()
         {
@@ -26,6 +30,7 @@ namespace SharedDesk
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            peer = new Peer(0);
             // generate GUID 
             guid = Guid.NewGuid();
 
@@ -36,11 +41,14 @@ namespace SharedDesk
 
         }
 
-        private void buttonPing_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Check all forms to and make sure 
+        /// ip and port all is filled in and correct
+        /// </summary>
+        /// <returns></returns>
+        private bool validateForm()
         {
 
-            // get ip address and port 
-            IPAddress ip;
             try
             {
                 ip = IPAddress.Parse(tbIp.Text);
@@ -48,11 +56,9 @@ namespace SharedDesk
             catch (Exception)
             {
                 toolStatus.Text = "ERROR: wrong ip";
-                return;
+                return false;
             }
 
-            int remotePort;
-            int listenPort;
             try
             {
                 remotePort = Convert.ToInt32(tbPort.Text);
@@ -61,22 +67,29 @@ namespace SharedDesk
             catch (Exception)
             {
                 toolStatus.Text = "ERROR: wrong port";
-                return;
+                return false;
             }
 
             // check that port nr is between 0 and 65535
             if (remotePort < 0 || remotePort > 65535)
             {
                 toolStatus.Text = "ERROR: wrong port";
-                return;
+                return false;
             }
 
             // check that port nr is between 0 and 65535
             if (listenPort < 0 || listenPort > 65535)
             {
                 toolStatus.Text = "ERROR: wrong port";
-                return;
+                return false;
             }
+
+            return true;
+        }
+
+        private void buttonPing_Click(object sender, EventArgs e)
+        {
+            validateForm();
 
             // create end point
             IPEndPoint remotePoint = new IPEndPoint(ip, remotePort);
@@ -115,6 +128,16 @@ namespace SharedDesk
 
             UDPListener p = new UDPListener(port, guid.ToByteArray());
             toolStatus.Text = "Status: Listening on port " + port.ToString();
+        }
+
+        private void btnGetRoutingTable_Click(object sender, EventArgs e)
+        {
+            validateForm();
+
+            peer.init();
+
+            toolStatus.Text = "Status: Sent routing table request";
+
         }
     }
 }

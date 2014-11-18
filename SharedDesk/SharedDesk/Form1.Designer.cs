@@ -224,6 +224,7 @@
             this.btnGetRoutingTable.TabIndex = 18;
             this.btnGetRoutingTable.Text = "Get routing table";
             this.btnGetRoutingTable.UseVisualStyleBackColor = true;
+            this.btnGetRoutingTable.Click += new System.EventHandler(this.btnGetRoutingTable_Click);
             // 
             // Form1
             // 

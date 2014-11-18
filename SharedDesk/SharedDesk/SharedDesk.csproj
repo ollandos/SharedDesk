@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FileHelper.cs" />
+    <Compile Include="Kadelima\SearchChannel.cs" />
     <Compile Include="UDP protocol\UDPListener.cs" />
     <Compile Include="Kadelima\RoutingTable.cs" />
     <Compile Include="Kadelima\Peer.cs" />

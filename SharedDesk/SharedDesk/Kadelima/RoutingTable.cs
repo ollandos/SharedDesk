@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace SharedDesk
 {
-    class RoutingTable
+    [Serializable()]
+    public class RoutingTable
     {
         private List<PeerInfo> table;
         private PeerInfo myInfo;
@@ -92,6 +93,18 @@ namespace SharedDesk
         public int Count() 
         {
             return table.Count;
+        }
+
+        public string toString()
+        {
+            string result = "";
+            int count = 0;
+            foreach (PeerInfo p in this.table)
+            {
+                result += count + ": " + p.toString() + "\n";
+                count++;
+            }
+            return result;
         }
     }
 }
