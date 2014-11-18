@@ -112,6 +112,7 @@ namespace SharedDesk
         {
             l.receiveTableRequest += new UDPListener.handlerTableRequest(handleTableRequest);
             l.receiveTable += new UDPListener.handlerTable(handleTable);
+            l.receiveClosest += new UDPListener.handlerFindChannel(handleReceiveClosest);
         }
 
         // Handling receive routing table request
@@ -124,6 +125,16 @@ namespace SharedDesk
         {
             UDPResponder responder = new UDPResponder(remotePoint, 6666);
             responder.sendRoutingTable(routingTable);
+        }
+
+        // Handling receive routing table request
+        public void handleReceiveClosest(int guid, PeerInfo currentClosest)
+        {
+            foreach (SearchChannel c in channels) {
+                if (guid == c.getTargetGUID()) {
+                    c.onReceiveClosest(currentClosest);
+                }
+            }
         }
 
         private void searchTargetPeers()

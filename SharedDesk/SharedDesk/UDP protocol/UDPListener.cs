@@ -38,8 +38,8 @@ namespace SharedDesk.UDP_protocol
         public event handlerTable receiveTable;
         public delegate void handlerTable(RoutingTable table);
 
-        public event handlerClosest receiveClosest;
-        public delegate void handlerClosest(Peer table);
+        public event handlerFindChannel receiveClosest;
+        public delegate void handlerFindChannel(int guid, PeerInfo pInfo);
 
         public UDPListener(int port, byte[] guid)
         {
@@ -155,7 +155,8 @@ namespace SharedDesk.UDP_protocol
                     handleClosestRequest(remoteEnd);
                     break;
                 case 6:
-                    // Handles the UDP packet containing a find closest request
+                    // Handles the UDP packet containing a reply to find closest request
+                    handleClosest();
                     break;
                 case 7:
                     // file transfer
@@ -223,6 +224,19 @@ namespace SharedDesk.UDP_protocol
             RoutingTable routingTable = byteArrayToRoutingTable(data);
             Console.Write(routingTable.toString());
             receiveTable(routingTable);
+        }
+
+        private void handleClosest()
+        {
+            byte[] data = buff.Skip(1).ToArray();
+            byte[] channelGUID = buff.Skip(1).Take(2).ToArray();
+            PeerInfo pInfo = UDPResponder.ByteArrayToPeerInfo(data);
+            int targetGUID = BitConverter.ToInt32(channelGUID, 0);
+
+            //get the corresponding channel
+
+            
+            
         }
 
         public RoutingTable setRoutingtable

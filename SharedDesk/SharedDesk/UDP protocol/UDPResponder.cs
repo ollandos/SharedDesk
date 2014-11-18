@@ -121,6 +121,27 @@ namespace SharedDesk.UDP_protocol
             Console.WriteLine("Sending routing table to {0}", endPoint);
         }
 
+        //sends the closest found PeerInfo to the endpoint
+        public void sendClosest(int targetGUID, PeerInfo closest)
+        {
+            // Convert PeerInfo to byte[]
+            byte[] peerInfoInBytes = peerInfoToByteArray(closest);
+
+            // byte indicating what type of packet it is
+            byte[] commandByte = new byte[] { 4 };
+
+            byte[] targetGUIDInBytes = new byte[] { 4 };
+
+            // buffer to send
+            byte[] tempBuffer = combineBytes(commandByte, targetGUIDInBytes);
+            byte[] sendBuffer = combineBytes(tempBuffer, peerInfoInBytes);
+
+            // Sending UPD packet
+            socket.SendTo(sendBuffer, endPoint);
+            Console.WriteLine("\nUDP Responder");
+            Console.WriteLine("Sending routing table to {0}", endPoint);
+        }
+
 
         /// <summary>
         /// Byte[] Functionality
@@ -151,6 +172,30 @@ namespace SharedDesk.UDP_protocol
             bf.Serialize(ms, rt);
 
             return ms.ToArray();
+        }
+
+        public static byte[] peerInfoToByteArray(PeerInfo pi)
+        {
+            BinaryFormatter bf = new BinaryFormatter();
+            MemoryStream ms = new MemoryStream();
+            bf.Serialize(ms, pi);
+
+            return ms.ToArray();
+        }
+
+        public static PeerInfo ByteArrayToPeerInfo(byte[] arrBytes)
+        {
+            MemoryStream memStream = new MemoryStream();
+            BinaryFormatter binForm = new BinaryFormatter();
+            memStream.Write(arrBytes, 0, arrBytes.Length);
+            memStream.Seek(1, SeekOrigin.Begin);
+
+            byte firstByte = arrBytes[0];
+
+            Console.WriteLine("req code" + (int)firstByte);
+            PeerInfo peerInfo = (PeerInfo)binForm.Deserialize(memStream);
+
+            return peerInfo;
         }
 
     }
