@@ -33,7 +33,7 @@ namespace SharedDesk.UDP_protocol
         /// EVENTS
         /// </summary>
         public event handlerTableRequest receiveTableRequest;
-        public delegate void handlerTableRequest(RoutingTable table);
+        public delegate void handlerTableRequest(IPEndPoint endpoint);
 
         public event handlerTable receiveTable;
         public delegate void handlerTable(RoutingTable table);
@@ -140,33 +140,22 @@ namespace SharedDesk.UDP_protocol
                         Console.WriteLine("GUID packet recevied wrong size...");
                         return;
                     }
-
                     handleGuid(remoteEnd);
-
                     break;
                 case 3:
-                    // routing table request
-
-                    int port = BitConverter.ToInt32(buff, 1);
-                    Console.WriteLine("Received a routing table request from: {0}, listen port: {1}", remoteEnd, port);
-
-                    // create ip end point from udp packet ip and listen port received
-                    IPEndPoint remoteIpEndPoint = remoteEnd as IPEndPoint;
-                    remoteIpEndPoint.Port = port;
-
-                    // respond to ping (send guid)
-                    UDPResponder udpResponse = new UDPResponder(remoteIpEndPoint, port);
-                    udpResponse.sendRoutingTable(routing_table);
-
+                    // Handles the UDP packet containing the routing table request
+                    handleTableRequest(remoteEnd);
                     break;
                 case 4:
+                    // Handles the UDP packet containing the routing table
                     handleTable(remoteEnd);
                     break;
                 case 5:
+                    // Handles the UDP packet containing a find closest request
                     handleClosestRequest(remoteEnd);
                     break;
                 case 6:
-                    // peer info object
+                    // Handles the UDP packet containing a find closest request
                     break;
                 case 7:
                     // file transfer
@@ -175,9 +164,6 @@ namespace SharedDesk.UDP_protocol
                     Console.WriteLine("Not a valid command...");
                     return;
             }
-
-
-            //socket.BeginReceive(buff, 0, buff.Length, SocketFlags.None, new AsyncCallback(Listen), socket);
             socket.BeginReceiveFrom(buff, 0, buff.Length, SocketFlags.None, ref remoteEndPoint, new AsyncCallback(Listen), socket);
         }
 
@@ -199,20 +185,12 @@ namespace SharedDesk.UDP_protocol
         {
             byte[] guidByteArray = buff.Skip(1).Take(16).ToArray();
             Guid remoteGuid = new Guid(guidByteArray);
-
             Console.WriteLine("Received a guid from: {0}, guid: {1}", remoteEnd, remoteGuid.ToString());
-
-            // TODO: 
-            // Create PeerInfo object with the ip, port, guid and timestamp 
-            // Add to list of PeerInfoObjects if it does not already exist
-            // If peer exist in List, update timestamp of peer (last activity)
-            // Save PeerInfoObjects to file 
-            // can do backups of peer list this with a timer, update peers.txt every 2 min for example
         }
 
         private void handlePing(EndPoint remoteEnd)
         {
-            //byte[] portByteArray = buff.Skip(1).Take(16).ToArray();
+            // byte[] portByteArray = buff.Skip(1).Take(16).ToArray();
             int port = BitConverter.ToInt32(buff, 1);
             Console.WriteLine("Received a ping from: {0}, listen port: {1}", remoteEnd, port);
 
@@ -227,7 +205,6 @@ namespace SharedDesk.UDP_protocol
 
         private void handleTableRequest(EndPoint remoteEnd)
         {
-            //byte[] portByteArray = buff.Skip(1).Take(16).ToArray();
             int port = BitConverter.ToInt32(buff, 1);
             Console.WriteLine("Received a routing table request from: {0}, listen port: {1}", remoteEnd, port);
 
@@ -235,9 +212,9 @@ namespace SharedDesk.UDP_protocol
             IPEndPoint remoteIpEndPoint = remoteEnd as IPEndPoint;
             remoteIpEndPoint.Port = port;
 
-            // respond to ping (send guid)
-            UDPResponder udpResponse = new UDPResponder(remoteIpEndPoint, port);
-            udpResponse.sendRoutingTable(routing_table);
+            receiveTableRequest(remoteIpEndPoint);
+            //UDPResponder udpResponse = new UDPResponder(remoteIpEndPoint, remoteIpEndPoint.Port);
+            //udpResponse.sendRoutingTable(routing_table);
         }
 
         private void handleTable(EndPoint remoteEnd)

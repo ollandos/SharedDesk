@@ -69,7 +69,7 @@ namespace SharedDesk.UDP_protocol
         }
 
         //sends a routing table request to the endpoint
-        public void sendRoutingTableRequest()
+        public void sendRequestRoutingTable()
         {
             // byte indicating what type of packet it is
             byte[] commandByte = new byte[] { 3 };
@@ -86,27 +86,44 @@ namespace SharedDesk.UDP_protocol
         }
 
         //sends the routing table to the endpoint
-        public void sendRoutingTable(byte[] table)
+        public void sendRoutingTable(RoutingTable t)
         {
+            // Convert RoutingTable to byte[]
+            byte[] table = routingTableToByteArray(t);
+
             // byte indicating what type of packet it is
             byte[] commandByte = new byte[] { 4 };
-
-            // byte array with port 
-            //byte[] listenPortByteArray = BitConverter.GetBytes(listenPort);
 
             // buffer to send
             byte[] sendBuffer = combineBytes(commandByte, table);
 
+            // Sending UPD packet
+            socket.SendTo(sendBuffer, endPoint);
+            Console.WriteLine("\nUDP Responder");
+            Console.WriteLine("Sending routing table to {0}", endPoint);
+        }
+
+        //sends the closest found PeerInfo to the endpoint
+        public void sendRequestClosest(RoutingTable t)
+        {
+            // Convert RoutingTable to byte[]
+            byte[] table = routingTableToByteArray(t);
+
+            // byte indicating what type of packet it is
+            byte[] commandByte = new byte[] { 4 };
+
+            // buffer to send
+            byte[] sendBuffer = combineBytes(commandByte, table);
+
+            // Sending UPD packet
             socket.SendTo(sendBuffer, endPoint);
             Console.WriteLine("\nUDP Responder");
             Console.WriteLine("Sending routing table to {0}", endPoint);
         }
 
 
-
-
         /// <summary>
-        /// Combine byte arrays
+        /// Byte[] Functionality
         /// </summary>
         public byte[] combineBytes(byte[] first, byte[] second)
         {
@@ -124,6 +141,16 @@ namespace SharedDesk.UDP_protocol
             Buffer.BlockCopy(third, 0, ret, first.Length + second.Length,
                              third.Length);
             return ret;
+        }
+
+        private static byte[] routingTableToByteArray(RoutingTable rt)
+        {
+
+            BinaryFormatter bf = new BinaryFormatter();
+            MemoryStream ms = new MemoryStream();
+            bf.Serialize(ms, rt);
+
+            return ms.ToArray();
         }
 
     }
