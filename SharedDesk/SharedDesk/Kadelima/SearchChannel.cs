@@ -14,12 +14,13 @@ namespace SharedDesk.Kadelima
         private int mPreviousGUID;
         private Peer mOwner;
 
-        public SearchChannel(Peer owner, int guid, UDPResponder responder)
+        public SearchChannel(Peer owner, int guid)
         {
             mOwner = owner;
             mCurrentTargetGUID = guid;
-            
-            //responder.requestRindClosest
+
+            // UDPResponder.requestFindClosest();
+            //responder.requestFindClosest
         }
 
         public int getTargetGUID() 
