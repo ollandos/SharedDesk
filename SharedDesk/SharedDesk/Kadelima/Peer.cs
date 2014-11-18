@@ -13,15 +13,15 @@ namespace SharedDesk
         private RoutingTable routingTable;
         PeerInfo bootPeer;
         UDPListener listener;
-        UDPResponder responder;
         int GUID;
 
-        public Peer(int guid)
+        //
+        public Peer()
         {
             routingTable = new RoutingTable();
             bootPeer = new PeerInfo(0, "127.0.0.1", 6666);
             routingTable.Add(bootPeer);
-            GUID = guid;
+            GUID = 0;
 
         }
 
@@ -33,8 +33,9 @@ namespace SharedDesk
             subscribeToListener(listener);
 
             IPEndPoint remotePoint = new IPEndPoint(IPAddress.Parse(bootPeer.getIP()), bootPeer.getPORT());
-            responder = new UDPResponder(remotePoint, 6666);
-            responder.sendRoutingTableRequest();
+            
+            UDPResponder responder = new UDPResponder(remotePoint, 6666);
+            responder.sendRequestRoutingTable();
         }
 
         //Refresing/Creating the routingTable
@@ -95,16 +96,31 @@ namespace SharedDesk
             return routingTable.findClosestFor(senderGUID, target);
         }
 
-        public void acceptTable(RoutingTable table)
+        /// <summary>
+        /// EVENT HANDLERS
+        /// </summary>
+
+        // Subscribe to UDP listener events
+        public void subscribeToListener(UDPListener l)
+        {
+            l.receiveTableRequest += new UDPListener.handlerTableRequest(handleTableRequest);
+            l.receiveTable += new UDPListener.handlerTable(handleTable);
+        }
+
+        // Handling receive routing table request
+        public void handleTable(RoutingTable table)
         {
             this.routingTable = table;
         }
 
-        public void subscribeToListener(UDPListener l)
+        public void handleTableRequest(IPEndPoint remotePoint)
         {
-            l.receiveTable += new UDPListener.handlerTable(acceptTable);
-            //l.receiveClosest += new UDPListener.handlerClosest();
+            UDPResponder responder = new UDPResponder(remotePoint, 6666);
+            responder.sendRoutingTable(routingTable);
         }
+
+
+        
 
     }
 }

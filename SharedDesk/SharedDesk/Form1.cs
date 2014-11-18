@@ -30,7 +30,7 @@ namespace SharedDesk
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            peer = new Peer(0);
+            peer = new Peer();
             // generate GUID 
             guid = Guid.NewGuid();
 
