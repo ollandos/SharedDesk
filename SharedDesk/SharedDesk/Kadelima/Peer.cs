@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SharedDesk.UDP_protocol;
+using System.Net;
 
 namespace SharedDesk
 {
@@ -10,19 +12,33 @@ namespace SharedDesk
     {
         private RoutingTable routingTable;
         PeerInfo bootPeer;
+        UDPListener listener;
+        UDPResponder responder;
         int GUID;
 
-        public Peer(int guid, PeerInfo bootInfo) {
+        public Peer(int guid)
+        {
             routingTable = new RoutingTable();
-            bootPeer = new PeerInfo(0, "192.168.1.x", 6666);
+            bootPeer = new PeerInfo(0, "127.0.0.1", 6666);
             routingTable.Add(bootPeer);
             GUID = guid;
+
         }
 
-        private void init() { }
+        public void init()
+        {
+            // create end point
+            listener = new UDPListener(6666, Guid.NewGuid().ToByteArray());
+            listener.setRoutingtable = routingTable;
+            subscribeToListener(listener);
+
+            IPEndPoint remotePoint = new IPEndPoint(IPAddress.Parse(bootPeer.getIP()), bootPeer.getPORT());
+            responder = new UDPResponder(remotePoint, 6666);
+            responder.sendRoutingTableRequest();
+        }
 
         //Refresing/Creating the routingTable
-        public void makeTable(Dictionary<int, Peer> net)
+        public void makeTable()
         {
             RoutingTable newRoutingTable = new RoutingTable();
             List<int> targetGUIDs = newRoutingTable.getTargetGUIDs(GUID);
@@ -36,7 +52,7 @@ namespace SharedDesk
                 while (closest.getGUID() != target && closest != prevClosest)
                 {
                     prevClosest = closest;
-                    //closest = net[closest].askForClosestPeer(GUID, closest, target);
+                    //closest = net[closest].askForClosestPeer(GUID, target);
                 }
                 //If found PeerInfo does not exist add it to the table.
                 bool isDuplicated = newRoutingTable.Contains(closest);
@@ -57,7 +73,7 @@ namespace SharedDesk
         {
             foreach (PeerInfo p in routingTable.getPeers())
             {
-                    //p.Value.acceptPeer(routingTable.get);
+                //p.Value.acceptPeer(routingTable.get);
             }
         }
 
@@ -72,12 +88,23 @@ namespace SharedDesk
             }
 
         }
-        
+
         //Responding with closest found Peer
-        public PeerInfo askForClosestPeer(int senderGUID, int target) 
+        public PeerInfo askForClosestPeer(int senderGUID, int target)
         {
             return routingTable.findClosestFor(senderGUID, target);
         }
-        
+
+        public void acceptTable(RoutingTable table)
+        {
+            this.routingTable = table;
+        }
+
+        public void subscribeToListener(UDPListener l)
+        {
+            l.receiveTable += new UDPListener.handlerTable(acceptTable);
+            //l.receiveClosest += new UDPListener.handlerClosest();
+        }
+
     }
 }

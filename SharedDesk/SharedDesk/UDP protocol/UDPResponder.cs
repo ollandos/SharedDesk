@@ -5,6 +5,8 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 
 namespace SharedDesk.UDP_protocol
 {
@@ -20,7 +22,8 @@ namespace SharedDesk.UDP_protocol
         // port the remote peer can respond to
         private int listenPort;
 
-        public UDPResponder(IPEndPoint remotePoint, int listenPort) 
+        //CONSTRUCTOR
+        public UDPResponder(IPEndPoint remotePoint, int listenPort)
         {
             this.endPoint = remotePoint;
             this.listenPort = listenPort;
@@ -29,6 +32,10 @@ namespace SharedDesk.UDP_protocol
             socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
         }
 
+        /// <summary>
+        /// RESPONSE FUNCTIONS
+        /// </summary>
+        //sends ping udp packet to the endPoint
         public void sendPing()
         {
 
@@ -37,14 +44,15 @@ namespace SharedDesk.UDP_protocol
 
             // byte array with port 
             byte[] listenPortByteArray = BitConverter.GetBytes(listenPort);
-            
+
             // buffer to send
             byte[] sendBuffer = combineBytes(commandByte, listenPortByteArray);
 
             socket.SendTo(sendBuffer, endPoint);
-            Console.WriteLine("\nUDP Responder"); 
+            Console.WriteLine("\nUDP Responder");
             Console.WriteLine("Sending ping to {0}", endPoint);
         }
+
 
         public void sendGUID(byte[] guid)
         {
@@ -55,11 +63,12 @@ namespace SharedDesk.UDP_protocol
             byte[] sendBuffer = combineBytes(commandByte, guid);
 
             socket.SendTo(sendBuffer, endPoint);
-            Console.WriteLine("\nUDP Responder"); 
+            Console.WriteLine("\nUDP Responder");
             Console.WriteLine("Sending guid to {0}", endPoint);
 
         }
 
+        //sends a routing table request to the endpoint
         public void sendRoutingTableRequest()
         {
             // byte indicating what type of packet it is
@@ -75,6 +84,25 @@ namespace SharedDesk.UDP_protocol
             Console.WriteLine("\nUDP Responder");
             Console.WriteLine("Sending routing table request to {0}", endPoint);
         }
+
+        //sends the routing table to the endpoint
+        public void sendRoutingTable(byte[] table)
+        {
+            // byte indicating what type of packet it is
+            byte[] commandByte = new byte[] { 4 };
+
+            // byte array with port 
+            //byte[] listenPortByteArray = BitConverter.GetBytes(listenPort);
+
+            // buffer to send
+            byte[] sendBuffer = combineBytes(commandByte, table);
+
+            socket.SendTo(sendBuffer, endPoint);
+            Console.WriteLine("\nUDP Responder");
+            Console.WriteLine("Sending routing table to {0}", endPoint);
+        }
+
+
 
 
         /// <summary>
@@ -97,7 +125,6 @@ namespace SharedDesk.UDP_protocol
                              third.Length);
             return ret;
         }
-
 
     }
 }

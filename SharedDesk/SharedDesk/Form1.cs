@@ -15,7 +15,7 @@ namespace SharedDesk
 {
     public partial class Form1 : Form
     {
-
+        Peer peer;
         // GUID 
         Guid guid;
  
@@ -30,6 +30,7 @@ namespace SharedDesk
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            peer = new Peer(0);
             // generate GUID 
             guid = Guid.NewGuid();
 
@@ -133,10 +134,7 @@ namespace SharedDesk
         {
             validateForm();
 
-            // create end point
-            IPEndPoint remotePoint = new IPEndPoint(ip, remotePort);
-            UDPResponder udpResponse = new UDPResponder(remotePoint, listenPort);
-            udpResponse.sendRoutingTableRequest();
+            peer.init();
 
             toolStatus.Text = "Status: Sent routing table request";
 
