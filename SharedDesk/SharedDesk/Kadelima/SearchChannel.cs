@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SharedDesk.UDP_protocol;
 
 namespace SharedDesk.Kadelima
 {
@@ -13,12 +14,17 @@ namespace SharedDesk.Kadelima
         private int mPreviousGUID;
         private Peer mOwner;
 
-        public SearchChannel(Peer owner, int guid)
+        public SearchChannel(Peer owner, int guid, UDPResponder responder)
         {
             mOwner = owner;
             mCurrentTargetGUID = guid;
+            
+            //responder.requestRindClosest
+        }
 
-
+        public int getTargetGUID() 
+        {
+            return mCurrentTargetGUID;
         }
 
         public void onReceiveClosest(PeerInfo pInfo)

@@ -120,6 +120,7 @@ namespace SharedDesk
             foreach (int guid in targetGUIDs)
             {
                 SearchChannel channel = new SearchChannel(this, guid);
+                channels.Add( channel );
             }
         }
 
