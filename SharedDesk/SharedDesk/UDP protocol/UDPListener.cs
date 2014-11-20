@@ -118,7 +118,7 @@ namespace SharedDesk.UDP_protocol
                     if (received != 5)
                     {
                         Console.WriteLine("Ping packet recevied wrong size...");
-                        return;
+                        break;
                     }
                     handlePing(remoteEnd);
 
@@ -129,7 +129,7 @@ namespace SharedDesk.UDP_protocol
                     if (received != 17)
                     {
                         Console.WriteLine("GUID packet recevied wrong size...");
-                        return;
+                        break;
                     }
                     handleGuid(remoteEnd);
 
