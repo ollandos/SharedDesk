@@ -28,7 +28,7 @@ namespace SharedDesk
                 {
                     closest = p;
                 }
-                else if (calculateXOR(p.getGUID(), target) < calculateXOR(closest.getGUID(), target) )
+                else if (calculateXOR(p.getGUID, target) < calculateXOR(closest.getGUID, target) )
                 {
                     closest = p;
                 }
@@ -42,7 +42,7 @@ namespace SharedDesk
             int target = Target;
             foreach (PeerInfo p in table)
             {
-                if (calculateXOR(p.getGUID(), target) < calculateXOR(closest.getGUID(), target) && senderGUID != p.getGUID())
+                if (calculateXOR(p.getGUID, target) < calculateXOR(closest.getGUID, target) && senderGUID != p.getGUID)
                 {
                     closest = p;
                 }
@@ -106,7 +106,7 @@ namespace SharedDesk
             int count = 0;
             foreach (PeerInfo p in this.table)
             {
-                result += count + ": " + p.toString() + "\n";
+                result += count + ": " + p.toString + "\n";
                 count++;
             }
             return result;

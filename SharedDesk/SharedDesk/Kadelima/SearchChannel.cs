@@ -27,9 +27,9 @@ namespace SharedDesk.Kadelima
 
         public void onReceiveClosest(PeerInfo pInfo)
         {
-            if (mCurrentTargetGUID != pInfo.getGUID() && mPreviousGUID != pInfo.getGUID())
+            if (mCurrentTargetGUID != pInfo.getGUID && mPreviousGUID != pInfo.getGUID)
             {
-                mPreviousGUID = pInfo.getGUID();
+                mPreviousGUID = pInfo.getGUID;
 
                 IPEndPoint remotePoint = new IPEndPoint(IPAddress.Parse(pInfo.getIP()), pInfo.getPORT());
                 UDPResponder responder = new UDPResponder(remotePoint, pInfo.getPORT());

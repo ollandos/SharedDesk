@@ -145,7 +145,7 @@ namespace SharedDesk.UDP_protocol
             // Sending UPD packet
             socket.SendTo(sendBuffer, endPoint);
             Console.WriteLine("\nUDP Responder");
-            Console.WriteLine("Sending closest found Peer {0} to {1}", closest.getGUID() , targetGUID);
+            Console.WriteLine("Sending closest found Peer {0} to {1}", closest.getGUID, targetGUID);
         }
 
 

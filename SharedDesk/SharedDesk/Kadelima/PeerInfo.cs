@@ -19,8 +19,9 @@ namespace SharedDesk
             this.PORT = port;
         }
 
-        public int getGUID() {
-            return this.GUID;
+        public int getGUID
+        {
+            get { return this.GUID; }
         }
 
         public string getIP()
@@ -33,9 +34,9 @@ namespace SharedDesk
             return this.PORT;
         }
 
-        public string toString()
+        public string toString
         {
-            return "GUID: " + GUID + " IP: " + IP + " PORT: " + PORT;
+            get { return GUID + "        " + IP + "        " + PORT; }
         }
     }
 }

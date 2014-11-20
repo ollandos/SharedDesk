@@ -11,11 +11,17 @@ namespace SharedDesk
 {
     public class Peer
     {
+
         private RoutingTable routingTable;
         PeerInfo bootPeer;
         UDPListener listener;
         int GUID;
 
+        /// <summary>
+        /// EVENTS FOR FORM
+        /// </summary>
+        public event handlerUpdatedTable updateTable;
+        public delegate void handlerUpdatedTable();
 
         private RoutingTable mNewRoutingTable;
 
@@ -24,7 +30,7 @@ namespace SharedDesk
         public Peer()
         {
             channels = new List<SearchChannel>();
-            bootPeer = new PeerInfo(0, "192.168.1.25", 6666);
+            bootPeer = new PeerInfo(0, "127.0.0.1", 6666);
         }
 
         public void init(int guid, string ip, int port)
@@ -60,14 +66,14 @@ namespace SharedDesk
                 //Sets target
                 int target = guid;
                 PeerInfo prevClosest = null;
-                while (closest.getGUID() != target && closest != prevClosest)
+                while (closest.getGUID != target && closest != prevClosest)
                 {
                     prevClosest = closest;
                     //closest = net[closest].askForClosestPeer(GUID, target);
                 }
                 //If found PeerInfo does not exist add it to the table.
                 bool isDuplicated = newRoutingTable.Contains(closest);
-                if (!isDuplicated && closest.getGUID() != GUID)
+                if (!isDuplicated && closest.getGUID != GUID)
                 {
                     newRoutingTable.Add(closest);
                 }
@@ -152,6 +158,7 @@ namespace SharedDesk
         public void handleTable(RoutingTable table)
         {
             this.routingTable = table;
+            updateTable();
             searchTargetPeers();
         }
 
@@ -177,10 +184,15 @@ namespace SharedDesk
         public void addPeerInfo(PeerInfo pInfo)
         {
             Boolean isDuplicated = mNewRoutingTable.Contains(pInfo);
-            if (!isDuplicated && pInfo.getGUID() != GUID)
+            if (!isDuplicated && pInfo.getGUID != GUID)
             {
                 mNewRoutingTable.Add(pInfo);
             }
+        }
+
+        public RoutingTable getRoutingTable
+        {
+            get { return this.routingTable; }
         }
     }
 }

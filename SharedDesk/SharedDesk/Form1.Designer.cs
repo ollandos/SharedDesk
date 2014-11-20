@@ -33,7 +33,6 @@
             this.labelIP = new System.Windows.Forms.Label();
             this.labelPort = new System.Windows.Forms.Label();
             this.lblGUID = new System.Windows.Forms.Label();
-            this.buttonSearch = new System.Windows.Forms.Button();
             this.buttonPing = new System.Windows.Forms.Button();
             this.tbGUID = new System.Windows.Forms.TextBox();
             this.listResponses = new System.Windows.Forms.ListBox();
@@ -48,6 +47,7 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.btnGetRoutingTable = new System.Windows.Forms.Button();
+            this.btnSendFile = new System.Windows.Forms.Button();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -95,18 +95,9 @@
             this.lblGUID.TabIndex = 4;
             this.lblGUID.Text = "GUID";
             // 
-            // buttonSearch
-            // 
-            this.buttonSearch.Location = new System.Drawing.Point(247, 201);
-            this.buttonSearch.Name = "buttonSearch";
-            this.buttonSearch.Size = new System.Drawing.Size(75, 23);
-            this.buttonSearch.TabIndex = 5;
-            this.buttonSearch.Text = "Search";
-            this.buttonSearch.UseVisualStyleBackColor = true;
-            // 
             // buttonPing
             // 
-            this.buttonPing.Location = new System.Drawing.Point(166, 201);
+            this.buttonPing.Location = new System.Drawing.Point(47, 265);
             this.buttonPing.Name = "buttonPing";
             this.buttonPing.Size = new System.Drawing.Size(75, 23);
             this.buttonPing.TabIndex = 6;
@@ -218,7 +209,7 @@
             // 
             // btnGetRoutingTable
             // 
-            this.btnGetRoutingTable.Location = new System.Drawing.Point(166, 230);
+            this.btnGetRoutingTable.Location = new System.Drawing.Point(47, 200);
             this.btnGetRoutingTable.Name = "btnGetRoutingTable";
             this.btnGetRoutingTable.Size = new System.Drawing.Size(156, 23);
             this.btnGetRoutingTable.TabIndex = 18;
@@ -226,11 +217,22 @@
             this.btnGetRoutingTable.UseVisualStyleBackColor = true;
             this.btnGetRoutingTable.Click += new System.EventHandler(this.btnGetRoutingTable_Click);
             // 
+            // btnSendFile
+            // 
+            this.btnSendFile.Location = new System.Drawing.Point(47, 229);
+            this.btnSendFile.Name = "btnSendFile";
+            this.btnSendFile.Size = new System.Drawing.Size(156, 23);
+            this.btnSendFile.TabIndex = 19;
+            this.btnSendFile.Text = "Send File";
+            this.btnSendFile.UseVisualStyleBackColor = true;
+            this.btnSendFile.Click += new System.EventHandler(this.btnSendFile_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(582, 388);
+            this.Controls.Add(this.btnSendFile);
             this.Controls.Add(this.btnGetRoutingTable);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.btnListen);
@@ -244,7 +246,6 @@
             this.Controls.Add(this.listResponses);
             this.Controls.Add(this.tbGUID);
             this.Controls.Add(this.buttonPing);
-            this.Controls.Add(this.buttonSearch);
             this.Controls.Add(this.lblGUID);
             this.Controls.Add(this.labelPort);
             this.Controls.Add(this.labelIP);
@@ -267,7 +268,6 @@
         private System.Windows.Forms.Label labelIP;
         private System.Windows.Forms.Label labelPort;
         private System.Windows.Forms.Label lblGUID;
-        private System.Windows.Forms.Button buttonSearch;
         private System.Windows.Forms.Button buttonPing;
         private System.Windows.Forms.TextBox tbGUID;
         private System.Windows.Forms.ListBox listResponses;
@@ -282,6 +282,7 @@
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStatus;
         private System.Windows.Forms.Button btnGetRoutingTable;
+        private System.Windows.Forms.Button btnSendFile;
     }
 }
 
