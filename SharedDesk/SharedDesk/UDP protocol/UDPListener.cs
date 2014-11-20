@@ -31,7 +31,7 @@ namespace SharedDesk.UDP_protocol
         };
 
         /// <summary>
-        /// EVENTS
+        /// EVENTS FOR PEER
         /// </summary>
         public event handlerRequestTable receiveTableRequest;
         public delegate void handlerRequestTable(IPEndPoint endpoint);
@@ -237,7 +237,7 @@ namespace SharedDesk.UDP_protocol
             PeerInfo pInfo = UDPResponder.ByteArrayToPeerInfo(data);
             int targetGUID = (int)channelGUID[0];
 
-            Console.WriteLine("Received a responsse for closest to {0}, with GUID: {1}", targetGUID, pInfo.getGUID());
+            Console.WriteLine("Received a responsse for closest to {0}, with GUID: {1}", targetGUID, pInfo.getGUID);
 
             //get the corresponding channel
             receiveClosest(targetGUID, pInfo);

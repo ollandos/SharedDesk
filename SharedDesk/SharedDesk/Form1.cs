@@ -35,17 +35,16 @@ namespace SharedDesk
             // Creating Peer
             peer = new Peer();
 
+            // Subscribing to events
+            subscribeToListener();
+
             // Generate GUID 
             //guid = Guid.NewGuid();
-            //Console.WriteLine("The unique 128 bit GUID:");
-            //Console.WriteLine(guid);
-            //toolStatus.Text = "Status: Guid generated, " + guid.ToString();
         }
 
-        /// <summary>
-        /// Check all forms to and make sure 
-        /// ip and port all is filled in and correct
-        /// </summary>
+
+
+        // Check all forms to and make sure IP and PORT are filled in and valid
         private bool validateForm()
         {
 
@@ -87,6 +86,11 @@ namespace SharedDesk
             return true;
         }
 
+        /// <summary>
+        /// Button Events
+        /// </summary>
+
+        //Ping Button
         private void buttonPing_Click(object sender, EventArgs e)
         {
             validateForm();
@@ -98,6 +102,23 @@ namespace SharedDesk
 
             toolStatus.Text = "Status: Sent ping";
 
+        }
+        /// <summary>
+        /// HANDLERS
+        /// </summary>
+
+        public void subscribeToListener()
+        {
+            peer.updateTable += new Peer.handlerUpdatedTable(handleUpdatedTable);
+        }
+
+        private void handleUpdatedTable()
+        {
+            listRoutingTable.Invoke(new MethodInvoker(() => listRoutingTable.Items.Clear()));
+            listRoutingTable.Invoke(new MethodInvoker(() => listRoutingTable.DataSource = null));
+            listRoutingTable.Invoke(new MethodInvoker(() => listRoutingTable.DataSource = peer.getRoutingTable.getPeers()));
+            listRoutingTable.Invoke(new MethodInvoker(() => listRoutingTable.DisplayMember = "toString"));
+            listRoutingTable.Invoke(new MethodInvoker(() => listRoutingTable.ValueMember = "getGUID"));
         }
 
         private void btnListen_Click(object sender, EventArgs e)
@@ -136,6 +157,13 @@ namespace SharedDesk
             validateForm();
             peer.init(Convert.ToInt32(tbGUID.Text),tbIP.Text,Convert.ToInt32(tbPORT.Text));
             toolStatus.Text = "Status: Sent routing table request";
+        }
+
+        private void btnSendFile_Click(object sender, EventArgs e)
+        {
+            int guid = -1;
+            guid = (int)listRoutingTable.SelectedValue;
+            Console.WriteLine(guid);
         }
     }
 }
