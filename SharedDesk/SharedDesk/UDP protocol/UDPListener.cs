@@ -23,6 +23,13 @@ namespace SharedDesk.UDP_protocol
         private EndPoint remoteEndPoint = new IPEndPoint(IPAddress.Any, 0);
         private int listenPort;
 
+        // define all the possible commands
+        private enum commandByte { 
+            error = 0, pingRequest, pingResponse, routingTableRequest, routingTableReceived, closestPeerRequest, 
+            closestPeerResponse, join, leave, fileInfo, fileTransferRequest, fileTransferResponse, 
+            sendFileRequest
+        };
+
         /// <summary>
         /// EVENTS
         /// </summary>
@@ -97,14 +104,16 @@ namespace SharedDesk.UDP_protocol
             // 4 - routing table
             // 5 - find closest peer request
             // 6 - peer info object (response from find closest peer request)
+
             byte firstByte = buff[0];
-            switch (firstByte)
+            commandByte command = (commandByte)firstByte;
+
+            switch (command)
             {
-                // Error
-                case 0:
+                case commandByte.error:
                     break;
-                // Ping
-                case 1:
+                case commandByte.pingRequest:
+                    
                     // Packet should be exactly 5 bytes
                     if (received != 5)
                     {
@@ -112,9 +121,10 @@ namespace SharedDesk.UDP_protocol
                         return;
                     }
                     handlePing(remoteEnd);
+
                     break;
-                // GUID (Ping response)
-                case 2:
+                case commandByte.pingResponse:
+
                     // Packet should be exactly 17 bytes
                     if (received != 17)
                     {
@@ -122,34 +132,37 @@ namespace SharedDesk.UDP_protocol
                         return;
                     }
                     handleGuid(remoteEnd);
+
                     break;
-                // Request Routing Table
-                case 3:
-                    // Handles the UDP packet containing the routing table request
+                case commandByte.routingTableRequest:
                     handleRequestTable(remoteEnd);
                     break;
-                // Routing Table
-                case 4:
-                    // Handles the UDP packet containing the routing table
+                case commandByte.routingTableReceived:
                     handleTable(remoteEnd);
                     break;
-                // Request Find Closest
-                case 5:
-                    // Handles the UDP packet containing a find closest request
+                case commandByte.closestPeerRequest:
                     handleRequestClosest(remoteEnd);
                     break;
-                // Find Closest
-                case 6:
-                    // Handles the UDP packet containing a reply to find closest request
+                case commandByte.closestPeerResponse:
                     handleClosest();
                     break;
-                case 7:
-                    // file transfer
+                case commandByte.join:
+                    break;
+                case commandByte.leave:
+                    break;
+                case commandByte.fileInfo:
+                    break;
+                case commandByte.fileTransferRequest:
+                    break;
+                case commandByte.fileTransferResponse:
+                    break;
+                case commandByte.sendFileRequest:
                     break;
                 default:
                     Console.WriteLine("Not a valid command...");
-                    return;
+                    break;
             }
+
             socket.BeginReceiveFrom(buff, 0, buff.Length, SocketFlags.None, ref remoteEndPoint, new AsyncCallback(Listen), socket);
         }
 
