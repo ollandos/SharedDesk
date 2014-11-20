@@ -68,6 +68,40 @@ namespace SharedDesk.UDP_protocol
 
         }
 
+        //sends a request to join the table of the peer at the endpoint
+        public void sendRequestJoin(PeerInfo myInfo)
+        {
+            // byte indicating what type of packet it is
+            byte[] commandByte = new byte[] { 7 };
+
+            // byte array with port 
+            byte[] peerInfoByteArray = peerInfoToByteArray(myInfo);
+
+            // buffer to send
+            byte[] sendBuffer = combineBytes(commandByte, peerInfoByteArray);
+
+            socket.SendTo(sendBuffer, endPoint);
+            Console.WriteLine("\nUDP Responder");
+            Console.WriteLine("Sending request to join the table of peer {0}", endPoint);
+        }
+
+        //sends a request to join the table of the peer at the endpoint
+        public void sendRequestLeave(int guid)
+        {
+            // byte indicating what type of packet it is
+            byte[] commandByte = new byte[] { 8 };
+
+            // byte array with port 
+            byte[] guidByteArray = BitConverter.GetBytes(guid);
+
+            // buffer to send
+            byte[] sendBuffer = combineBytes(commandByte, guidByteArray);
+
+            socket.SendTo(sendBuffer, endPoint);
+            Console.WriteLine("\nUDP Responder");
+            Console.WriteLine("Sending request to join the table of peer {0}", endPoint);
+        }
+
         //sends a routing table request to the endpoint
         public void sendRequestRoutingTable()
         {

@@ -12,9 +12,10 @@ namespace SharedDesk
     public class Peer
     {
         private RoutingTable routingTable;
-        PeerInfo bootPeer;
-        UDPListener listener;
-        int GUID;
+        private PeerInfo bootPeer;
+        private UDPListener listener;
+        private int GUID;
+        private const int DEFAULT_LISTENING_PORT = 6666;
 
 
         private RoutingTable mNewRoutingTable = new RoutingTable();
@@ -25,8 +26,8 @@ namespace SharedDesk
         {
             channels = new List<SearchChannel>();
             routingTable = new RoutingTable();
-            bootPeer = new PeerInfo(0, "127.0.0.1", 6666);
-            routingTable.Add(bootPeer);
+            bootPeer = new PeerInfo(0, "127.0.0.1", DEFAULT_LISTENING_PORT);
+            routingTable.add(0, bootPeer);
             GUID = 0;
 
         }
@@ -34,16 +35,17 @@ namespace SharedDesk
         public void init()
         {
             // create end point
-            listener = new UDPListener(6666, Guid.NewGuid().ToByteArray());
+            listener = new UDPListener(DEFAULT_LISTENING_PORT, Guid.NewGuid().ToByteArray());
             listener.setRoutingtable = routingTable;
             subscribeToListener(listener);
 
             IPEndPoint remotePoint = new IPEndPoint(IPAddress.Parse(bootPeer.getIP()), bootPeer.getPORT());
-            
-            UDPResponder responder = new UDPResponder(remotePoint, 6666);
+
+            UDPResponder responder = new UDPResponder(remotePoint, DEFAULT_LISTENING_PORT);
             responder.sendRequestRoutingTable();
         }
 
+        /*
         //Refresing/Creating the routingTable
         public void makeTable()
         {
@@ -73,6 +75,7 @@ namespace SharedDesk
                 routingTable = newRoutingTable;
             }
         }
+         * */
 
         //JOINING THE NETWORK
         //Joining Peer will tell all peers in his table to add him.
@@ -86,6 +89,7 @@ namespace SharedDesk
             }
         }
 
+        /*
         //Accepting newly joined Peer
         public void acceptPeer(PeerInfo peer)
         {
@@ -97,6 +101,7 @@ namespace SharedDesk
             }
 
         }
+         * */
 
         //Responding with closest found Peer
         public PeerInfo askForClosestPeer(int senderGUID, int target)
@@ -126,13 +131,15 @@ namespace SharedDesk
             l.receiveTable += new UDPListener.handlerTable(handleTable);
             l.receiveClosest += new UDPListener.handlerFindChannel(handleReceiveClosest);
             l.receiveRequestClosest += new UDPListener.handlerRequestClosest(handleRequestClosest);
+            l.receiveRequestJoin += new UDPListener.handlerRequestJoin(handleJoinRequest);
+            l.receiveRequestLeave += new UDPListener.handlerRequestLeave(handleLeaveRequest);
         }
 
         // Handling the routing table request
         public void handleRequestClosest(IPEndPoint remotePoint, int sender, int target)
         {
             PeerInfo targetInfo = askForClosestPeer(sender, target);
-            UDPResponder responder = new UDPResponder(remotePoint, 6666);
+            UDPResponder responder = new UDPResponder(remotePoint, DEFAULT_LISTENING_PORT);
             //responder.sendClosest(targetInfo, target);
         }
 
@@ -145,8 +152,26 @@ namespace SharedDesk
         // Handling the routing table request
         public void handleTableRequest(IPEndPoint remotePoint)
         {
-            UDPResponder responder = new UDPResponder(remotePoint, 6666);
+            UDPResponder responder = new UDPResponder(remotePoint, DEFAULT_LISTENING_PORT);
             responder.sendRoutingTable(routingTable);
+        }
+
+        // Handling the routing table request
+        public void handleJoinRequest(PeerInfo newPeer)
+        {
+            //what key should the new Peer have???
+            routingTable.add(newPeer.getGUID(), newPeer);
+            //TOOD: think about cycle of deleting non-target guids
+            // Probably we want to remove those based when we find closer GUID.
+            //Every time we find the closer peer we discard the peer which was previously occupying the key.
+            //And right before discarding, we send leave request to the peer which is about to be removed.
+        }
+
+
+        // Handling the routing table request
+        public void handleLeaveRequest(int guid)
+        {
+            routingTable.remove(guid);
         }
 
         // Handling receive routing table request
@@ -159,12 +184,25 @@ namespace SharedDesk
             }
         }
 
-        public void addPeerInfo(PeerInfo pInfo)
+        public void addPeerInfo(int targetGUID, PeerInfo pInfo)
         {
-            Boolean isDuplicated = mNewRoutingTable.Contains(pInfo);
+            Boolean isDuplicated = routingTable.containsValue(pInfo);
             if (!isDuplicated)
             {
-                mNewRoutingTable.Add(pInfo);
+                //check if the key is occupied
+                Boolean hasSameKey = routingTable.containsKey(targetGUID);
+                if (hasSameKey)
+                {
+                    PeerInfo removingPeer = routingTable.get(targetGUID);
+                    IPEndPoint remotePoint = new IPEndPoint( IPAddress.Parse(removingPeer.getIP()), removingPeer.getPORT() );
+                    //notify to the peer with the targetGUID
+                    UDPResponder responder = new UDPResponder(remotePoint, DEFAULT_LISTENING_PORT);
+
+                    routingTable.replace(targetGUID, pInfo);
+                }
+                else {
+                    routingTable.add(targetGUID, pInfo);
+                }
             }
         }
     }

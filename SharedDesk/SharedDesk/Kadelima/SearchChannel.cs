@@ -39,7 +39,7 @@ namespace SharedDesk.Kadelima
             {
                 //TODO: do this check on return in the main thread
                 //IF found PeerInfo does not exist in the table, THEN add it to the table.
-                mOwner.addPeerInfo(pInfo);
+                mOwner.addPeerInfo(mCurrentTargetGUID, pInfo);
             }
 
 

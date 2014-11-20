@@ -38,12 +38,17 @@ namespace SharedDesk.UDP_protocol
         public event handlerTable receiveTable;
         public delegate void handlerTable(RoutingTable table);
 
-
         public event handlerFindChannel receiveClosest;
         public delegate void handlerFindChannel(int guid, PeerInfo pInfo);
 
         public event handlerRequestClosest receiveRequestClosest;
         public delegate void handlerRequestClosest(IPEndPoint endpoint, int sender, int target);
+
+        public event handlerRequestJoin receiveRequestJoin;
+        public delegate void handlerRequestJoin(PeerInfo pInfo);
+
+        public event handlerRequestLeave receiveRequestLeave;
+        public delegate void handlerRequestLeave(int guid);
 
         public UDPListener(int port, byte[] guid)
         {
@@ -163,7 +168,10 @@ namespace SharedDesk.UDP_protocol
                     handleClosest();
                     break;
                 case 7:
-                    // file transfer
+                    handleJoin();
+                    break;
+                case 8:
+                    handleLeave();
                     break;
                 default:
                     Console.WriteLine("Not a valid command...");
@@ -240,11 +248,24 @@ namespace SharedDesk.UDP_protocol
             byte[] channelGUID = buff.Skip(1).Take(2).ToArray();
             PeerInfo pInfo = UDPResponder.ByteArrayToPeerInfo(data);
             int targetGUID = BitConverter.ToInt32(channelGUID, 0);
-
-            //get the corresponding channel
-
+            //get the corresponding channel  
             
-            
+        }
+
+        private void handleJoin()
+        {
+            byte[] data = buff.Skip(1).ToArray();
+            PeerInfo pInfo = UDPResponder.ByteArrayToPeerInfo(data);
+            //add the pInfo with event
+            receiveRequestJoin(pInfo);
+        }
+
+        private void handleLeave()
+        {
+            byte[] data = buff.Skip(1).ToArray();
+            int leavingGUID = BitConverter.ToInt32(data, 0);
+            //remove the guid with event
+            receiveRequestLeave(leavingGUID);
         }
 
         public RoutingTable setRoutingtable
