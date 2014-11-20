@@ -19,9 +19,6 @@ namespace SharedDesk.UDP_protocol
         private Socket socket = null;
         private byte[] buff = new byte[2048];
 
-        // The unique 128 bit GUID
-        private byte[] guid;
-
         // ref remoteEndPoint
         private EndPoint remoteEndPoint = new IPEndPoint(IPAddress.Any, 0);
         private int listenPort;
@@ -29,11 +26,18 @@ namespace SharedDesk.UDP_protocol
         // routing table to deliver per request
         private byte[] routing_table;
 
+        // define all the possible commands
+        private enum commandByte { 
+            error = 0, pingRequest, pingResponse, routingTableRequest, routingTableReceived, closestPeerRequest, 
+            closestPeerResponse, join, leave, fileInfo, fileTransferRequest, fileTransferResponse, 
+            sendFileRequest
+        };
+
         /// <summary>
-        /// EVENTS
+        /// EVENTS FOR PEER
         /// </summary>
-        public event handlerTableRequest receiveTableRequest;
-        public delegate void handlerTableRequest(IPEndPoint endpoint);
+        public event handlerRequestTable receiveTableRequest;
+        public delegate void handlerRequestTable(IPEndPoint endpoint);
 
         public event handlerTable receiveTable;
         public delegate void handlerTable(RoutingTable table);
@@ -50,21 +54,18 @@ namespace SharedDesk.UDP_protocol
         public event handlerRequestLeave receiveRequestLeave;
         public delegate void handlerRequestLeave(int guid);
 
-        public UDPListener(int port, byte[] guid)
+        public UDPListener(int port)
         {
-            // set guid
-            this.guid = guid;
             this.listenPort = port;
 
-            // listen for any IP
+            // Listen for any IP
             IPEndPoint ServerEndPoint = new IPEndPoint(IPAddress.Any, port);
 
-            // init socket
+            // Init socket
             this.socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
             socket.Bind(ServerEndPoint);
 
-            // start listening
-            //socket.BeginReceive(buff, 0, buff.Length, SocketFlags.None, new AsyncCallback(Listen), socket);
+            // Start listening
             socket.BeginReceiveFrom(buff, 0, buff.Length, SocketFlags.None, ref remoteEndPoint, new AsyncCallback(Listen), socket);
             Console.Write("Listening on port {0} ", port);
 
@@ -72,30 +73,21 @@ namespace SharedDesk.UDP_protocol
 
         public void Listen(IAsyncResult ar)
         {
-
             int received = 0;
             Socket s = null;
-            //IPPacketInformation packetInfo;
             EndPoint remoteEnd = new IPEndPoint(IPAddress.Any, 0);
-            //SocketFlags flags = SocketFlags.None;
 
             try
             {
                 s = (Socket)ar.AsyncState;
-                //received = s.EndReceiveMessageFrom(ar, ref flags, ref remoteEnd, out packetInfo);
                 received = s.EndReceiveFrom(ar, ref remoteEnd);
 
                 Console.WriteLine("\nUDP Listner port: {0}", listenPort);
                 Console.WriteLine(
-                    //"{0} bytes received from {1} to {2}",
                     "{0} bytes received from {1}",
                     received,
                     remoteEnd
-                    //packetInfo.Address
                 );
-
-                //s = (Socket)ar.AsyncState; //Grab our socket's state from the ASync return handler.
-                //received = s.EndReceive(ar); //Tell our socket to stop receiving data because our buffer is full.
             }
             catch (SocketException socketError)
             {
@@ -121,62 +113,67 @@ namespace SharedDesk.UDP_protocol
             // 4 - routing table
             // 5 - find closest peer request
             // 6 - peer info object (response from find closest peer request)
-            // 7 - file transfer
 
             byte firstByte = buff[0];
-            switch (firstByte)
+            commandByte command = (commandByte)firstByte;
+
+            switch (command)
             {
-                case 0:
-                    // error
+                case commandByte.error:
                     break;
-                case 1:
-                    // ping
+                case commandByte.pingRequest:
+                    
                     // Packet should be exactly 5 bytes
                     if (received != 5)
                     {
                         Console.WriteLine("Ping packet recevied wrong size...");
-                        return;
+                        break;
                     }
-
                     handlePing(remoteEnd);
 
                     break;
-                case 2:
-                    // GUID (ping response)
+                case commandByte.pingResponse:
+
                     // Packet should be exactly 17 bytes
                     if (received != 17)
                     {
                         Console.WriteLine("GUID packet recevied wrong size...");
-                        return;
+                        break;
                     }
                     handleGuid(remoteEnd);
+
                     break;
-                case 3:
-                    // Handles the UDP packet containing the routing table request
-                    handleTableRequest(remoteEnd);
+                case commandByte.routingTableRequest:
+                    handleRequestTable(remoteEnd);
                     break;
-                case 4:
-                    // Handles the UDP packet containing the routing table
+                case commandByte.routingTableReceived:
                     handleTable(remoteEnd);
                     break;
-                case 5:
-                    // Handles the UDP packet containing a find closest request
+                case commandByte.closestPeerRequest:
                     handleRequestClosest(remoteEnd);
                     break;
-                case 6:
-                    // Handles the UDP packet containing a reply to find closest request
+                case commandByte.closestPeerResponse:
                     handleClosest();
                     break;
-                case 7:
+                case commandByte.join:
                     handleJoin();
                     break;
-                case 8:
+                case commandByte.leave:
                     handleLeave();
+                    break;
+                case commandByte.fileInfo:
+                    break;
+                case commandByte.fileTransferRequest:
+                    break;
+                case commandByte.fileTransferResponse:
+                    break;
+                case commandByte.sendFileRequest:
                     break;
                 default:
                     Console.WriteLine("Not a valid command...");
-                    return;
+                    break;
             }
+
             socket.BeginReceiveFrom(buff, 0, buff.Length, SocketFlags.None, ref remoteEndPoint, new AsyncCallback(Listen), socket);
         }
 
@@ -185,17 +182,19 @@ namespace SharedDesk.UDP_protocol
             int port = BitConverter.ToInt32(buff, 3);
             Console.WriteLine("Received a ping from: {0}, listen port: {1}", remoteEnd, port);
 
-
+            //Take the 2 GUIDS out of the buff[]
             byte[] guidByteArray = buff.Skip(1).Take(2).ToArray();
+            // Get the first
             int senderGuid = guidByteArray[0];
+            // Get the second
             int targetGuid = guidByteArray[1];
-            Console.WriteLine("Received a find closest to {0} from: {1}", targetGuid, senderGuid);
+            Console.WriteLine("Received a find closest to {0} request from {1}", targetGuid, senderGuid);
 
-
-            // create ip end point from udp packet ip and listen port received
+            // Create IP endpoint from udp packet
             IPEndPoint remoteIpEndPoint = remoteEnd as IPEndPoint;
             remoteIpEndPoint.Port = port;
 
+            // Raising the event to handle the information
             receiveRequestClosest(remoteIpEndPoint, senderGuid, targetGuid);
         }
 
@@ -218,10 +217,10 @@ namespace SharedDesk.UDP_protocol
 
             // respond to ping (send guid)
             UDPResponder udpResponse = new UDPResponder(remoteIpEndPoint, port);
-            udpResponse.sendGUID(guid);
+            //udpResponse.sendGUID(guid);
         }
 
-        private void handleTableRequest(EndPoint remoteEnd)
+        private void handleRequestTable(EndPoint remoteEnd)
         {
             int port = BitConverter.ToInt32(buff, 1);
             Console.WriteLine("Received a routing table request from: {0}, listen port: {1}", remoteEnd, port);
@@ -244,11 +243,15 @@ namespace SharedDesk.UDP_protocol
 
         private void handleClosest()
         {
-            byte[] data = buff.Skip(1).ToArray();
-            byte[] channelGUID = buff.Skip(1).Take(2).ToArray();
-            PeerInfo pInfo = UDPResponder.ByteArrayToPeerInfo(data);
-            int targetGUID = BitConverter.ToInt32(channelGUID, 0);
-            //get the corresponding channel  
+            byte[] data = buff.Skip(2).ToArray();
+            byte[] channelGUID = buff.Skip(1).Take(1).ToArray();
+            PeerInfo pInfo = UDPResponder.ByteArrayToPeerInfo(data); 
+            int targetGUID = (int)channelGUID[0];
+
+            Console.WriteLine("Received a responsse for closest to {0}, with GUID: {1}", targetGUID, pInfo.getGUID);
+
+            //get the corresponding channel
+            receiveClosest(targetGUID, pInfo);
             
         }
 

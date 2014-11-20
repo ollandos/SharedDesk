@@ -168,9 +168,9 @@ namespace SharedDesk.UDP_protocol
             byte[] peerInfoInBytes = peerInfoToByteArray(closest);
 
             // byte indicating what type of packet it is
-            byte[] commandByte = new byte[] { 4 };
+            byte[] commandByte = new byte[] { 6 };
 
-            byte[] targetGUIDInBytes = new byte[] { 4 };
+            byte[] targetGUIDInBytes = new byte[] { (byte)targetGUID };
 
             // buffer to send
             byte[] tempBuffer = combineBytes(commandByte, targetGUIDInBytes);
@@ -179,7 +179,7 @@ namespace SharedDesk.UDP_protocol
             // Sending UPD packet
             socket.SendTo(sendBuffer, endPoint);
             Console.WriteLine("\nUDP Responder");
-            Console.WriteLine("Sending routing table to {0}", endPoint);
+            Console.WriteLine("Sending closest found Peer {0} to {1}", closest.getGUID, targetGUID);
         }
 
 
@@ -228,11 +228,8 @@ namespace SharedDesk.UDP_protocol
             MemoryStream memStream = new MemoryStream();
             BinaryFormatter binForm = new BinaryFormatter();
             memStream.Write(arrBytes, 0, arrBytes.Length);
-            memStream.Seek(1, SeekOrigin.Begin);
+            memStream.Seek(0, SeekOrigin.Begin);
 
-            byte firstByte = arrBytes[0];
-
-            Console.WriteLine("req code" + (int)firstByte);
             PeerInfo peerInfo = (PeerInfo)binForm.Deserialize(memStream);
 
             return peerInfo;

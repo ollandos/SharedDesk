@@ -12,10 +12,10 @@ namespace SharedDesk
         private Dictionary<int, PeerInfo> table;
         private PeerInfo myInfo;
 
-        public RoutingTable() 
+        public RoutingTable(PeerInfo myInfo) 
         {
             table = new Dictionary<int, PeerInfo>();
-            myInfo = new PeerInfo(666, "getMyIP", 666);
+            this.myInfo = myInfo;
         }
 
         public PeerInfo get(int targetGUID)
@@ -35,7 +35,7 @@ namespace SharedDesk
                 {
                     closest = p;
                 }
-                else if (calculateXOR(p.getGUID(), target) < calculateXOR(closest.getGUID(), target) )
+                else if (calculateXOR(p.getGUID, target) < calculateXOR(closest.getGUID, target) )
                 {
                     closest = p;
                 }
@@ -50,7 +50,7 @@ namespace SharedDesk
             foreach (KeyValuePair<int, PeerInfo> entry in table)
             {
                 PeerInfo p = entry.Value;
-                if (calculateXOR(p.getGUID(), target) < calculateXOR(closest.getGUID(), target) && senderGUID != p.getGUID())
+                if (calculateXOR(p.getGUID, target) < calculateXOR(closest.getGUID, target) && senderGUID != p.getGUID)
                 {
                     closest = p;
                 }
@@ -114,6 +114,11 @@ namespace SharedDesk
             return table.Count;
         }
 
+        public PeerInfo getMyInfo
+        {
+            get { return myInfo; }
+        }
+
         public string toString()
         {
             string result = "";
@@ -121,7 +126,7 @@ namespace SharedDesk
             foreach (KeyValuePair<int, PeerInfo> entry in table)
             {
                 PeerInfo p = entry.Value;
-                result += count + ": " + p.toString() + "\n";
+                result += count + ": " + p.toString + "\n";
                 count++;
             }
             return result;

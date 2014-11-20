@@ -15,9 +15,11 @@ namespace SharedDesk
 {
     public partial class Form1 : Form
     {
+        // Peer Object
         Peer peer;
+
         // GUID 
-        Guid guid;
+        //Guid guid;
  
         IPAddress ip;
         int remotePort;
@@ -30,28 +32,25 @@ namespace SharedDesk
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            // Creating Peer
             peer = new Peer();
-            // generate GUID 
-            guid = Guid.NewGuid();
 
-            Console.WriteLine("The unique 128 bit GUID:");
-            Console.WriteLine(guid);
+            // Subscribing to events
+            subscribeToListener();
 
-            toolStatus.Text = "Status: Guid generated, " + guid.ToString();
-
+            // Generate GUID 
+            //guid = Guid.NewGuid();
         }
 
-        /// <summary>
-        /// Check all forms to and make sure 
-        /// ip and port all is filled in and correct
-        /// </summary>
-        /// <returns></returns>
+
+
+        // Check all forms to and make sure IP and PORT are filled in and valid
         private bool validateForm()
         {
 
             try
             {
-                ip = IPAddress.Parse(tbIp.Text);
+                ip = IPAddress.Parse(tbIP.Text);
             }
             catch (Exception)
             {
@@ -61,7 +60,7 @@ namespace SharedDesk
 
             try
             {
-                remotePort = Convert.ToInt32(tbPort.Text);
+                remotePort = Convert.ToInt32(tbPORT.Text);
                 listenPort = Convert.ToInt32(tbListenPort.Text);
             }
             catch (Exception)
@@ -87,6 +86,11 @@ namespace SharedDesk
             return true;
         }
 
+        /// <summary>
+        /// Button Events
+        /// </summary>
+
+        //Ping Button
         private void buttonPing_Click(object sender, EventArgs e)
         {
             validateForm();
@@ -98,6 +102,23 @@ namespace SharedDesk
 
             toolStatus.Text = "Status: Sent ping";
 
+        }
+        /// <summary>
+        /// HANDLERS
+        /// </summary>
+
+        public void subscribeToListener()
+        {
+            peer.updateTable += new Peer.handlerUpdatedTable(handleUpdatedTable);
+        }
+
+        private void handleUpdatedTable()
+        {
+            listRoutingTable.Invoke(new MethodInvoker(() => listRoutingTable.Items.Clear()));
+            listRoutingTable.Invoke(new MethodInvoker(() => listRoutingTable.DataSource = null));
+            listRoutingTable.Invoke(new MethodInvoker(() => listRoutingTable.DataSource = peer.getRoutingTable.getPeers()));
+            listRoutingTable.Invoke(new MethodInvoker(() => listRoutingTable.DisplayMember = "toString"));
+            listRoutingTable.Invoke(new MethodInvoker(() => listRoutingTable.ValueMember = "getGUID"));
         }
 
         private void btnListen_Click(object sender, EventArgs e)
@@ -126,18 +147,23 @@ namespace SharedDesk
                 return;
             }
 
-            UDPListener p = new UDPListener(port, guid.ToByteArray());
+            UDPListener p = new UDPListener(port);
             toolStatus.Text = "Status: Listening on port " + port.ToString();
         }
 
+        // Gets routing table from boot peer and starts the process of finding closest peers
         private void btnGetRoutingTable_Click(object sender, EventArgs e)
         {
             validateForm();
-
-            peer.init();
-
+            peer.init(Convert.ToInt32(tbGUID.Text),tbIP.Text,Convert.ToInt32(tbPORT.Text));
             toolStatus.Text = "Status: Sent routing table request";
+        }
 
+        private void btnSendFile_Click(object sender, EventArgs e)
+        {
+            int guid = -1;
+            guid = (int)listRoutingTable.SelectedValue;
+            Console.WriteLine(guid);
         }
     }
 }

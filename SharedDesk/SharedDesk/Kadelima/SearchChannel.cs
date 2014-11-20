@@ -4,23 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SharedDesk.UDP_protocol;
+using System.Net;
 
 namespace SharedDesk.Kadelima
 {
     public class SearchChannel
     {
-        private PeerInfo mCurrentClosest;
         private int mCurrentTargetGUID;
-        private int mPreviousGUID;
+        private int mPreviousGUID = -1;
         private Peer mOwner;
 
         public SearchChannel(Peer owner, int guid)
         {
             mOwner = owner;
             mCurrentTargetGUID = guid;
-
-            // UDPResponder.requestFindClosest();
-            //responder.requestFindClosest
         }
 
         public int getTargetGUID() 
@@ -30,10 +27,13 @@ namespace SharedDesk.Kadelima
 
         public void onReceiveClosest(PeerInfo pInfo)
         {
-            if (mCurrentTargetGUID != pInfo.getGUID() && mPreviousGUID != pInfo.getGUID())
+            if (mCurrentTargetGUID != pInfo.getGUID && mPreviousGUID != pInfo.getGUID)
             {
-                mPreviousGUID = pInfo.getGUID();
-                //Trigger askForClosestPeer
+                mPreviousGUID = pInfo.getGUID;
+
+                IPEndPoint remotePoint = new IPEndPoint(IPAddress.Parse(pInfo.getIP()), pInfo.getPORT());
+                UDPResponder responder = new UDPResponder(remotePoint, pInfo.getPORT());
+                responder.sendRequestClosest(mOwner.getGUID, mCurrentTargetGUID) ;
             }
             else
             {
