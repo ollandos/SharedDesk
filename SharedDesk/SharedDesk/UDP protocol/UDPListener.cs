@@ -122,7 +122,6 @@ namespace SharedDesk.UDP_protocol
                 case commandByte.error:
                     break;
                 case commandByte.pingRequest:
-                    
                     // Packet should be exactly 5 bytes
                     if (received != 5)
                     {
@@ -133,7 +132,6 @@ namespace SharedDesk.UDP_protocol
 
                     break;
                 case commandByte.pingResponse:
-
                     // Packet should be exactly 17 bytes
                     if (received != 17)
                     {
@@ -141,7 +139,6 @@ namespace SharedDesk.UDP_protocol
                         break;
                     }
                     handleGuid(remoteEnd);
-
                     break;
                 case commandByte.routingTableRequest:
                     handleRequestTable(remoteEnd);

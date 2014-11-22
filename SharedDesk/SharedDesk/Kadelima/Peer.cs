@@ -38,7 +38,7 @@ namespace SharedDesk
         {
             // create end point
             listener = new UDPListener(DEFAULT_LISTENING_PORT);
-            listener.setRoutingtable = routingTable;
+            //listener.setRoutingtable = routingTable;
             // Assign GUID
             GUID = guid;
             
@@ -52,7 +52,6 @@ namespace SharedDesk
 
             // Create end point
             IPEndPoint remotePoint = new IPEndPoint(IPAddress.Parse(bootPeer.getIP()), bootPeer.getPORT());
-            
             // Sending routing table request
             UDPResponder responder = new UDPResponder(remotePoint, port);
             responder.sendRequestRoutingTable();

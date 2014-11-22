@@ -36,7 +36,7 @@ namespace SharedDesk
             peer = new Peer();
 
             // Subscribing to events
-            subscribeToListener();
+            //subscribeToListener();
 
             // Generate GUID 
             //guid = Guid.NewGuid();
