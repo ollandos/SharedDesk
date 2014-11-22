@@ -162,6 +162,7 @@ namespace SharedDesk.UDP_protocol
                     handleLeave();
                     break;
                 case commandByte.fileInfo:
+                    handleFileInfo(remoteEnd);
                     break;
                 case commandByte.fileTransferRequest:
                     break;
@@ -214,9 +215,6 @@ namespace SharedDesk.UDP_protocol
             Console.WriteLine("Name: {0}", fileName);
             Console.WriteLine("Size: {0}", fileSize.ToString());
             Console.WriteLine("md5: {0}", md5String);
-
-            // send file request
-
 
             // create ip end point from udp packet ip and listen port received
             //IPEndPoint remoteIpEndPoint = remoteEnd as IPEndPoint;

@@ -255,5 +255,10 @@ namespace SharedDesk
         {
             get { return this.routingTable; }
         }
+
+        public override string ToString()
+        {
+            return "test";
+        }
     }
 }
