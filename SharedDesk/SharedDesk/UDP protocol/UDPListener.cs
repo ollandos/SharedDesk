@@ -17,7 +17,7 @@ namespace SharedDesk.UDP_protocol
     public class UDPListener
     {
         private Socket socket = null;
-        private byte[] buff = new byte[2048];
+        private byte[] buff = new byte[8192];
 
         // ref remoteEndPoint
         private EndPoint remoteEndPoint = new IPEndPoint(IPAddress.Any, 0);
@@ -63,6 +63,9 @@ namespace SharedDesk.UDP_protocol
 
             // Init socket
             this.socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+            this.socket.ReceiveBufferSize = 8192;
+            this.socket.SendBufferSize = 8192;
+
             socket.Bind(ServerEndPoint);
 
             // Start listening
@@ -283,6 +286,12 @@ namespace SharedDesk.UDP_protocol
 
         private static byte[] routingTableToByteArray(RoutingTable rt)
         {
+
+            if (rt == null)
+            {
+                // trying to convert a null object
+                return null;
+            }
 
             BinaryFormatter bf = new BinaryFormatter();
             MemoryStream ms = new MemoryStream();

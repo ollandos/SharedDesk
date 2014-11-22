@@ -16,7 +16,7 @@ namespace SharedDesk
         private PeerInfo bootPeer;
         private UDPListener listener;
         private int GUID;
-        private const int DEFAULT_LISTENING_PORT = 6666;
+        //private const int DEFAULT_LISTENING_PORT = 6666;
 
         /// <summary>
         /// EVENTS FOR FORM
@@ -31,14 +31,15 @@ namespace SharedDesk
         public Peer()
         {
             channels = new List<SearchChannel>();
-            bootPeer = new PeerInfo(0, "127.0.0.1", 6666);
+            bootPeer = new PeerInfo(0, "127.0.0.1", 8080);
         }
 
         public void init(int guid, string ip, int port)
         {
-            // create end point
-            listener = new UDPListener(DEFAULT_LISTENING_PORT);
-            listener.setRoutingtable = routingTable;
+            // Create UDP listen and add events
+            listener = new UDPListener(port);
+            subscribeToListener(listener);
+ 
             // Assign GUID
             GUID = guid;
             
@@ -46,9 +47,7 @@ namespace SharedDesk
             routingTable = new RoutingTable(new PeerInfo(guid, ip, port));
             routingTable.add(0, bootPeer);
 
-            // Create UDP listen and add events
-            listener = new UDPListener(port);
-            subscribeToListener(listener);
+            listener.setRoutingtable = routingTable;
 
             // Create end point
             IPEndPoint remotePoint = new IPEndPoint(IPAddress.Parse(bootPeer.getIP()), bootPeer.getPORT());
@@ -220,7 +219,7 @@ namespace SharedDesk
                     PeerInfo removingPeer = routingTable.get(targetGUID);
                     IPEndPoint remotePoint = new IPEndPoint( IPAddress.Parse(removingPeer.getIP()), removingPeer.getPORT() );
                     //notify to the peer with the targetGUID
-                    UDPResponder responder = new UDPResponder(remotePoint, DEFAULT_LISTENING_PORT);
+                    //UDPResponder responder = new UDPResponder(remotePoint, DEFAULT_LISTENING_PORT);
 
                     routingTable.replace(targetGUID, pInfo);
                 }

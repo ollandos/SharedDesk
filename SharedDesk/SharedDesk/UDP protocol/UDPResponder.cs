@@ -30,6 +30,8 @@ namespace SharedDesk.UDP_protocol
 
             // init socket
             socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+            socket.ReceiveBufferSize = 8192;
+            socket.SendBufferSize = 8192;
         }
 
         /// <summary>
