@@ -188,8 +188,36 @@ namespace SharedDesk.UDP_protocol
             int port = BitConverter.ToInt32(portByteArray, 0);
 
             Console.WriteLine("Received a file info from: {0}, listen port: {1}", remoteEnd, port);
+            // gets the first byte
+            byte[] fileNameLengthByte = new byte[1];
+            fileNameLengthByte = buff.Skip(5).Take(1).ToArray();
 
+            // first byte has a value 0 - 255
+            int fileNameLength = Convert.ToInt32(fileNameLengthByte[0]);
 
+            // a fileName cannot be more then 255 characters because a byte cannot have have a higher value...
+            if (fileNameLength > 255)
+            {
+                return;
+            }
+
+            // Windows 1252 encoding 
+            Encoding encoding1252 = Encoding.GetEncoding(1252);
+            string fileName = encoding1252.GetString(buff, 6, fileNameLength);
+
+            byte[] fileSizeB = buff.Skip(5).Skip(1 + fileNameLength).Take(8).ToArray();
+            long fileSize = BitConverter.ToInt64(fileSizeB, 0);
+
+            // get md5 hash
+            // md5 hash is 16 bytes = 128 bit
+            byte[] md5 = buff.Skip(5).Skip(1 + fileNameLength + 8).Take(16).ToArray();
+            //string md5String = BitConverter.ToString(md5).Replace("-", "");
+            string md5String = BitConverter.ToString(md5);
+ 
+            Console.WriteLine("\nFile Info:");
+            Console.WriteLine("Name: {0}", fileName);
+            Console.WriteLine("Size: {0}", fileSize.ToString());
+            Console.WriteLine("md5: {0}", md5String);
 
             // create ip end point from udp packet ip and listen port received
             //IPEndPoint remoteIpEndPoint = remoteEnd as IPEndPoint;
