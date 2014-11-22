@@ -185,9 +185,11 @@ namespace SharedDesk
             PeerInfo peer = (PeerInfo) listRoutingTable.Items[index];
             toolStatus.Text = String.Format("Sending file \"{0}\" to peer guid {1}, ip {2}:{3}", fileName, peer.getGUID, peer.getIP(), peer.getPORT());
 
-
-            // TODO: 
             // Send file info 
+            // create end point
+            IPEndPoint remotePoint = new IPEndPoint(ip, remotePort);
+            UDPResponder udpResponse = new UDPResponder(remotePoint, listenPort);
+            udpResponse.sendFileInfo(fileFullPath);
 
         }
     }
