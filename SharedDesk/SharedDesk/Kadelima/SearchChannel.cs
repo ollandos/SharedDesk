@@ -32,14 +32,25 @@ namespace SharedDesk.Kadelima
                 mPreviousGUID = pInfo.getGUID;
 
                 IPEndPoint remotePoint = new IPEndPoint(IPAddress.Parse(pInfo.getIP()), pInfo.getPORT());
-                UDPResponder responder = new UDPResponder(remotePoint, pInfo.getPORT());
+                UDPResponder responder = new UDPResponder(remotePoint, mOwner.getRoutingTable.MyInfo.getPORT());
                 responder.sendRequestClosest(mOwner.getGUID, mCurrentTargetGUID) ;
             }
             else
             {
-                //TODO: do this check on return in the main thread
-                //IF found PeerInfo does not exist in the table, THEN add it to the table.
-                mOwner.addPeerInfo(mCurrentTargetGUID, pInfo);
+                if (mCurrentTargetGUID != pInfo.getGUID)
+                {
+                    IPEndPoint remotePoint = new IPEndPoint(IPAddress.Parse(pInfo.getIP()), pInfo.getPORT());
+                    UDPResponder responder = new UDPResponder(remotePoint, mOwner.getRoutingTable.MyInfo.getPORT());
+                    responder.sendRequestJoin(mCurrentTargetGUID, mOwner.getRoutingTable.MyInfo);
+                    mOwner.addPeerInfo(mCurrentTargetGUID, pInfo);
+                }
+                else 
+                {
+                    IPEndPoint remotePoint = new IPEndPoint(IPAddress.Parse(pInfo.getIP()), pInfo.getPORT());
+                    UDPResponder responder = new UDPResponder(remotePoint, mOwner.getRoutingTable.MyInfo.getPORT());
+                    responder.sendRequestJoin(mOwner.getRoutingTable.MyInfo.getGUID, mOwner.getRoutingTable.MyInfo);
+                    mOwner.addPeerInfo(mCurrentTargetGUID, pInfo);
+                }
             }
 
 

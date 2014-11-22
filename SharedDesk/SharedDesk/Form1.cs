@@ -36,7 +36,7 @@ namespace SharedDesk
             peer = new Peer();
 
             // Subscribing to events
-            //subscribeToListener();
+            subscribeToListener();
 
             // Generate GUID 
             //guid = Guid.NewGuid();
@@ -114,11 +114,15 @@ namespace SharedDesk
 
         private void handleUpdatedTable()
         {
-            listRoutingTable.Invoke(new MethodInvoker(() => listRoutingTable.Items.Clear()));
+            Dictionary<int, string> table = new Dictionary<int, string>();
             listRoutingTable.Invoke(new MethodInvoker(() => listRoutingTable.DataSource = null));
-            listRoutingTable.Invoke(new MethodInvoker(() => listRoutingTable.DataSource = peer.getRoutingTable.getPeers()));
-            listRoutingTable.Invoke(new MethodInvoker(() => listRoutingTable.DisplayMember = "toString"));
-            listRoutingTable.Invoke(new MethodInvoker(() => listRoutingTable.ValueMember = "getGUID"));
+            foreach (KeyValuePair<int, PeerInfo> entry in peer.getRoutingTable.getPeers())
+            {
+                table.Add(entry.Key, entry.Key + "        " +entry.Value.getGUID + "        " + entry.Value.getIP() + "        " + entry.Value.getPORT());
+            }
+            listRoutingTable.Invoke(new MethodInvoker(() => listRoutingTable.DataSource = new BindingSource(table, null)));
+            listRoutingTable.Invoke(new MethodInvoker(() => listRoutingTable.DisplayMember = "Value"));
+            //listRoutingTable.Invoke(new MethodInvoker(() => listRoutingTable.ValueMember = "Key"));
         }
 
         private void btnListen_Click(object sender, EventArgs e)
@@ -161,8 +165,8 @@ namespace SharedDesk
 
         private void btnSendFile_Click(object sender, EventArgs e)
         {
-            int guid = -1;
-            guid = (int)listRoutingTable.SelectedValue;
+            string guid;
+            guid = listRoutingTable.SelectedValue.ToString();
             Console.WriteLine(guid);
         }
     }

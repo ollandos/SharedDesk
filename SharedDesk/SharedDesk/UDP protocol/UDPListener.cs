@@ -17,7 +17,7 @@ namespace SharedDesk.UDP_protocol
     public class UDPListener
     {
         private Socket socket = null;
-        private byte[] buff = new byte[2048];
+        private byte[] buff = new byte[8192];
 
         // ref remoteEndPoint
         private EndPoint remoteEndPoint = new IPEndPoint(IPAddress.Any, 0);
@@ -36,7 +36,7 @@ namespace SharedDesk.UDP_protocol
         /// <summary>
         /// EVENTS FOR PEER
         /// </summary>
-        public event handlerRequestTable receiveTableRequest;
+        public event handlerRequestTable receiveRequestTable;
         public delegate void handlerRequestTable(IPEndPoint endpoint);
 
         public event handlerTable receiveTable;
@@ -49,7 +49,7 @@ namespace SharedDesk.UDP_protocol
         public delegate void handlerRequestClosest(IPEndPoint endpoint, int sender, int target);
 
         public event handlerRequestJoin receiveRequestJoin;
-        public delegate void handlerRequestJoin(PeerInfo pInfo);
+        public delegate void handlerRequestJoin(int tagetGuid, PeerInfo pInfo);
 
         public event handlerRequestLeave receiveRequestLeave;
         public delegate void handlerRequestLeave(int guid);
@@ -63,6 +63,9 @@ namespace SharedDesk.UDP_protocol
 
             // Init socket
             this.socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+            this.socket.ReceiveBufferSize = 8192;
+            this.socket.SendBufferSize = 8192;
+
             socket.Bind(ServerEndPoint);
 
             // Start listening
@@ -177,7 +180,6 @@ namespace SharedDesk.UDP_protocol
         private void handleRequestClosest(EndPoint remoteEnd)
         {
             int port = BitConverter.ToInt32(buff, 3);
-            Console.WriteLine("Received a ping from: {0}, listen port: {1}", remoteEnd, port);
 
             //Take the 2 GUIDS out of the buff[]
             byte[] guidByteArray = buff.Skip(1).Take(2).ToArray();
@@ -227,7 +229,7 @@ namespace SharedDesk.UDP_protocol
             remoteIpEndPoint.Port = port;
 
             //Fire the event for routing table request
-            receiveTableRequest(remoteIpEndPoint);
+            receiveRequestTable(remoteIpEndPoint);
         }
 
         private void handleTable(EndPoint remoteEnd)
@@ -254,10 +256,14 @@ namespace SharedDesk.UDP_protocol
 
         private void handleJoin()
         {
-            byte[] data = buff.Skip(1).ToArray();
+            byte[] target = buff.Skip(1).Take(1).ToArray();
+            int targetGUID = target[0];
+
+            byte[] data = buff.Skip(2).ToArray();
             PeerInfo pInfo = UDPResponder.ByteArrayToPeerInfo(data);
+            Console.WriteLine("Received a join to table request from {0}", pInfo.getGUID);
             //add the pInfo with event
-            receiveRequestJoin(pInfo);
+            receiveRequestJoin(targetGUID, pInfo);
         }
 
         private void handleLeave()
@@ -280,6 +286,12 @@ namespace SharedDesk.UDP_protocol
 
         private static byte[] routingTableToByteArray(RoutingTable rt)
         {
+
+            if (rt == null)
+            {
+                // trying to convert a null object
+                return null;
+            }
 
             BinaryFormatter bf = new BinaryFormatter();
             MemoryStream ms = new MemoryStream();

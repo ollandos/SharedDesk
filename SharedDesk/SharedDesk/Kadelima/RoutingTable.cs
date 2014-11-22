@@ -71,6 +71,20 @@ namespace SharedDesk
             return targetGUIDs;
         }
 
+        public void cleanTable(int guid)
+        {
+            List<int> targets = getTargetGUIDs(guid);
+            List<int> list = new List<int>(table.Keys);
+            // Loop through list
+            foreach (int p in list)
+            {
+                if (!targets.Contains(p))
+                {
+                   remove(p);
+                }
+            }
+        }
+
         public int calculateXOR(int value1, int value2)
         {
             int result = 0;
@@ -78,14 +92,23 @@ namespace SharedDesk
             return result;
         }
 
-        public List<PeerInfo> getPeers()
+        public Dictionary<int,PeerInfo> getPeers()
         {
-            return table.Values.ToList();
+            return table;
         }
 
         public bool containsValue(PeerInfo peer)
         {
-            return table.ContainsValue(peer);
+            List<PeerInfo> list = new List<PeerInfo>(table.Values);
+            // Loop through list
+            foreach (PeerInfo p in list)
+            {
+                if (p.getGUID == peer.getGUID)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public bool containsKey(int targetGuid)
@@ -114,9 +137,10 @@ namespace SharedDesk
             return table.Count;
         }
 
-        public PeerInfo getMyInfo
+        public PeerInfo MyInfo
         {
             get { return myInfo; }
+            set { myInfo = value; }
         }
 
         public string toString()

@@ -14,9 +14,10 @@ namespace SharedDesk
 
         private RoutingTable routingTable;
         private PeerInfo bootPeer;
+        private PeerInfo myInfo;
         private UDPListener listener;
         private int GUID;
-        private const int DEFAULT_LISTENING_PORT = 6666;
+        //private const int DEFAULT_LISTENING_PORT = 6666;
 
         /// <summary>
         /// EVENTS FOR FORM
@@ -31,24 +32,25 @@ namespace SharedDesk
         public Peer()
         {
             channels = new List<SearchChannel>();
-            bootPeer = new PeerInfo(0, "127.0.0.1", 6666);
+            bootPeer = new PeerInfo(0, "127.0.0.1", 8080);
         }
 
         public void init(int guid, string ip, int port)
         {
-            // create end point
-            listener = new UDPListener(DEFAULT_LISTENING_PORT);
-            //listener.setRoutingtable = routingTable;
-            // Assign GUID
-            GUID = guid;
-            
-            // Create Routing Table and adding boot peer
-            routingTable = new RoutingTable(new PeerInfo(guid, ip, port));
-            routingTable.add(0, bootPeer);
+            myInfo = new PeerInfo(guid,ip,port);
 
             // Create UDP listen and add events
             listener = new UDPListener(port);
             subscribeToListener(listener);
+ 
+            // Assign GUID
+            GUID = guid;
+            
+            // Create Routing Table and adding boot peer
+            routingTable = new RoutingTable(myInfo);
+            routingTable.add(0, bootPeer);
+
+            listener.setRoutingtable = routingTable;
 
             // Create end point
             IPEndPoint remotePoint = new IPEndPoint(IPAddress.Parse(bootPeer.getIP()), bootPeer.getPORT());
@@ -93,12 +95,12 @@ namespace SharedDesk
         //Joining Peer will tell all peers in his table to add him.
         public void joinToTable()
         {
-            foreach (PeerInfo p in routingTable.getPeers())
-            {
+            //foreach (PeerInfo p in routingTable.getPeers())
+            //{
                     //p.Value.acceptPeer(PeerInfo);
                 //p.Value.acceptPeer(routingTable.get);
 
-            }
+            //}
         }
 
         /*
@@ -124,7 +126,7 @@ namespace SharedDesk
         //Searches for closest peers in the network
         private void searchTargetPeers()
         {
-            mNewRoutingTable = new RoutingTable(routingTable.getMyInfo);
+            mNewRoutingTable = new RoutingTable(routingTable.MyInfo);
             List<int> targetGUIDs = mNewRoutingTable.getTargetGUIDs(GUID);
             foreach (int guid in targetGUIDs)
             {
@@ -133,7 +135,9 @@ namespace SharedDesk
                 channel.onReceiveClosest(closest);
                 channels.Add(channel);
             }
+            routingTable.cleanTable(GUID);
         }
+
 
         public int getGUID
         {
@@ -147,7 +151,7 @@ namespace SharedDesk
         // Subscribe to UDP listener events
         public void subscribeToListener(UDPListener l)
         {
-            l.receiveTableRequest += new UDPListener.handlerRequestTable(handleRequestTable);
+            l.receiveRequestTable += new UDPListener.handlerRequestTable(handleRequestTable);
             l.receiveTable += new UDPListener.handlerTable(handleTable);
             l.receiveClosest += new UDPListener.handlerFindChannel(handleReceiveClosest);
             l.receiveRequestClosest += new UDPListener.handlerRequestClosest(handleRequestClosest);
@@ -167,8 +171,9 @@ namespace SharedDesk
         public void handleTable(RoutingTable table)
         {
             this.routingTable = table;
-            updateTable();
+            this.routingTable.MyInfo = myInfo;
             searchTargetPeers();
+            updateTable();
         }
 
         // Handling the routing table request
@@ -179,10 +184,26 @@ namespace SharedDesk
         }
 
         // Handling the routing table request
-        public void handleJoinRequest(PeerInfo newPeer)
+        public void handleJoinRequest(int targetGuid, PeerInfo newPeer)
         {
-            //what key should the new Peer have???
-            routingTable.add(newPeer.getGUID, newPeer);
+            if (!routingTable.containsValue(newPeer))
+            {
+                Boolean hasSameKey = routingTable.containsKey(targetGuid);
+                if (hasSameKey)
+                {
+                    //PeerInfo removingPeer = routingTable.get(targetGUID);
+                    //notify to the peer with the targetGUID
+                    //UDPResponder responder = new UDPResponder(remotePoint, DEFAULT_LISTENING_PORT);
+
+                    routingTable.replace(targetGuid, newPeer);
+                }
+                else
+                {
+                    routingTable.add(targetGuid, newPeer);
+                }
+                searchTargetPeers();
+                updateTable();
+            }
             //TOOD: think about cycle of deleting non-target guids
             // Probably we want to remove those based when we find closer GUID.
             //Every time we find the closer peer we discard the peer which was previously occupying the key.
@@ -216,16 +237,17 @@ namespace SharedDesk
                 Boolean hasSameKey = routingTable.containsKey(targetGUID);
                 if (hasSameKey)
                 {
-                    PeerInfo removingPeer = routingTable.get(targetGUID);
-                    IPEndPoint remotePoint = new IPEndPoint( IPAddress.Parse(removingPeer.getIP()), removingPeer.getPORT() );
+                    //PeerInfo removingPeer = routingTable.get(targetGUID);
                     //notify to the peer with the targetGUID
-                    UDPResponder responder = new UDPResponder(remotePoint, DEFAULT_LISTENING_PORT);
+                    //UDPResponder responder = new UDPResponder(remotePoint, DEFAULT_LISTENING_PORT);
 
                     routingTable.replace(targetGUID, pInfo);
                 }
-                else {
+                else 
+                {
                     routingTable.add(targetGUID, pInfo);
                 }
+                updateTable();
             }
         }
 

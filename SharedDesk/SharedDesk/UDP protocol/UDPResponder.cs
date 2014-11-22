@@ -30,6 +30,8 @@ namespace SharedDesk.UDP_protocol
 
             // init socket
             socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+            socket.ReceiveBufferSize = 8192;
+            socket.SendBufferSize = 8192;
         }
 
         /// <summary>
@@ -69,16 +71,19 @@ namespace SharedDesk.UDP_protocol
         }
 
         //sends a request to join the table of the peer at the endpoint
-        public void sendRequestJoin(PeerInfo myInfo)
+        public void sendRequestJoin(int targetGUID, PeerInfo myInfo)
         {
             // byte indicating what type of packet it is
             byte[] commandByte = new byte[] { 7 };
+
+            //
+            byte[] target = new byte[] { (byte)targetGUID };
 
             // byte array with port 
             byte[] peerInfoByteArray = peerInfoToByteArray(myInfo);
 
             // buffer to send
-            byte[] sendBuffer = combineBytes(commandByte, peerInfoByteArray);
+            byte[] sendBuffer = combineBytes(commandByte, target, peerInfoByteArray);
 
             socket.SendTo(sendBuffer, endPoint);
             Console.WriteLine("\nUDP Responder");
