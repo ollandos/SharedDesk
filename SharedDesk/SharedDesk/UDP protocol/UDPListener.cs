@@ -165,6 +165,7 @@ namespace SharedDesk.UDP_protocol
                     handleLeave();
                     break;
                 case commandByte.fileInfo:
+                    handleFileInfo(remoteEnd);
                     break;
                 case commandByte.fileTransferRequest:
                     break;
@@ -178,6 +179,25 @@ namespace SharedDesk.UDP_protocol
             }
 
             socket.BeginReceiveFrom(buff, 0, buff.Length, SocketFlags.None, ref remoteEndPoint, new AsyncCallback(Listen), socket);
+        }
+
+        private void handleFileInfo(EndPoint remoteEnd)
+        {
+            // get UDP listening port from peer
+            byte[] portByteArray = buff.Skip(1).Take(16).ToArray();
+            int port = BitConverter.ToInt32(portByteArray, 0);
+
+            Console.WriteLine("Received a file info from: {0}, listen port: {1}", remoteEnd, port);
+
+
+
+            // create ip end point from udp packet ip and listen port received
+            //IPEndPoint remoteIpEndPoint = remoteEnd as IPEndPoint;
+            //remoteIpEndPoint.Port = port;
+
+            // respond to ping (send guid)
+            //UDPResponder udpResponse = new UDPResponder(remoteIpEndPoint, port);
+            //udpResponse.sendGUID(guid);
         }
 
         private void handleRequestClosest(EndPoint remoteEnd)

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -20,7 +21,7 @@ namespace SharedDesk
 
         // GUID 
         //Guid guid;
- 
+
         IPAddress ip;
         int remotePort;
         int listenPort;
@@ -155,15 +156,39 @@ namespace SharedDesk
         private void btnGetRoutingTable_Click(object sender, EventArgs e)
         {
             validateForm();
-            peer.init(Convert.ToInt32(tbGUID.Text),tbIP.Text,Convert.ToInt32(tbPORT.Text));
+            peer.init(Convert.ToInt32(tbGUID.Text), tbIP.Text, Convert.ToInt32(tbPORT.Text));
             toolStatus.Text = "Status: Sent routing table request";
         }
 
         private void btnSendFile_Click(object sender, EventArgs e)
         {
-            int guid = -1;
-            guid = (int)listRoutingTable.SelectedValue;
-            Console.WriteLine(guid);
+            OpenFileDialog ofd = new OpenFileDialog();
+            DialogResult dr = ofd.ShowDialog();
+
+            if (dr != DialogResult.OK)
+            {
+                // no file was selected
+                return;
+            }
+
+            string fileFullPath = ofd.FileName;
+            string fileName = Path.GetFileName(fileFullPath);
+
+            // get ip and port from selected peer in listbox
+            int index = listRoutingTable.SelectedIndex;
+            if (index == -1)
+            {
+                toolStatus.Text = "Error: No peer selected!";
+                return;
+            }
+
+            PeerInfo peer = (PeerInfo) listRoutingTable.Items[index];
+            toolStatus.Text = String.Format("Sending file \"{0}\" to peer guid {1}, ip {2}:{3}", fileName, peer.getGUID, peer.getIP(), peer.getPORT());
+
+
+            // TODO: 
+            // Send file info 
+
         }
     }
 }
