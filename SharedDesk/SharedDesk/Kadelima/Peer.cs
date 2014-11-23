@@ -17,7 +17,6 @@ namespace SharedDesk
         private PeerInfo myInfo;
         private UDPListener listener;
         private int GUID;
-        //private const int DEFAULT_LISTENING_PORT = 6666;
 
         // Event to update Form
         public event handlerUpdatedTable updateTable;
@@ -73,6 +72,21 @@ namespace SharedDesk
                 channels.Add(channel);
             }
             routingTable.cleanTable(GUID);
+        }
+
+        public void sendLeaveRequests() { 
+            List<PeerInfo> list = new  List<PeerInfo>(routingTable.getPeers().Values);
+            foreach(PeerInfo p in list)
+            {
+                sendLeaveRequest(p);
+            }
+        }
+
+        private void sendLeaveRequest(PeerInfo pInfo)
+        {
+            IPEndPoint remotePoint = new IPEndPoint(IPAddress.Parse(pInfo.getIP()), pInfo.getPORT());
+            UDPResponder responder = new UDPResponder(remotePoint, myInfo.getPORT());
+            responder.sendRequestLeave( myInfo.getGUID );
         }
 
         public int getGUID
@@ -146,6 +160,7 @@ namespace SharedDesk
         public void handleLeaveRequest(int guid)
         {
             routingTable.remove(guid);
+            searchTargetPeers();
         }
 
         // Handling receive routing table request
