@@ -199,5 +199,10 @@ namespace SharedDesk
             udpResponse.sendFileInfo(fileFullPath);
 
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            peer.sendLeaveRequests(); 
+        }
     }
 }

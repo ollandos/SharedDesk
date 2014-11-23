@@ -48,6 +48,7 @@
             this.toolStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.btnGetRoutingTable = new System.Windows.Forms.Button();
             this.btnSendFile = new System.Windows.Forms.Button();
+            this.btnLeave = new System.Windows.Forms.Button();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -227,11 +228,22 @@
             this.btnSendFile.UseVisualStyleBackColor = true;
             this.btnSendFile.Click += new System.EventHandler(this.btnSendFile_Click);
             // 
+            // btnLeave
+            // 
+            this.btnLeave.Location = new System.Drawing.Point(47, 333);
+            this.btnLeave.Name = "btnLeave";
+            this.btnLeave.Size = new System.Drawing.Size(100, 22);
+            this.btnLeave.TabIndex = 20;
+            this.btnLeave.Text = "Leave";
+            this.btnLeave.UseVisualStyleBackColor = true;
+            this.btnLeave.Click += new System.EventHandler(this.button1_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(582, 388);
+            this.Controls.Add(this.btnLeave);
             this.Controls.Add(this.btnSendFile);
             this.Controls.Add(this.btnGetRoutingTable);
             this.Controls.Add(this.statusStrip1);
@@ -283,6 +295,7 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStatus;
         private System.Windows.Forms.Button btnGetRoutingTable;
         private System.Windows.Forms.Button btnSendFile;
+        private System.Windows.Forms.Button btnLeave;
     }
 }
 
