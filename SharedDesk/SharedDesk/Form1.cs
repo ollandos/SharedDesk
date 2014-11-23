@@ -119,7 +119,7 @@ namespace SharedDesk
             listRoutingTable.Invoke(new MethodInvoker(() => listRoutingTable.DataSource = null));
             foreach (KeyValuePair<int, PeerInfo> entry in peer.getRoutingTable.getPeers())
             {
-                table.Add(entry.Key, entry.Key + "        " +entry.Value.getGUID + "        " + entry.Value.getIP() + "        " + entry.Value.getPORT());
+                table.Add(entry.Key, entry.Key + "        " + entry.Value.getGUID + "        " + entry.Value.getIP() + "        " + entry.Value.getPORT());
             }
             listRoutingTable.Invoke(new MethodInvoker(() => listRoutingTable.DataSource = new BindingSource(table, null)));
             listRoutingTable.Invoke(new MethodInvoker(() => listRoutingTable.DisplayMember = "Value"));
@@ -183,20 +183,41 @@ namespace SharedDesk
 
             // get ip and port from selected peer in listbox
             int index = listRoutingTable.SelectedIndex;
+
+            // find the guid of the peer selected
+            //string selectedPeer = listRoutingTable.Items[index].ToString();
+
             if (index == -1)
             {
                 toolStatus.Text = "Error: No peer selected!";
                 return;
             }
 
-            PeerInfo peer = (PeerInfo) listRoutingTable.Items[index];
-            toolStatus.Text = String.Format("Sending file \"{0}\" to peer guid {1}, ip {2}:{3}", fileName, peer.getGUID, peer.getIP(), peer.getPORT());
+            Dictionary<int, PeerInfo> peerDictionary = peer.getRoutingTable.getPeers();
 
-            // Send file info 
-            // create end point
-            IPEndPoint remotePoint = new IPEndPoint(ip, remotePort);
-            UDPResponder udpResponse = new UDPResponder(remotePoint, listenPort);
-            udpResponse.sendFileInfo(fileFullPath);
+
+            // FIX FOR MONDAY
+            // Will loop through peerDictonary and send to the first one it finds.. 
+
+            for (int i = 0; i < 12; i++)
+            {
+                if (peerDictionary.ContainsKey(i) && peer.getGUID != i)
+                {
+                    PeerInfo receivingPeer = peerDictionary[i];
+                    toolStatus.Text = String.Format("Sending file \"{0}\" to peer guid {1}, ip {2}:{3}", fileName, receivingPeer.getGUID, receivingPeer.getIP(), receivingPeer.getPORT());
+
+                    //// Send file info 
+                    //// create end point
+                    IPEndPoint remotePoint = new IPEndPoint(ip, remotePort);
+                    UDPResponder udpResponse = new UDPResponder(remotePoint, listenPort);
+                    udpResponse.sendFileInfo(fileFullPath);
+
+                    return;
+
+                }
+            }
+
+
 
         }
 
