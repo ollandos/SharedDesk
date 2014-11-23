@@ -9,10 +9,10 @@ namespace SharedDesk
     [Serializable()]
     public class PeerInfo
     {
-        // GUID users
         private int GUID;
         private string IP;
         private int PORT;
+
         public PeerInfo(int guid, string ip, int port)
         {
             this.GUID = guid;

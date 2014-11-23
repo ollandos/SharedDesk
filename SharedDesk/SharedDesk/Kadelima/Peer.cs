@@ -29,6 +29,7 @@ namespace SharedDesk
 
         private List<SearchChannel> channels;
 
+        // TODO: pass boot peer after retrieval of peers from servers
         public Peer()
         {
             channels = new List<SearchChannel>();

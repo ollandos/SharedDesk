@@ -54,52 +54,59 @@
             // listRoutingTable
             // 
             this.listRoutingTable.FormattingEnabled = true;
-            this.listRoutingTable.Location = new System.Drawing.Point(47, 41);
+            this.listRoutingTable.ItemHeight = 20;
+            this.listRoutingTable.Location = new System.Drawing.Point(70, 63);
+            this.listRoutingTable.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.listRoutingTable.Name = "listRoutingTable";
-            this.listRoutingTable.Size = new System.Drawing.Size(212, 95);
+            this.listRoutingTable.Size = new System.Drawing.Size(316, 144);
             this.listRoutingTable.TabIndex = 0;
             // 
             // labelGUID
             // 
             this.labelGUID.AutoSize = true;
-            this.labelGUID.Location = new System.Drawing.Point(44, 25);
+            this.labelGUID.Location = new System.Drawing.Point(66, 38);
+            this.labelGUID.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelGUID.Name = "labelGUID";
-            this.labelGUID.Size = new System.Drawing.Size(34, 13);
+            this.labelGUID.Size = new System.Drawing.Size(51, 20);
             this.labelGUID.TabIndex = 1;
             this.labelGUID.Text = "GUID";
             // 
             // labelIP
             // 
             this.labelIP.AutoSize = true;
-            this.labelIP.Location = new System.Drawing.Point(143, 25);
+            this.labelIP.Location = new System.Drawing.Point(214, 38);
+            this.labelIP.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelIP.Name = "labelIP";
-            this.labelIP.Size = new System.Drawing.Size(17, 13);
+            this.labelIP.Size = new System.Drawing.Size(24, 20);
             this.labelIP.TabIndex = 2;
             this.labelIP.Text = "IP";
             // 
             // labelPort
             // 
             this.labelPort.AutoSize = true;
-            this.labelPort.Location = new System.Drawing.Point(233, 25);
+            this.labelPort.Location = new System.Drawing.Point(350, 38);
+            this.labelPort.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelPort.Name = "labelPort";
-            this.labelPort.Size = new System.Drawing.Size(26, 13);
+            this.labelPort.Size = new System.Drawing.Size(38, 20);
             this.labelPort.TabIndex = 3;
             this.labelPort.Text = "Port";
             // 
             // lblGUID
             // 
             this.lblGUID.AutoSize = true;
-            this.lblGUID.Location = new System.Drawing.Point(44, 158);
+            this.lblGUID.Location = new System.Drawing.Point(66, 243);
+            this.lblGUID.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblGUID.Name = "lblGUID";
-            this.lblGUID.Size = new System.Drawing.Size(34, 13);
+            this.lblGUID.Size = new System.Drawing.Size(51, 20);
             this.lblGUID.TabIndex = 4;
             this.lblGUID.Text = "GUID";
             // 
             // buttonPing
             // 
-            this.buttonPing.Location = new System.Drawing.Point(47, 265);
+            this.buttonPing.Location = new System.Drawing.Point(70, 408);
+            this.buttonPing.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.buttonPing.Name = "buttonPing";
-            this.buttonPing.Size = new System.Drawing.Size(75, 23);
+            this.buttonPing.Size = new System.Drawing.Size(112, 35);
             this.buttonPing.TabIndex = 6;
             this.buttonPing.Text = "Ping";
             this.buttonPing.UseVisualStyleBackColor = true;
@@ -107,85 +114,96 @@
             // 
             // tbGUID
             // 
-            this.tbGUID.Location = new System.Drawing.Point(47, 174);
+            this.tbGUID.Location = new System.Drawing.Point(70, 268);
+            this.tbGUID.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tbGUID.Name = "tbGUID";
-            this.tbGUID.Size = new System.Drawing.Size(66, 20);
+            this.tbGUID.Size = new System.Drawing.Size(97, 26);
             this.tbGUID.TabIndex = 7;
             this.tbGUID.Text = "0";
             // 
             // listResponses
             // 
             this.listResponses.FormattingEnabled = true;
-            this.listResponses.Location = new System.Drawing.Point(340, 41);
+            this.listResponses.ItemHeight = 20;
+            this.listResponses.Location = new System.Drawing.Point(510, 63);
+            this.listResponses.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.listResponses.Name = "listResponses";
-            this.listResponses.Size = new System.Drawing.Size(212, 303);
+            this.listResponses.Size = new System.Drawing.Size(316, 464);
             this.listResponses.TabIndex = 8;
             // 
             // labelResponse
             // 
             this.labelResponse.AutoSize = true;
-            this.labelResponse.Location = new System.Drawing.Point(337, 9);
+            this.labelResponse.Location = new System.Drawing.Point(506, 14);
+            this.labelResponse.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelResponse.Name = "labelResponse";
-            this.labelResponse.Size = new System.Drawing.Size(60, 13);
+            this.labelResponse.Size = new System.Drawing.Size(90, 20);
             this.labelResponse.TabIndex = 9;
             this.labelResponse.Text = "Responses";
             // 
             // tbIP
             // 
-            this.tbIP.Location = new System.Drawing.Point(128, 174);
+            this.tbIP.Location = new System.Drawing.Point(192, 268);
+            this.tbIP.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tbIP.Name = "tbIP";
-            this.tbIP.Size = new System.Drawing.Size(104, 20);
+            this.tbIP.Size = new System.Drawing.Size(154, 26);
             this.tbIP.TabIndex = 10;
             this.tbIP.Text = "127.0.0.1";
             // 
             // tbPORT
             // 
-            this.tbPORT.Location = new System.Drawing.Point(247, 174);
+            this.tbPORT.Location = new System.Drawing.Point(370, 268);
+            this.tbPORT.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tbPORT.Name = "tbPORT";
-            this.tbPORT.Size = new System.Drawing.Size(75, 20);
+            this.tbPORT.Size = new System.Drawing.Size(110, 26);
             this.tbPORT.TabIndex = 11;
             this.tbPORT.Text = "8080";
             // 
             // lblIP
             // 
             this.lblIP.AutoSize = true;
-            this.lblIP.Location = new System.Drawing.Point(130, 158);
+            this.lblIP.Location = new System.Drawing.Point(195, 243);
+            this.lblIP.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblIP.Name = "lblIP";
-            this.lblIP.Size = new System.Drawing.Size(17, 13);
+            this.lblIP.Size = new System.Drawing.Size(24, 20);
             this.lblIP.TabIndex = 12;
             this.lblIP.Text = "IP";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(245, 158);
+            this.label1.Location = new System.Drawing.Point(368, 243);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(25, 13);
+            this.label1.Size = new System.Drawing.Size(37, 20);
             this.label1.TabIndex = 13;
             this.label1.Text = "port";
             // 
             // tbListenPort
             // 
-            this.tbListenPort.Location = new System.Drawing.Point(47, 307);
+            this.tbListenPort.Location = new System.Drawing.Point(70, 472);
+            this.tbListenPort.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tbListenPort.Name = "tbListenPort";
-            this.tbListenPort.Size = new System.Drawing.Size(100, 20);
+            this.tbListenPort.Size = new System.Drawing.Size(148, 26);
             this.tbListenPort.TabIndex = 14;
             this.tbListenPort.Text = "8080";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(44, 291);
+            this.label2.Location = new System.Drawing.Point(66, 448);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(56, 13);
+            this.label2.Size = new System.Drawing.Size(84, 20);
             this.label2.TabIndex = 15;
             this.label2.Text = "Listen port";
             // 
             // btnListen
             // 
-            this.btnListen.Location = new System.Drawing.Point(157, 306);
+            this.btnListen.Location = new System.Drawing.Point(236, 471);
+            this.btnListen.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnListen.Name = "btnListen";
-            this.btnListen.Size = new System.Drawing.Size(75, 23);
+            this.btnListen.Size = new System.Drawing.Size(112, 35);
             this.btnListen.TabIndex = 16;
             this.btnListen.Text = "Listen";
             this.btnListen.UseVisualStyleBackColor = true;
@@ -195,23 +213,25 @@
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStatus});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 366);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 567);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(582, 22);
+            this.statusStrip1.Padding = new System.Windows.Forms.Padding(2, 0, 21, 0);
+            this.statusStrip1.Size = new System.Drawing.Size(873, 30);
             this.statusStrip1.TabIndex = 17;
             this.statusStrip1.Text = "statusStrip1";
             // 
             // toolStatus
             // 
             this.toolStatus.Name = "toolStatus";
-            this.toolStatus.Size = new System.Drawing.Size(45, 17);
+            this.toolStatus.Size = new System.Drawing.Size(70, 25);
             this.toolStatus.Text = "Status: ";
             // 
             // btnGetRoutingTable
             // 
-            this.btnGetRoutingTable.Location = new System.Drawing.Point(47, 200);
+            this.btnGetRoutingTable.Location = new System.Drawing.Point(70, 308);
+            this.btnGetRoutingTable.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnGetRoutingTable.Name = "btnGetRoutingTable";
-            this.btnGetRoutingTable.Size = new System.Drawing.Size(156, 23);
+            this.btnGetRoutingTable.Size = new System.Drawing.Size(234, 35);
             this.btnGetRoutingTable.TabIndex = 18;
             this.btnGetRoutingTable.Text = "Get routing table";
             this.btnGetRoutingTable.UseVisualStyleBackColor = true;
@@ -219,9 +239,10 @@
             // 
             // btnSendFile
             // 
-            this.btnSendFile.Location = new System.Drawing.Point(47, 229);
+            this.btnSendFile.Location = new System.Drawing.Point(70, 352);
+            this.btnSendFile.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnSendFile.Name = "btnSendFile";
-            this.btnSendFile.Size = new System.Drawing.Size(156, 23);
+            this.btnSendFile.Size = new System.Drawing.Size(234, 35);
             this.btnSendFile.TabIndex = 19;
             this.btnSendFile.Text = "Send File";
             this.btnSendFile.UseVisualStyleBackColor = true;
@@ -229,9 +250,9 @@
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(582, 388);
+            this.ClientSize = new System.Drawing.Size(873, 597);
             this.Controls.Add(this.btnSendFile);
             this.Controls.Add(this.btnGetRoutingTable);
             this.Controls.Add(this.statusStrip1);
@@ -251,8 +272,10 @@
             this.Controls.Add(this.labelIP);
             this.Controls.Add(this.labelGUID);
             this.Controls.Add(this.listRoutingTable);
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
