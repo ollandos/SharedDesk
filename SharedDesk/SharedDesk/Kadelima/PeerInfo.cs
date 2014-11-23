@@ -9,6 +9,7 @@ namespace SharedDesk
     [Serializable()]
     public class PeerInfo
     {
+        // GUID users
         private int GUID;
         private string IP;
         private int PORT;
