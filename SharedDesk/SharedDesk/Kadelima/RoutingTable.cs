@@ -120,9 +120,12 @@ namespace SharedDesk
         {
             if (table.ContainsKey(p.getGUID))
             {
-                table.Remove(p.getGUID);
+                replace(p.getGUID, p);
             }
-            table.Add(p.getGUID, p);
+            else
+            {
+                table.Add(p.getGUID, p);
+            }
         }
 
         public bool addIfCloser(PeerInfo p)
@@ -174,10 +177,13 @@ namespace SharedDesk
 
         public void replace(int targetGuid, PeerInfo p)
         {
-            PeerInfo temp = table[targetGuid];
-            table.Remove(targetGuid);
-            table.Add(targetGuid, p);
-            addIfCloser(temp);
+            if (!containsValue(p))
+            {
+                PeerInfo temp = table[targetGuid];
+                table.Remove(targetGuid);
+                table.Add(targetGuid, p);
+                addIfCloser(temp);
+            }
         }
 
         public void remove(int guid)
