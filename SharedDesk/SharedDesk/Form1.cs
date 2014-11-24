@@ -43,6 +43,8 @@ namespace SharedDesk
         {
             InitializeComponent();
 
+            service = new APIService();
+
             // pass from login form
             this.email = email;
             this.apiKey = api_key;
@@ -65,6 +67,8 @@ namespace SharedDesk
             }
             // show port in textbox
             tbPORT.Text = port.ToString();
+
+            service.addPeer(this.apiKey, guid.ToString(), ip.ToString(), port.ToString());
         }
 
         /// <summary>
