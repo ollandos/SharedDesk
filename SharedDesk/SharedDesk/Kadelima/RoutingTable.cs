@@ -80,7 +80,7 @@ namespace SharedDesk
             {
                 if (!targets.Contains(p))
                 {
-                   remove(p);
+                   table.Remove(p);
                 }
             }
         }
@@ -116,20 +116,81 @@ namespace SharedDesk
             return table.ContainsKey(targetGuid);
         }
 
-        public void add(int targetGuid, PeerInfo p) 
+        public void add(PeerInfo p) 
         {
-            table.Add(targetGuid, p);
+            if (table.ContainsKey(p.getGUID))
+            {
+                table.Remove(p.getGUID);
+            }
+            table.Add(p.getGUID, p);
+        }
+
+        public bool addIfCloser(PeerInfo p)
+        {
+            List<int> targets = getTargetGUIDs(myInfo.getGUID);
+            List<int> closerToIndex = new List<int>();
+            bool added = false;
+            foreach (int tar in targets)
+            {
+                if (table.ContainsKey(tar))
+                {
+                    PeerInfo current = table[tar];
+                    if (calculateXOR(p.getGUID, tar) < calculateXOR(current.getGUID, tar))
+                    {
+                        closerToIndex.Add(tar);
+                    }
+                }
+                else
+                {
+                    closerToIndex.Add(tar);
+                }
+            }
+
+            int index = -1;
+            int dist = -1;
+            foreach (int closer in closerToIndex)
+            {
+                if (dist == -1 || calculateXOR(p.getGUID, closer) < dist)
+                {
+                    index = closer;
+                    dist = calculateXOR(p.getGUID, closer);
+                }
+            }
+
+            if (index != -1)
+            {
+                added = true;
+                if (table.ContainsKey(index))
+                {
+                    replace(index, p);
+                }
+                else 
+                {
+                    table.Add(index, p);
+                }
+            }
+            return added;
         }
 
         public void replace(int targetGuid, PeerInfo p)
         {
+            PeerInfo temp = table[targetGuid];
             table.Remove(targetGuid);
             table.Add(targetGuid, p);
+            addIfCloser(temp);
         }
 
         public void remove(int guid)
         {
-            table.Remove(guid);
+            foreach (KeyValuePair<int, PeerInfo> entry in table)
+            {
+                PeerInfo p = entry.Value;
+                if (p.getGUID == guid)
+                {
+                    table.Remove(entry.Key);
+                    break;
+                }
+            }
         }
 
         public int Count() 

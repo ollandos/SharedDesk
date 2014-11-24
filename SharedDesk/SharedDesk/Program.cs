@@ -16,7 +16,12 @@ namespace SharedDesk
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            
+            // TODO: enable login
+            //Application.Run(new loginForm());
+
+            // For asses like John & Tatsuya for "testing"!
+            Application.Run(new Form1("rea@th.com","1"));
         }
     }
 }

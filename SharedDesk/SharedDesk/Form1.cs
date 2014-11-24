@@ -11,6 +11,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Net.NetworkInformation;
 
 namespace SharedDesk
 {
@@ -21,14 +22,90 @@ namespace SharedDesk
 
         // GUID 
         //Guid guid;
+        int guid;
+        int port;
 
-        IPAddress ip;
+        // variable for storing local IP
+        private IPAddress ip;
         int remotePort;
         int listenPort;
 
-        public Form1()
+        // used for login
+        public string email;
+        protected string apiKey;
+
+        /// <summary>
+        /// APIService online
+        /// </summary>
+        public APIService service;
+
+        public Form1(string email, string api_key)
         {
             InitializeComponent();
+
+            this.email = email;
+            this.apiKey = api_key;
+
+            // generate guid (int)
+            Random rnd = new Random();
+            guid = rnd.Next(100);
+            tbGUID.Text = guid.ToString();
+
+            port = GetOpenPort();
+            tbPORT.Text = port.ToString();
+
+            // get local IP address
+            ip = IPAddress.Parse(LocalIPAddress());
+            tbIP.Text = ip.ToString();
+        }
+
+        /// <summary>
+        /// Method for getting the local IP address in order to use it for hosting the service.
+        /// </summary>
+        /// <returns>Your IP address.</returns>
+        public static string LocalIPAddress()
+        {
+            try
+            {
+                IPHostEntry host;
+                string localIP = "";
+                host = Dns.GetHostEntry(Dns.GetHostName());
+                foreach (IPAddress ip in host.AddressList)
+                {
+                    if (ip.AddressFamily == AddressFamily.InterNetwork)
+                    {
+                        localIP = ip.ToString();
+                        if (localIP.Contains("192.168"))
+                            return localIP;
+                    }
+                }
+                return localIP;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
+        private int GetOpenPort()
+        {
+            int PortStartIndex = 1000;
+            int PortEndIndex = 9000;
+            IPGlobalProperties properties = IPGlobalProperties.GetIPGlobalProperties();
+            IPEndPoint[] tcpEndPoints = properties.GetActiveTcpListeners();
+
+            List<int> usedPorts = tcpEndPoints.Select(p => p.Port).ToList<int>();
+            int unusedPort = 0;
+
+            for (int port = PortStartIndex; port < PortEndIndex; port++)
+            {
+                if (!usedPorts.Contains(port))
+                {
+                    unusedPort = port;
+                    break;
+                }
+            }
+            return unusedPort;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -203,6 +280,10 @@ namespace SharedDesk
         private void button1_Click(object sender, EventArgs e)
         {
             peer.sendLeaveRequests(); 
+        }
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
         }
     }
 }
