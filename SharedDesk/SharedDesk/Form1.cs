@@ -280,12 +280,15 @@ namespace SharedDesk
             {
                 if (peerDictionary.ContainsKey(i) && peer.getGUID != i)
                 {
+
                     PeerInfo receivingPeer = peerDictionary[i];
                     toolStatus.Text = String.Format("Sending file \"{0}\" to peer guid {1}, ip {2}:{3}", fileName, receivingPeer.getGUID, receivingPeer.getIP(), receivingPeer.getPORT());
 
+                    IPAddress RecevingIp = IPAddress.Parse(receivingPeer.getIP());
+
                     //// Send file info 
                     //// create end point
-                    IPEndPoint remotePoint = new IPEndPoint(ip, remotePort);
+                    IPEndPoint remotePoint = new IPEndPoint(RecevingIp, receivingPeer.getPORT());
                     UDPResponder udpResponse = new UDPResponder(remotePoint, listenPort);
                     udpResponse.sendFileInfo(fileFullPath);
 

@@ -30,7 +30,7 @@ namespace SharedDesk
         public Peer()
         {
             channels = new List<SearchChannel>();
-            bootPeer = new PeerInfo(0, "127.0.0.1", 8080);
+            bootPeer = new PeerInfo(0, "145.93.116.180", 8080);
         }
 
         public void init(int guid, string ip, int port)
