@@ -74,6 +74,11 @@ namespace SharedDesk.UDP_protocol
 
         }
 
+        public void closeSocket() {
+
+            socket.Close();
+        }
+
         public void Listen(IAsyncResult ar)
         {
             int received = 0;

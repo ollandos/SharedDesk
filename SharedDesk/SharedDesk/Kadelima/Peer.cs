@@ -76,7 +76,7 @@ namespace SharedDesk
             }
         }
 
-        public void sendLeaveRequests() { 
+        public void sendLeaveRequests() {
             List<PeerInfo> list = new  List<PeerInfo>(routingTable.getPeers().Values);
             foreach(PeerInfo p in list)
             {
@@ -86,6 +86,7 @@ namespace SharedDesk
 
         private void sendLeaveRequest(PeerInfo pInfo)
         {
+            listener.closeSocket();
             IPEndPoint remotePoint = new IPEndPoint(IPAddress.Parse(pInfo.getIP()), pInfo.getPORT());
             UDPResponder responder = new UDPResponder(remotePoint, myInfo.getPORT());
             responder.sendRequestLeave( myInfo.getGUID );
@@ -175,7 +176,8 @@ namespace SharedDesk
 
         public void addPeerInfo(PeerInfo pInfo)
         {
-            List<int> targets = routingTable.getTargetGUIDs(myInfo.getGUID);
+         
+           List<int> targets = routingTable.getTargetGUIDs(myInfo.getGUID);
             if (targets.Contains(pInfo.getGUID))
             {
                 routingTable.add(pInfo);
