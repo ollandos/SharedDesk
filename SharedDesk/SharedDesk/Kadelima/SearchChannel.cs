@@ -39,21 +39,20 @@ namespace SharedDesk.Kadelima
             {
                 if (mCurrentTargetGUID != pInfo.getGUID)
                 {
-                    IPEndPoint remotePoint = new IPEndPoint(IPAddress.Parse(pInfo.getIP()), pInfo.getPORT());
-                    UDPResponder responder = new UDPResponder(remotePoint, mOwner.getRoutingTable.MyInfo.getPORT());
-                    responder.sendRequestJoin(mCurrentTargetGUID, mOwner.getRoutingTable.MyInfo);
-                    mOwner.addPeerInfo(mCurrentTargetGUID, pInfo);
+                    //IPEndPoint remotePoint = new IPEndPoint(IPAddress.Parse(pInfo.getIP()), pInfo.getPORT());
+                    //UDPResponder responder = new UDPResponder(remotePoint, mOwner.getRoutingTable.MyInfo.getPORT());
+                    //responder.sendRequestJoin(mCurrentTargetGUID, mOwner.getRoutingTable.MyInfo);
+                    mOwner.addPeerInfo(pInfo);
                 }
-                else 
+                else
                 {
-                    IPEndPoint remotePoint = new IPEndPoint(IPAddress.Parse(pInfo.getIP()), pInfo.getPORT());
-                    UDPResponder responder = new UDPResponder(remotePoint, mOwner.getRoutingTable.MyInfo.getPORT());
-                    responder.sendRequestJoin(mOwner.getRoutingTable.MyInfo.getGUID, mOwner.getRoutingTable.MyInfo);
-                    mOwner.addPeerInfo(mCurrentTargetGUID, pInfo);
+                    //IPEndPoint remotePoint = new IPEndPoint(IPAddress.Parse(pInfo.getIP()), pInfo.getPORT());
+                    //UDPResponder responder = new UDPResponder(remotePoint, mOwner.getRoutingTable.MyInfo.getPORT());
+                    //responder.sendRequestJoin(mOwner.getRoutingTable.MyInfo.getGUID, mOwner.getRoutingTable.MyInfo);
+                    mOwner.addPeerInfo(pInfo);
                 }
+                
             }
-
-
         }
     }
 }
