@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FileHelper.cs" />
+    <Compile Include="FileWatcher\FileWatcher.cs" />
     <Compile Include="interfaces\ITransferStrategy.cs" />
     <Compile Include="Kadelima\SearchChannel.cs" />
     <Compile Include="TCP file transfer\BandWithCounter.cs" />

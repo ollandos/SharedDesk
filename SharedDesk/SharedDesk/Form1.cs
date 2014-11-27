@@ -19,6 +19,7 @@ namespace SharedDesk
         // Peer Object
         Peer peer;
 
+
         // GUID 
         //Guid guid;
 
@@ -216,9 +217,52 @@ namespace SharedDesk
 
                 }
             }
+        }
+        FileWatcher.FileWatcher fw;
+        bool myWatchingBool = false;
+        bool m_bIsChecked = false;
 
+        private void btnBrowseFiles_Click(object sender, EventArgs e)
+        {
+            DialogResult resDialog = dlgOpenDir.ShowDialog();
+            if (resDialog.ToString() == "OK")
+            {
+                tbFilePath.Text = dlgOpenDir.SelectedPath;
 
+                if(cbIncludeSub.Checked)
+                {
+                    m_bIsChecked = true;
+                }
+                fw = new FileWatcher.FileWatcher(m_bIsChecked);
+            }
+        }
 
+        private void tmrEditNotifier_Tick(object sender, EventArgs e)
+        {
+            if (fw._m_bMyBool == true)
+            {
+                lbFileChanges.BeginUpdate();
+                lbFileChanges.Items.Add(fw.sbToString());
+                lbFileChanges.EndUpdate();
+                fw._m_bMyBool = false;
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (myWatchingBool == false)
+            {
+                fw.WatchFile(tbFilePath.Text.ToString());
+                tmrEditNotifier.Enabled = true;
+                btnWatch.Text = "watching";
+                myWatchingBool = true;
+            }
+            else
+            {
+                tmrEditNotifier.Enabled = false;
+                btnWatch.Text = "watch";
+                myWatchingBool = false;
+            }
         }
     }
 }

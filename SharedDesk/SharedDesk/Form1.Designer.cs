@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.listRoutingTable = new System.Windows.Forms.ListBox();
             this.labelGUID = new System.Windows.Forms.Label();
             this.labelIP = new System.Windows.Forms.Label();
@@ -48,6 +49,14 @@
             this.toolStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.btnGetRoutingTable = new System.Windows.Forms.Button();
             this.btnSendFile = new System.Windows.Forms.Button();
+            this.tbFilePath = new System.Windows.Forms.TextBox();
+            this.btnBrowseFiles = new System.Windows.Forms.Button();
+            this.cbIncludeSub = new System.Windows.Forms.CheckBox();
+            this.dlgOpenDir = new System.Windows.Forms.FolderBrowserDialog();
+            this.lbFileChanges = new System.Windows.Forms.ListBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.tmrEditNotifier = new System.Windows.Forms.Timer(this.components);
+            this.btnWatch = new System.Windows.Forms.Button();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -195,9 +204,9 @@
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStatus});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 366);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 408);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(582, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(813, 22);
             this.statusStrip1.TabIndex = 17;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -227,11 +236,75 @@
             this.btnSendFile.UseVisualStyleBackColor = true;
             this.btnSendFile.Click += new System.EventHandler(this.btnSendFile_Click);
             // 
+            // tbFilePath
+            // 
+            this.tbFilePath.Location = new System.Drawing.Point(12, 360);
+            this.tbFilePath.Name = "tbFilePath";
+            this.tbFilePath.Size = new System.Drawing.Size(540, 20);
+            this.tbFilePath.TabIndex = 20;
+            // 
+            // btnBrowseFiles
+            // 
+            this.btnBrowseFiles.Location = new System.Drawing.Point(576, 360);
+            this.btnBrowseFiles.Name = "btnBrowseFiles";
+            this.btnBrowseFiles.Size = new System.Drawing.Size(103, 20);
+            this.btnBrowseFiles.TabIndex = 21;
+            this.btnBrowseFiles.Text = "Browse";
+            this.btnBrowseFiles.UseVisualStyleBackColor = true;
+            this.btnBrowseFiles.Click += new System.EventHandler(this.btnBrowseFiles_Click);
+            // 
+            // cbIncludeSub
+            // 
+            this.cbIncludeSub.AutoSize = true;
+            this.cbIncludeSub.Location = new System.Drawing.Point(655, 386);
+            this.cbIncludeSub.Name = "cbIncludeSub";
+            this.cbIncludeSub.Size = new System.Drawing.Size(114, 17);
+            this.cbIncludeSub.TabIndex = 22;
+            this.cbIncludeSub.Text = "Include Subfolders";
+            this.cbIncludeSub.UseVisualStyleBackColor = true;
+            // 
+            // lbFileChanges
+            // 
+            this.lbFileChanges.FormattingEnabled = true;
+            this.lbFileChanges.Location = new System.Drawing.Point(576, 41);
+            this.lbFileChanges.Name = "lbFileChanges";
+            this.lbFileChanges.Size = new System.Drawing.Size(212, 303);
+            this.lbFileChanges.TabIndex = 23;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(573, 9);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(68, 13);
+            this.label3.TabIndex = 24;
+            this.label3.Text = "File Changes";
+            // 
+            // tmrEditNotifier
+            // 
+            this.tmrEditNotifier.Tick += new System.EventHandler(this.tmrEditNotifier_Tick);
+            // 
+            // btnWatch
+            // 
+            this.btnWatch.Location = new System.Drawing.Point(685, 360);
+            this.btnWatch.Name = "btnWatch";
+            this.btnWatch.Size = new System.Drawing.Size(103, 20);
+            this.btnWatch.TabIndex = 25;
+            this.btnWatch.Text = "Watch";
+            this.btnWatch.UseVisualStyleBackColor = true;
+            this.btnWatch.Click += new System.EventHandler(this.button1_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(582, 388);
+            this.ClientSize = new System.Drawing.Size(813, 430);
+            this.Controls.Add(this.btnWatch);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.lbFileChanges);
+            this.Controls.Add(this.cbIncludeSub);
+            this.Controls.Add(this.btnBrowseFiles);
+            this.Controls.Add(this.tbFilePath);
             this.Controls.Add(this.btnSendFile);
             this.Controls.Add(this.btnGetRoutingTable);
             this.Controls.Add(this.statusStrip1);
@@ -283,6 +356,14 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStatus;
         private System.Windows.Forms.Button btnGetRoutingTable;
         private System.Windows.Forms.Button btnSendFile;
+        private System.Windows.Forms.TextBox tbFilePath;
+        private System.Windows.Forms.Button btnBrowseFiles;
+        private System.Windows.Forms.CheckBox cbIncludeSub;
+        private System.Windows.Forms.FolderBrowserDialog dlgOpenDir;
+        private System.Windows.Forms.ListBox lbFileChanges;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Timer tmrEditNotifier;
+        private System.Windows.Forms.Button btnWatch;
     }
 }
 
