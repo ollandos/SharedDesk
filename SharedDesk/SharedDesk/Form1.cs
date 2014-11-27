@@ -218,10 +218,20 @@ namespace SharedDesk
                 }
             }
         }
+
+        //file watcher object
         FileWatcher.FileWatcher fw;
+
+        //bool value to set if there is a folder being watched
         bool myWatchingBool = false;
+        //bool value for including subfolders
         bool m_bIsChecked = false;
 
+        /// <summary>
+        /// Button to open file dialogue to select directory to watch
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnBrowseFiles_Click(object sender, EventArgs e)
         {
             DialogResult resDialog = dlgOpenDir.ShowDialog();
@@ -237,6 +247,11 @@ namespace SharedDesk
             }
         }
 
+        /// <summary>
+        /// Timer to track changes
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void tmrEditNotifier_Tick(object sender, EventArgs e)
         {
             if (fw._m_bMyBool == true)
@@ -248,6 +263,12 @@ namespace SharedDesk
             }
         }
 
+        /// <summary>
+        /// button to start / stop watching
+        /// Enables and disables timer
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e)
         {
             if (myWatchingBool == false)

@@ -22,14 +22,7 @@ namespace SharedDesk.FileWatcher
             //set m_bMyBool
             set { this.m_bMyBool = value; }
         }
-        /*public FileWatcher(StringBuilder sb, bool myBool, FileSystemWatcher fsw, bool isWatching, bool isChecked)
-        {
-            m_Sb = sb;
-            m_bMyBool = myBool;
-            m_Watcher = fsw;
-            m_bIsWatching = isWatching;
-            m_bIsChecked = isChecked;
-        }*/
+
         public FileWatcher (bool isChecked)
         {
             m_bIsChecked = isChecked;
