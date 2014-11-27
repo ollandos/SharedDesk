@@ -22,6 +22,7 @@ namespace SharedDesk
     public class FileHelper
     {
         string peerListPath;
+        XmlDocument xml;
 
         public FileHelper()
         {
@@ -43,28 +44,52 @@ namespace SharedDesk
             return false;
         }
 
-        public bool peerExistInFile(string guid)
+        private XmlNode peerInfoToXmlNode(PeerInfo p)
         {
+            XmlNode peer = xml.CreateTextNode("Peer");
+            return peer;
+        }
+
+        public void updatePeerList(PeerInfo p)
+        {
+
+            string guid = p.getGUID.ToString();
 
             string xmlString = File.ReadAllText(peerListPath);
 
-            XmlDocument xml = new XmlDocument();
+            // load from file
+            xml = new XmlDocument();
             xml.LoadXml(xmlString);
 
             XmlNodeList list = xml.SelectNodes("/Peers/Peer");
+
             foreach (XmlNode n in list)
             {
                 string peerGuid = n["guid"].InnerText;
 
                 if (peerGuid == guid)
                 {
+
+                    //xml.ReplaceChild(peerInfoToXmlNode(p), n);
+                    return;
+
+
+                    // update element
+                    //n["last_seen_date"].Value = DateTime.Now.ToShortDateString();
+                    //n["last_seen_time"].Value = DateTime.Now.ToLongTimeString();
+
                     // delete this element
-                    return true;
                 }
 
             }
 
-            return false;
+            // peer does not exist in list
+            
+            // TODO: 
+            // add peer to list
+
+
+
         }
 
         public void createNewPeerXML(PeerInfo p)
@@ -74,6 +99,7 @@ namespace SharedDesk
             {
                 writer.WriteStartDocument();
                 writer.WriteStartElement("Peers");
+                writer.WriteStartElement("Peer");
 
                 writer.WriteElementString("guid", p.getGUID.ToString());
                 writer.WriteElementString("ip", p.getIP());
@@ -81,6 +107,7 @@ namespace SharedDesk
                 writer.WriteElementString("last_seen_date", DateTime.Now.ToShortDateString());
                 writer.WriteElementString("last_seen_time", DateTime.Now.ToLongTimeString());
 
+                writer.WriteEndElement();
                 writer.WriteEndElement();
                 writer.WriteEndDocument();
             }
@@ -96,42 +123,17 @@ namespace SharedDesk
                 return;
             }
 
-            // check if peer exist in list, in that case 
-            if (peerExistInFile(p.getGUID.ToString()))
-            {
-                // append element 
+            // append or add peerInfo to list
+            updatePeerList(p);
 
-            }
-
-
-            // update "last_seen"
+            // save xml
 
 
         }
 
-        public void savePeerList(List<PeerInfo> list)
+        public void savePeerList()
         {
-            // store peer list to file
-            using (XmlWriter writer = XmlWriter.Create("peers.xml"))
-            {
-                writer.WriteStartDocument();
-                writer.WriteStartElement("Peers");
-
-                foreach (PeerInfo p in list)  // <-- This is new
-                {
-                    writer.WriteStartElement("Peer"); // <-- Write employee element
-
-                    //writer.WriteElementString("ID", employee.Id.ToString());   // <-- These are new
-                    //writer.WriteElementString("FirstName", employee.FirstName);
-                    //writer.WriteElementString("LastName", employee.LastName);
-                    //writer.WriteElementString("Salary", employee.Salary.ToString());
-
-                    writer.WriteEndElement();
-                }
-
-                writer.WriteEndElement();
-                writer.WriteEndDocument(); ;
-            }
+            xml.Save(XmlWriter.Create(peerListPath));
         }
 
         public List<PeerInfo> getPeerList()
