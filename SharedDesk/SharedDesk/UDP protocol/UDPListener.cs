@@ -54,6 +54,12 @@ namespace SharedDesk.UDP_protocol
         public event handlerRequestLeave receiveRequestLeave;
         public delegate void handlerRequestLeave(int guid);
 
+        public event handlerRequestPing receiveRequestPing;
+        public delegate void handlerRequestPing(IPEndPoint endpoint);
+
+        public event handlerGUID receiveGUID;
+        public delegate void handlerGUID(int guid);
+
         public UDPListener(int port)
         {
             this.listenPort = port;
@@ -71,7 +77,6 @@ namespace SharedDesk.UDP_protocol
             // Start listening
             socket.BeginReceiveFrom(buff, 0, buff.Length, SocketFlags.None, ref remoteEndPoint, new AsyncCallback(Listen), socket);
             Console.Write("Listening on port {0} ", port);
-
         }
 
         public void closeSocket() {
@@ -141,7 +146,7 @@ namespace SharedDesk.UDP_protocol
                     break;
                 case commandByte.pingResponse:
                     // Packet should be exactly 17 bytes
-                    if (received != 17)
+                    if (received != 2)
                     {
                         Console.WriteLine("GUID packet recevied wrong size...");
                         break;
@@ -252,9 +257,10 @@ namespace SharedDesk.UDP_protocol
 
         private void handleGuid(EndPoint remoteEnd)
         {
-            byte[] guidByteArray = buff.Skip(1).Take(16).ToArray();
-            Guid remoteGuid = new Guid(guidByteArray);
+            byte[] guidByteArray = buff.Skip(1).Take(1).ToArray();
+            int remoteGuid = guidByteArray[0];
             Console.WriteLine("Received a guid from: {0}, guid: {1}", remoteEnd, remoteGuid.ToString());
+            receiveGUID(remoteGuid);
         }
 
         private void handlePing(EndPoint remoteEnd)
@@ -267,9 +273,7 @@ namespace SharedDesk.UDP_protocol
             IPEndPoint remoteIpEndPoint = remoteEnd as IPEndPoint;
             remoteIpEndPoint.Port = port;
 
-            // respond to ping (send guid)
-            UDPResponder udpResponse = new UDPResponder(remoteIpEndPoint, port);
-            //udpResponse.sendGUID(guid);
+            receiveRequestPing(remoteIpEndPoint);
         }
 
         private void handleRequestTable(EndPoint remoteEnd)

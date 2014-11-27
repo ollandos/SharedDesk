@@ -33,7 +33,6 @@
             this.labelIP = new System.Windows.Forms.Label();
             this.labelPort = new System.Windows.Forms.Label();
             this.lblGUID = new System.Windows.Forms.Label();
-            this.buttonPing = new System.Windows.Forms.Button();
             this.tbGUID = new System.Windows.Forms.TextBox();
             this.listResponses = new System.Windows.Forms.ListBox();
             this.labelResponse = new System.Windows.Forms.Label();
@@ -41,9 +40,6 @@
             this.tbPORT = new System.Windows.Forms.TextBox();
             this.lblIP = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.tbListenPort = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.btnListen = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.btnGetRoutingTable = new System.Windows.Forms.Button();
@@ -90,25 +86,15 @@
             // lblGUID
             // 
             this.lblGUID.AutoSize = true;
-            this.lblGUID.Location = new System.Drawing.Point(44, 158);
+            this.lblGUID.Location = new System.Drawing.Point(44, 171);
             this.lblGUID.Name = "lblGUID";
             this.lblGUID.Size = new System.Drawing.Size(34, 13);
             this.lblGUID.TabIndex = 4;
             this.lblGUID.Text = "GUID";
             // 
-            // buttonPing
-            // 
-            this.buttonPing.Location = new System.Drawing.Point(47, 265);
-            this.buttonPing.Name = "buttonPing";
-            this.buttonPing.Size = new System.Drawing.Size(75, 23);
-            this.buttonPing.TabIndex = 6;
-            this.buttonPing.Text = "Ping";
-            this.buttonPing.UseVisualStyleBackColor = true;
-            this.buttonPing.Click += new System.EventHandler(this.buttonPing_Click);
-            // 
             // tbGUID
             // 
-            this.tbGUID.Location = new System.Drawing.Point(47, 174);
+            this.tbGUID.Location = new System.Drawing.Point(47, 187);
             this.tbGUID.Name = "tbGUID";
             this.tbGUID.Size = new System.Drawing.Size(66, 20);
             this.tbGUID.TabIndex = 7;
@@ -133,7 +119,7 @@
             // 
             // tbIP
             // 
-            this.tbIP.Location = new System.Drawing.Point(128, 174);
+            this.tbIP.Location = new System.Drawing.Point(128, 187);
             this.tbIP.Name = "tbIP";
             this.tbIP.Size = new System.Drawing.Size(104, 20);
             this.tbIP.TabIndex = 10;
@@ -141,7 +127,7 @@
             // 
             // tbPORT
             // 
-            this.tbPORT.Location = new System.Drawing.Point(247, 174);
+            this.tbPORT.Location = new System.Drawing.Point(247, 187);
             this.tbPORT.Name = "tbPORT";
             this.tbPORT.Size = new System.Drawing.Size(75, 20);
             this.tbPORT.TabIndex = 11;
@@ -150,7 +136,7 @@
             // lblIP
             // 
             this.lblIP.AutoSize = true;
-            this.lblIP.Location = new System.Drawing.Point(130, 158);
+            this.lblIP.Location = new System.Drawing.Point(130, 171);
             this.lblIP.Name = "lblIP";
             this.lblIP.Size = new System.Drawing.Size(17, 13);
             this.lblIP.TabIndex = 12;
@@ -159,38 +145,11 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(245, 158);
+            this.label1.Location = new System.Drawing.Point(245, 171);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(25, 13);
             this.label1.TabIndex = 13;
             this.label1.Text = "port";
-            // 
-            // tbListenPort
-            // 
-            this.tbListenPort.Location = new System.Drawing.Point(47, 307);
-            this.tbListenPort.Name = "tbListenPort";
-            this.tbListenPort.Size = new System.Drawing.Size(100, 20);
-            this.tbListenPort.TabIndex = 14;
-            this.tbListenPort.Text = "8080";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(44, 291);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(56, 13);
-            this.label2.TabIndex = 15;
-            this.label2.Text = "Listen port";
-            // 
-            // btnListen
-            // 
-            this.btnListen.Location = new System.Drawing.Point(157, 306);
-            this.btnListen.Name = "btnListen";
-            this.btnListen.Size = new System.Drawing.Size(75, 23);
-            this.btnListen.TabIndex = 16;
-            this.btnListen.Text = "Listen";
-            this.btnListen.UseVisualStyleBackColor = true;
-            this.btnListen.Click += new System.EventHandler(this.btnListen_Click);
             // 
             // statusStrip1
             // 
@@ -210,7 +169,7 @@
             // 
             // btnGetRoutingTable
             // 
-            this.btnGetRoutingTable.Location = new System.Drawing.Point(47, 200);
+            this.btnGetRoutingTable.Location = new System.Drawing.Point(47, 213);
             this.btnGetRoutingTable.Name = "btnGetRoutingTable";
             this.btnGetRoutingTable.Size = new System.Drawing.Size(156, 23);
             this.btnGetRoutingTable.TabIndex = 18;
@@ -220,7 +179,7 @@
             // 
             // btnSendFile
             // 
-            this.btnSendFile.Location = new System.Drawing.Point(47, 229);
+            this.btnSendFile.Location = new System.Drawing.Point(47, 242);
             this.btnSendFile.Name = "btnSendFile";
             this.btnSendFile.Size = new System.Drawing.Size(156, 23);
             this.btnSendFile.TabIndex = 19;
@@ -230,8 +189,8 @@
             // 
             // btnLeave
             // 
-            this.btnLeave.Location = new System.Drawing.Point(247, 200);
-            this.btnLeave.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnLeave.Location = new System.Drawing.Point(247, 213);
+            this.btnLeave.Margin = new System.Windows.Forms.Padding(2);
             this.btnLeave.Name = "btnLeave";
             this.btnLeave.Size = new System.Drawing.Size(75, 23);
             this.btnLeave.TabIndex = 20;
@@ -248,9 +207,6 @@
             this.Controls.Add(this.btnSendFile);
             this.Controls.Add(this.btnGetRoutingTable);
             this.Controls.Add(this.statusStrip1);
-            this.Controls.Add(this.btnListen);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.tbListenPort);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.lblIP);
             this.Controls.Add(this.tbPORT);
@@ -258,7 +214,6 @@
             this.Controls.Add(this.labelResponse);
             this.Controls.Add(this.listResponses);
             this.Controls.Add(this.tbGUID);
-            this.Controls.Add(this.buttonPing);
             this.Controls.Add(this.lblGUID);
             this.Controls.Add(this.labelPort);
             this.Controls.Add(this.labelIP);
@@ -282,7 +237,6 @@
         private System.Windows.Forms.Label labelIP;
         private System.Windows.Forms.Label labelPort;
         private System.Windows.Forms.Label lblGUID;
-        private System.Windows.Forms.Button buttonPing;
         private System.Windows.Forms.TextBox tbGUID;
         private System.Windows.Forms.ListBox listResponses;
         private System.Windows.Forms.Label labelResponse;
@@ -290,9 +244,6 @@
         private System.Windows.Forms.TextBox tbPORT;
         private System.Windows.Forms.Label lblIP;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox tbListenPort;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button btnListen;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStatus;
         private System.Windows.Forms.Button btnGetRoutingTable;

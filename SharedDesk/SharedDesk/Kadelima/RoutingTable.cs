@@ -118,6 +118,10 @@ namespace SharedDesk
 
         public void add(PeerInfo p) 
         {
+            if (containsValue(p))
+            {
+                remove(p.getGUID);
+            }
             if (table.ContainsKey(p.getGUID))
             {
                 replace(p.getGUID, p);

@@ -56,8 +56,9 @@ namespace SharedDesk.UDP_protocol
         }
 
 
-        public void sendGUID(byte[] guid)
+        public void sendGUID(int GUID)
         {
+            byte[] guid = new byte[] { (byte)GUID };
             // byte indicating what type of packet it is
             byte[] commandByte = new byte[] { 2 };
 
@@ -67,7 +68,6 @@ namespace SharedDesk.UDP_protocol
             socket.SendTo(sendBuffer, endPoint);
             Console.WriteLine("\nUDP Responder");
             Console.WriteLine("Sending guid to {0}", endPoint);
-
         }
 
         //sends a request to join the table of the peer at the endpoint

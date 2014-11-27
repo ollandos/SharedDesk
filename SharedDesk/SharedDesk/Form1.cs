@@ -27,16 +27,12 @@ namespace SharedDesk
 
         // variable for storing local IP
         private IPAddress ip;
-        int remotePort;
-        int listenPort;
 
         // user info
         public string email;
         protected string apiKey;
 
-        /// <summary>
-        /// APIService online
-        /// </summary>
+        // APIService online
         public APIService service;
 
         public Form1(string email, string api_key)
@@ -71,10 +67,7 @@ namespace SharedDesk
             service.addPeer(this.apiKey, guid.ToString(), ip.ToString(), port.ToString());
         }
 
-        /// <summary>
-        /// Method for getting the local IP address in order to use it for the peer.
-        /// </summary>
-        /// <returns>Your IP address.</returns>
+        // Method for getting the local IP address in order to use it for the peer.
         public static string LocalIPAddress()
         {
             try
@@ -87,7 +80,7 @@ namespace SharedDesk
                     if (ip.AddressFamily == AddressFamily.InterNetwork)
                     {
                         localIP = ip.ToString();
-                        if (localIP.Contains("192.168"))
+                        if (localIP.Contains("192.168.1."))
                             return localIP;
                     }
                 }
@@ -99,10 +92,7 @@ namespace SharedDesk
             }
         }
 
-        /// <summary>
-        /// Method to scan all used ports and return the next available port to be used for peer. 
-        /// </summary>
-        /// <returns>Available port.</returns>
+        // Method to scan all used ports and return the next available port to be used for peer. 
         private int getNextAvailablePort()
         {
             // ini variables
@@ -131,15 +121,11 @@ namespace SharedDesk
                 if (!portArray.Contains(i))
                     return i;
             }
-
             return 0;
             
         }
 
-        /// <summary>
-        /// Method to randomly generate a guid.
-        /// </summary>
-        /// <returns>Guid</returns>
+        // Method to randomly generate a guid.
         private int generateGuid()
         {
             Random rnd = new Random();
@@ -159,66 +145,86 @@ namespace SharedDesk
             //guid = Guid.NewGuid();
         }
 
-
-
-        // Check all forms to and make sure IP and PORT are filled in and valid
-        private bool validateForm()
+        // Gets routing table from boot peer and starts the process of finding closest peers
+        private void btnGetRoutingTable_Click(object sender, EventArgs e)
         {
-
+            //UdpClient updScan = new UdpClient();// What is this???
             try
             {
-                ip = IPAddress.Parse(tbIP.Text);
-            }
-            catch (Exception)
-            {
-                toolStatus.Text = "ERROR: wrong ip";
-                return false;
-            }
+                //updScan.Connect(ip, port);// And this???
 
-            try
-            {
-                remotePort = Convert.ToInt32(tbPORT.Text);
-                listenPort = Convert.ToInt32(tbListenPort.Text);
+                peer.init(Convert.ToInt32(tbGUID.Text), tbIP.Text, Convert.ToInt32(tbPORT.Text));
+                toolStatus.Text = "Status: Sent routing table request";
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                toolStatus.Text = "ERROR: wrong port";
-                return false;
+                MessageBox.Show(ex.ToString());
             }
-
-            // check that port nr is between 0 and 65535
-            if (remotePort < 0 || remotePort > 65535)
-            {
-                toolStatus.Text = "ERROR: wrong port";
-                return false;
-            }
-
-            // check that port nr is between 0 and 65535
-            if (listenPort < 0 || listenPort > 65535)
-            {
-                toolStatus.Text = "ERROR: wrong port";
-                return false;
-            }
-
-            return true;
         }
 
-        /// <summary>
-        /// Button Events
-        /// </summary>
-
-        //Ping Button
-        private void buttonPing_Click(object sender, EventArgs e)
+        private void btnSendFile_Click(object sender, EventArgs e)
         {
-            validateForm();
+            string guid;
+            guid = listRoutingTable.SelectedValue.ToString();
+            Console.WriteLine(guid);
+            OpenFileDialog ofd = new OpenFileDialog();
+            DialogResult dr = ofd.ShowDialog();
 
-            // create end point
-            IPEndPoint remotePoint = new IPEndPoint(ip, remotePort);
-            UDPResponder udpResponse = new UDPResponder(remotePoint, listenPort);
-            udpResponse.sendPing();
+            if (dr != DialogResult.OK)
+            {
+                // No file was selected
+                return;
+            }
 
-            toolStatus.Text = "Status: Sent ping";
+            string fileFullPath = ofd.FileName;
+            string fileName = Path.GetFileName(fileFullPath);
 
+            // get ip and port from selected peer in listbox
+            int index = listRoutingTable.SelectedIndex;
+
+            // find the guid of the peer selected
+            //string selectedPeer = listRoutingTable.Items[index].ToString();
+
+            if (index == -1)
+            {
+                toolStatus.Text = "Error: No peer selected!";
+                return;
+            }
+
+            Dictionary<int, PeerInfo> peerDictionary = peer.getRoutingTable.getPeers();
+
+            // FIX FOR MONDAY
+            // Will loop through peerDictonary and send to the first one it finds.. 
+
+            for (int i = 0; i < 12; i++)
+            {
+                if (peerDictionary.ContainsKey(i) && peer.getGUID != i)
+                {
+
+                    PeerInfo receivingPeer = peerDictionary[i];
+                    toolStatus.Text = String.Format("Sending file \"{0}\" to peer guid {1}, ip {2}:{3}", fileName, receivingPeer.getGUID, receivingPeer.getIP(), receivingPeer.getPORT());
+
+                    IPAddress RecevingIp = IPAddress.Parse(receivingPeer.getIP());
+
+                    //// Send file info 
+                    //// create end point
+                    IPEndPoint remotePoint = new IPEndPoint(RecevingIp, receivingPeer.getPORT());
+                    UDPResponder udpResponse = new UDPResponder(remotePoint, port);
+                    udpResponse.sendFileInfo(fileFullPath);
+
+                    return;
+                }
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            peer.sendLeaveRequests();
+        }
+
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
         }
 
         /// <summary>
@@ -240,126 +246,6 @@ namespace SharedDesk
             listRoutingTable.Invoke(new MethodInvoker(() => listRoutingTable.DataSource = new BindingSource(table, null)));
             listRoutingTable.Invoke(new MethodInvoker(() => listRoutingTable.DisplayMember = "Value"));
             //listRoutingTable.Invoke(new MethodInvoker(() => listRoutingTable.ValueMember = "Key"));
-        }
-
-        private void btnListen_Click(object sender, EventArgs e)
-        {
-            if (tbListenPort.Text == "")
-            {
-                toolStatus.Text = "ERROR: wrong port";
-                return;
-            }
-
-            int port;
-            try
-            {
-                port = Convert.ToInt32(tbListenPort.Text);
-            }
-            catch (Exception)
-            {
-                toolStatus.Text = "ERROR: wrong port";
-                return;
-            }
-
-            // check that port nr is between 0 and 65535
-            if (port < 0 || port > 65535)
-            {
-                toolStatus.Text = "ERROR: wrong port";
-                return;
-            }
-
-            UDPListener p = new UDPListener(port);
-            toolStatus.Text = "Status: Listening on port " + port.ToString();
-        }
-
-        // Gets routing table from boot peer and starts the process of finding closest peers
-        private void btnGetRoutingTable_Click(object sender, EventArgs e)
-        {
-            validateForm();
-
-            UdpClient updScan = new UdpClient();
-
-            try
-            {
-                updScan.Connect(ip, port);
-
-                peer.init(Convert.ToInt32(tbGUID.Text), tbIP.Text, Convert.ToInt32(tbPORT.Text));
-                toolStatus.Text = "Status: Sent routing table request";
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            } 
-        }
-
-        private void btnSendFile_Click(object sender, EventArgs e)
-        {
-            string guid;
-            guid = listRoutingTable.SelectedValue.ToString();
-            Console.WriteLine(guid);
-            OpenFileDialog ofd = new OpenFileDialog();
-            DialogResult dr = ofd.ShowDialog();
-
-            if (dr != DialogResult.OK)
-            {
-                // no file was selected
-                return;
-            }
-
-            string fileFullPath = ofd.FileName;
-            string fileName = Path.GetFileName(fileFullPath);
-
-            // get ip and port from selected peer in listbox
-            int index = listRoutingTable.SelectedIndex;
-
-            // find the guid of the peer selected
-            //string selectedPeer = listRoutingTable.Items[index].ToString();
-
-            if (index == -1)
-            {
-                toolStatus.Text = "Error: No peer selected!";
-                return;
-            }
-
-            Dictionary<int, PeerInfo> peerDictionary = peer.getRoutingTable.getPeers();
-
-
-            // FIX FOR MONDAY
-            // Will loop through peerDictonary and send to the first one it finds.. 
-
-            for (int i = 0; i < 12; i++)
-            {
-                if (peerDictionary.ContainsKey(i) && peer.getGUID != i)
-                {
-
-                    PeerInfo receivingPeer = peerDictionary[i];
-                    toolStatus.Text = String.Format("Sending file \"{0}\" to peer guid {1}, ip {2}:{3}", fileName, receivingPeer.getGUID, receivingPeer.getIP(), receivingPeer.getPORT());
-
-                    IPAddress RecevingIp = IPAddress.Parse(receivingPeer.getIP());
-
-                    //// Send file info 
-                    //// create end point
-                    IPEndPoint remotePoint = new IPEndPoint(RecevingIp, receivingPeer.getPORT());
-                    UDPResponder udpResponse = new UDPResponder(remotePoint, listenPort);
-                    udpResponse.sendFileInfo(fileFullPath);
-
-                    return;
-
-                }
-            }
-
-
-
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            peer.sendLeaveRequests(); 
-        }
-        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            Application.Exit();
         }
     }
 }
