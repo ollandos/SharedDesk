@@ -13,6 +13,7 @@ using Newtonsoft.Json.Linq;
 using System.Security.Cryptography;
 using System.Net.NetworkInformation;
 using System.IO;
+using System.Reflection;
 
 namespace SharedDesk
 {
@@ -22,12 +23,12 @@ namespace SharedDesk
 
         public APIService()
         {
-            this.url = "http://service.maximize-it.eu/";
+            this.url = "http://service.maximize-it.eu";
         }
         
         public Boolean register(string name, string email, string password)
         {
-            Uri address = new Uri(this.url + "register");
+            Uri address = new Uri(this.url + "/register");
 
             // Create the web request  
             HttpWebRequest request = WebRequest.Create(address) as HttpWebRequest;
@@ -84,7 +85,7 @@ namespace SharedDesk
 
         public String login(string email, string password)
         {
-            Uri address = new Uri(this.url + "login");
+            Uri address = new Uri(this.url + "/login");
 
             // Create the web request  
             HttpWebRequest request = WebRequest.Create(address) as HttpWebRequest;
@@ -156,8 +157,9 @@ namespace SharedDesk
 
             // Create a byte array of the data we want to send  
             byte[] byteData = UTF8Encoding.UTF8.GetBytes(data.ToString());
+            request.AllowAutoRedirect = false;
 
-            request.Headers.Add("Authorization", apiKey);
+            request.Headers["Authorization"] = apiKey;
 
             // Set the content length in the request headers  
             request.ContentLength = byteData.Length;
@@ -257,7 +259,7 @@ namespace SharedDesk
 
         public Boolean deletePeer(string apiKey, string uuid)
         {
-            Uri address = new Uri(this.url + "peers/" + uuid);
+            Uri address = new Uri(this.url + "/peers/" + uuid);
 
             // Create the web request  
             HttpWebRequest request = WebRequest.Create(address) as HttpWebRequest;
@@ -314,7 +316,7 @@ namespace SharedDesk
 
         public List<PeerInfo> getPeers(string apiKey)
         {
-            Uri address = new Uri(this.url + "peers");
+            Uri address = new Uri(this.url + "/peers");
 
             // Create the web request  
             HttpWebRequest request = WebRequest.Create(address) as HttpWebRequest;

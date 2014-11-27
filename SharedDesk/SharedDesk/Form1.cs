@@ -20,9 +20,9 @@ namespace SharedDesk
         // Peer Object
         Peer peer;
 
-        // GUID 
-        //Guid guid;
+        // var for storing peer guid
         int guid;
+        // var for storing peer port
         int port;
 
         // variable for storing local IP
@@ -30,7 +30,7 @@ namespace SharedDesk
         int remotePort;
         int listenPort;
 
-        // used for login
+        // user info
         public string email;
         protected string apiKey;
 
@@ -43,24 +43,36 @@ namespace SharedDesk
         {
             InitializeComponent();
 
+            service = new APIService();
+
+            // pass from login form
             this.email = email;
             this.apiKey = api_key;
 
             // generate guid (int)
-            Random rnd = new Random();
-            guid = rnd.Next(100);
+            guid = generateGuid();
+            // show in textbox
             tbGUID.Text = guid.ToString();
-
-            port = GetOpenPort();
-            tbPORT.Text = port.ToString();
 
             // get local IP address
             ip = IPAddress.Parse(LocalIPAddress());
+            // show in textbox
             tbIP.Text = ip.ToString();
+
+            port = 0;
+            while (port == 0)
+            {
+                // get available port
+                port = getNextAvailablePort();
+            }
+            // show port in textbox
+            tbPORT.Text = port.ToString();
+
+            service.addPeer(this.apiKey, guid.ToString(), ip.ToString(), port.ToString());
         }
 
         /// <summary>
-        /// Method for getting the local IP address in order to use it for hosting the service.
+        /// Method for getting the local IP address in order to use it for the peer.
         /// </summary>
         /// <returns>Your IP address.</returns>
         public static string LocalIPAddress()
@@ -87,26 +99,53 @@ namespace SharedDesk
             }
         }
 
-        private int GetOpenPort()
+        /// <summary>
+        /// Method to scan all used ports and return the next available port to be used for peer. 
+        /// </summary>
+        /// <returns>Available port.</returns>
+        private int getNextAvailablePort()
         {
-            int PortStartIndex = 1000;
-            int PortEndIndex = 9000;
+            // ini variables
+            List<int> portArray = new List<int>();
+            int minPortNr = 1000;
+
             IPGlobalProperties properties = IPGlobalProperties.GetIPGlobalProperties();
-            IPEndPoint[] tcpEndPoints = properties.GetActiveTcpListeners();
-
-            List<int> usedPorts = tcpEndPoints.Select(p => p.Port).ToList<int>();
-            int unusedPort = 0;
-
-            for (int port = PortStartIndex; port < PortEndIndex; port++)
+            TcpConnectionInformation[] connections = properties.GetActiveTcpConnections();
+            // add all connections to array
+            portArray.AddRange(from n in connections where n.LocalEndPoint.Port >= minPortNr select n.LocalEndPoint.Port);
+            // temp var
+            IPEndPoint[] endPoints;
+            // get all tcp listeners
+            endPoints = properties.GetActiveTcpListeners();
+            // add tcp listeners to array
+            portArray.AddRange(from n in endPoints where n.Port >= minPortNr select n.Port);
+            // get all upd listeners
+            endPoints = properties.GetActiveUdpListeners();
+            // add upd listeners to array
+            portArray.AddRange(from n in endPoints where n.Port >= minPortNr select n.Port);
+            // sort array 
+            portArray.Sort();
+            // return next available port
+            for (int i = minPortNr; i < UInt16.MaxValue; i++)
             {
-                if (!usedPorts.Contains(port))
-                {
-                    unusedPort = port;
-                    break;
-                }
+                if (!portArray.Contains(i))
+                    return i;
             }
-            return unusedPort;
+
+            return 0;
+            
         }
+
+        /// <summary>
+        /// Method to randomly generate a guid.
+        /// </summary>
+        /// <returns>Guid</returns>
+        private int generateGuid()
+        {
+            Random rnd = new Random();
+            return rnd.Next(15);
+        }
+
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -181,10 +220,10 @@ namespace SharedDesk
             toolStatus.Text = "Status: Sent ping";
 
         }
+
         /// <summary>
         /// HANDLERS
         /// </summary>
-
         public void subscribeToListener()
         {
             peer.updateTable += new Peer.handlerUpdatedTable(handleUpdatedTable);
@@ -237,8 +276,21 @@ namespace SharedDesk
         private void btnGetRoutingTable_Click(object sender, EventArgs e)
         {
             validateForm();
-            peer.init(Convert.ToInt32(tbGUID.Text), tbIP.Text, Convert.ToInt32(tbPORT.Text));
-            toolStatus.Text = "Status: Sent routing table request";
+
+            UdpClient updScan = new UdpClient();
+
+            try
+            {
+                updScan.Connect(ip, port);
+
+                peer.init(Convert.ToInt32(tbGUID.Text), tbIP.Text, Convert.ToInt32(tbPORT.Text));
+                toolStatus.Text = "Status: Sent routing table request";
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            } 
         }
 
         private void btnSendFile_Click(object sender, EventArgs e)
