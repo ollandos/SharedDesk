@@ -22,7 +22,7 @@ namespace SharedDesk
     public class FileHelper
     {
         string peerListPath;
-        XmlDocument xml;
+        XmlDocument root;
 
         public FileHelper()
         {
@@ -46,7 +46,7 @@ namespace SharedDesk
 
         private XmlNode peerInfoToXmlNode(PeerInfo p)
         {
-            XmlNode peer = xml.CreateTextNode("Peer");
+            XmlNode peer = root.CreateTextNode("Peer");
             return peer;
         }
 
@@ -54,21 +54,37 @@ namespace SharedDesk
         {
 
             string guid = p.getGUID.ToString();
+            string xmlString = "";
 
-            string xmlString = File.ReadAllText(peerListPath);
+            try
+            {
+                // read from file
+                xmlString = File.ReadAllText(peerListPath);
+            }
+            catch (Exception error)
+            {
+                return;
+            }
 
             // load from file
-            xml = new XmlDocument();
-            xml.LoadXml(xmlString);
+            root = new XmlDocument();
+            root.LoadXml(xmlString);
 
-            XmlNodeList list = xml.SelectNodes("/Peers/Peer");
+            XmlNodeList nodeList = root.SelectNodes("/Peers/Peer");
 
-            foreach (XmlNode n in list)
+            foreach (XmlNode n in nodeList)
             {
-                string peerGuid = n["guid"].InnerText;
+                string peerGuid = n["guid"].InnerXml;
 
                 if (peerGuid == guid)
                 {
+
+                    // only update "last_seen"?
+                    // or, update everything? 
+                    n["ip"].InnerXml = p.getIP();
+                    n["port"].InnerXml = p.getPORT().ToString();
+                    n["last_seen_date"].InnerXml = DateTime.Now.ToShortDateString();
+                    n["last_seen_time"].InnerXml = DateTime.Now.ToLongTimeString();
 
                     //xml.ReplaceChild(peerInfoToXmlNode(p), n);
                     return;
@@ -84,6 +100,22 @@ namespace SharedDesk
             }
 
             // peer does not exist in list
+            if (nodeList.Count == 0)
+            {
+                return;
+            }
+
+            XmlNode peer = nodeList.Item(0).Clone();
+            peer["guid"].InnerXml = guid;
+            peer["ip"].InnerXml = p.getIP();
+            peer["port"].InnerXml = p.getPORT().ToString();
+            peer["last_seen_date"].InnerXml = DateTime.Now.ToShortDateString();
+            peer["last_seen_time"].InnerXml = DateTime.Now.ToLongTimeString();
+
+            root.ChildNodes[1].AppendChild(peer);       
+
+            //root.AppendChild(peer);
+            savePeerList();
             
             // TODO: 
             // add peer to list
@@ -110,6 +142,8 @@ namespace SharedDesk
                 writer.WriteEndElement();
                 writer.WriteEndElement();
                 writer.WriteEndDocument();
+
+                writer.Close();
             }
         }
 
@@ -133,7 +167,7 @@ namespace SharedDesk
 
         public void savePeerList()
         {
-            xml.Save(XmlWriter.Create(peerListPath));
+            root.Save(peerListPath);
         }
 
         public List<PeerInfo> getPeerList()
