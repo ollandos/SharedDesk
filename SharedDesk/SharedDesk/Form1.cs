@@ -51,12 +51,13 @@ namespace SharedDesk
             guid = rnd.Next(100);
             tbGUID.Text = guid.ToString();
 
-            port = GetOpenPort();
-            tbPORT.Text = port.ToString();
+            //port = GetOpenPort();
+            //tbListenPort.Text = port.ToString();
+            //tbPORT.Text = port.ToString();
 
             // get local IP address
-            ip = IPAddress.Parse(LocalIPAddress());
-            tbIP.Text = ip.ToString();
+            //ip = IPAddress.Parse(LocalIPAddress());
+            //tbIP.Text = ip.ToString();
         }
 
         /// <summary>

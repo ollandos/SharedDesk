@@ -26,6 +26,9 @@ namespace SharedDesk.UDP_protocol
         // routing table to deliver per request
         private byte[] routing_table;
 
+        // store peers
+        private FileHelper fileHelper;
+
         // define all the possible commands
         private enum commandByte { 
             error = 0, pingRequest, pingResponse, routingTableRequest, routingTableReceived, closestPeerRequest, 
@@ -56,6 +59,9 @@ namespace SharedDesk.UDP_protocol
 
         public UDPListener(int port)
         {
+            // store peers and files and receive settings
+            fileHelper = new FileHelper();
+
             this.listenPort = port;
 
             // Listen for any IP
@@ -315,6 +321,10 @@ namespace SharedDesk.UDP_protocol
             byte[] data = buff.Skip(2).ToArray();
             PeerInfo pInfo = UDPResponder.ByteArrayToPeerInfo(data);
             Console.WriteLine("Received a join to table request from {0}", pInfo.getGUID);
+
+            // store peer info to file
+            fileHelper.savePeer(pInfo);
+
             //add the pInfo with event
             receiveRequestJoin(targetGUID, pInfo);
         }
