@@ -27,13 +27,38 @@ namespace SharedDesk
         public FileHelper()
         {
             this.peerListPath = "peers.xml";
+            loadFromXmlFile();
+        }
+
+        private void loadFromXmlFile()
+        {
+
+            if (peerListFileExist() == false)
+            {
+                return;
+            }
+
+            string xmlString = "";
+            try
+            {
+                // read from file
+                xmlString = File.ReadAllText(peerListPath);
+            }
+            catch (Exception error)
+            {
+                return;
+            }
+
+            // load from file
+            root = new XmlDocument();
+            root.LoadXml(xmlString);
         }
 
         /// <summary>
         /// Check 
         /// </summary>
         /// <returns></returns>
-        public bool peerListFileExist()
+        private bool peerListFileExist()
         {
 
             if (File.Exists(peerListPath))
@@ -50,26 +75,38 @@ namespace SharedDesk
             return peer;
         }
 
-        public void updatePeerList(PeerInfo p)
+        public void addAvaliableFileInfoToPeer(string ip, int port, string fileName)
+        {
+            // find peer with same ip and port
+            string selectedPeer = String.Format("/Peers/Peer[ip='{0}' and port='{1}']", ip, port);
+            
+            XmlElement el = (XmlElement)root.SelectSingleNode(selectedPeer);
+            if (el != null)
+            {
+                // add a file info to node in xml document
+                XmlElement elem = root.CreateElement("File");
+                elem.InnerText = fileName;
+                el.AppendChild(elem);
+
+                // save file
+                savePeerList();
+            }
+            else
+            {
+                Console.WriteLine("Could not find peer with that ip and port in XML!");
+            }
+
+        }
+
+        private void updatePeerList(PeerInfo p)
         {
 
+            if (root == null)
+            {
+                loadFromXmlFile();
+            }
+
             string guid = p.getGUID.ToString();
-            string xmlString = "";
-
-            try
-            {
-                // read from file
-                xmlString = File.ReadAllText(peerListPath);
-            }
-            catch (Exception error)
-            {
-                return;
-            }
-
-            // load from file
-            root = new XmlDocument();
-            root.LoadXml(xmlString);
-
             XmlNodeList nodeList = root.SelectNodes("/Peers/Peer");
 
             foreach (XmlNode n in nodeList)
@@ -87,13 +124,6 @@ namespace SharedDesk
                         el.ParentNode.RemoveChild(el);
                     }
 
-                    // only update "last_seen"?
-                    // or, update everything? 
-                    //n["ip"].InnerXml = p.getIP();
-                    //n["port"].InnerXml = p.getPORT().ToString();
-                    //n["last_seen_date"].InnerXml = DateTime.Now.ToShortDateString();
-                    //n["last_seen_time"].InnerXml = DateTime.Now.ToLongTimeString();
-
                 }
 
 
@@ -105,6 +135,7 @@ namespace SharedDesk
                 return;
             }
 
+            // create new node 
             XmlNode peer = nodeList.Item(0).Clone();
             peer["guid"].InnerXml = guid;
             peer["ip"].InnerXml = p.getIP();
@@ -112,14 +143,15 @@ namespace SharedDesk
             peer["last_seen_date"].InnerXml = DateTime.Now.ToShortDateString();
             peer["last_seen_time"].InnerXml = DateTime.Now.ToLongTimeString();
 
+            // add new peer to list
             root.ChildNodes[1].AppendChild(peer);
 
-            //root.AppendChild(peer);
+            // save file
             savePeerList();
 
         }
 
-        public void createNewPeerXML(PeerInfo p)
+        private void createNewPeerXML(PeerInfo p)
         {
             // store peer list to file
             using (XmlWriter writer = XmlWriter.Create(peerListPath))
@@ -171,13 +203,6 @@ namespace SharedDesk
 
             }
         }
-
-        public List<PeerInfo> getPeerList()
-        {
-            // get peer list
-            return null;
-        }
-
 
     }
 }

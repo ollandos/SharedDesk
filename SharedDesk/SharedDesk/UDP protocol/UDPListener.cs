@@ -57,10 +57,6 @@ namespace SharedDesk.UDP_protocol
         public event handlerRequestLeave receiveRequestLeave;
         public delegate void handlerRequestLeave(int guid);
 
-        public event handlerFileInfo fileInfoReceived;
-        public delegate void handlerFileInfo(string file);
-
-
         public UDPListener(int port)
         {
             // store peers and files and receive settings
@@ -239,11 +235,12 @@ namespace SharedDesk.UDP_protocol
             Console.WriteLine("Size: {0}", fileSize.ToString());
             Console.WriteLine("md5: {0}", md5String);
 
-            //fileInfoReceived(fileName);
-
             // create ip end point from udp packet ip and listen port received
-            //IPEndPoint remoteIpEndPoint = remoteEnd as IPEndPoint;
-            //remoteIpEndPoint.Port = port;
+            IPEndPoint remoteIpEndPoint = remoteEnd as IPEndPoint;
+            remoteIpEndPoint.Port = port;
+
+            // store this information
+            fileHelper.addAvaliableFileInfoToPeer(remoteIpEndPoint.Address.ToString(), remoteIpEndPoint.Port, fileName);
 
             // respond to ping (send guid)
             //UDPResponder udpResponse = new UDPResponder(remoteIpEndPoint, port);

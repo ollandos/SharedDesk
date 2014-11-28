@@ -231,15 +231,9 @@ namespace SharedDesk
             }
 
             UDPListener p = new UDPListener(port);
-            p.fileInfoReceived += p_fileInfoReceived;
 
 
             toolStatus.Text = "Status: Listening on port " + port.ToString();
-        }
-
-        void p_fileInfoReceived(string file)
-        {
-            listResponses.Items.Add("Avaliable file: " + file);
         }
 
         // Gets routing table from boot peer and starts the process of finding closest peers
