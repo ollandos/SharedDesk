@@ -52,7 +52,6 @@ namespace SharedDesk
             tbGUID.Text = guid.ToString();
 
             port = GetOpenPort();
-            tbListenPort.Text = port.ToString();
             tbPORT.Text = port.ToString();
 
             // get local IP address
@@ -140,7 +139,6 @@ namespace SharedDesk
             try
             {
                 remotePort = Convert.ToInt32(tbPORT.Text);
-                listenPort = Convert.ToInt32(tbListenPort.Text);
             }
             catch (Exception)
             {
@@ -150,13 +148,6 @@ namespace SharedDesk
 
             // check that port nr is between 0 and 65535
             if (remotePort < 0 || remotePort > 65535)
-            {
-                toolStatus.Text = "ERROR: wrong port";
-                return false;
-            }
-
-            // check that port nr is between 0 and 65535
-            if (listenPort < 0 || listenPort > 65535)
             {
                 toolStatus.Text = "ERROR: wrong port";
                 return false;
@@ -197,43 +188,11 @@ namespace SharedDesk
             listRoutingTable.Invoke(new MethodInvoker(() => listRoutingTable.DataSource = null));
             foreach (KeyValuePair<int, PeerInfo> entry in peer.getRoutingTable.getPeers())
             {
-                table.Add(entry.Key, entry.Key + "        " + entry.Value.getGUID + "        " + entry.Value.getIP() + "        " + entry.Value.getPORT());
+                table.Add(entry.Key, entry.Key + "\t\t" + entry.Value.getGUID + "\t\t" + entry.Value.getIP() + ":" + entry.Value.getPORT());
             }
             listRoutingTable.Invoke(new MethodInvoker(() => listRoutingTable.DataSource = new BindingSource(table, null)));
             listRoutingTable.Invoke(new MethodInvoker(() => listRoutingTable.DisplayMember = "Value"));
             //listRoutingTable.Invoke(new MethodInvoker(() => listRoutingTable.ValueMember = "Key"));
-        }
-
-        private void btnListen_Click(object sender, EventArgs e)
-        {
-            if (tbListenPort.Text == "")
-            {
-                toolStatus.Text = "ERROR: wrong port";
-                return;
-            }
-
-            int port;
-            try
-            {
-                port = Convert.ToInt32(tbListenPort.Text);
-            }
-            catch (Exception)
-            {
-                toolStatus.Text = "ERROR: wrong port";
-                return;
-            }
-
-            // check that port nr is between 0 and 65535
-            if (port < 0 || port > 65535)
-            {
-                toolStatus.Text = "ERROR: wrong port";
-                return;
-            }
-
-            UDPListener p = new UDPListener(port);
-
-
-            toolStatus.Text = "Status: Listening on port " + port.ToString();
         }
 
         // Gets routing table from boot peer and starts the process of finding closest peers

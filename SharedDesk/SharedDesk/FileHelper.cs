@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SharedDesk.TCP_file_transfer;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -75,18 +76,39 @@ namespace SharedDesk
             return peer;
         }
 
-        public void addAvaliableFileInfoToPeer(string ip, int port, string fileName)
+        public void addAvaliableFileInfoToPeer(string ip, int port, FileInfoP2P file)
         {
+            loadFromXmlFile();
+
             // find peer with same ip and port
             string selectedPeer = String.Format("/Peers/Peer[ip='{0}' and port='{1}']", ip, port);
             
-            XmlElement el = (XmlElement)root.SelectSingleNode(selectedPeer);
+            XmlNode el = (XmlNode)root.SelectSingleNode(selectedPeer);
             if (el != null)
             {
-                // add a file info to node in xml document
-                XmlElement elem = root.CreateElement("File");
-                elem.InnerText = fileName;
-                el.AppendChild(elem);
+                // create a new file node
+                XmlElement fileNode = root.CreateElement("File");
+
+                // create nodes attached to this file node
+                XmlElement nameNode = root.CreateElement("name");
+                nameNode.InnerText = file.name;
+
+                XmlElement sizeNode = root.CreateElement("size");
+                sizeNode.InnerText = file.size.ToString();
+ 
+                XmlElement md5Node = root.CreateElement("md5");
+                md5Node.InnerText = file.getMd5AsString();
+
+                fileNode.AppendChild(nameNode);
+                fileNode.AppendChild(sizeNode);
+                fileNode.AppendChild(md5Node);
+                el.AppendChild(fileNode);
+
+                // add a file info to node in xml 
+                //XmlNode elem = root.CreateElement("File");
+                //elem.InnerText = file.name; 
+
+                //el.AppendChild(elem);
 
                 // save file
                 savePeerList();

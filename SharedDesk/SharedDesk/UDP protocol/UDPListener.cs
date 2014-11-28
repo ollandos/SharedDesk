@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
+using SharedDesk.TCP_file_transfer;
 
 namespace SharedDesk.UDP_protocol
 {
@@ -239,8 +240,11 @@ namespace SharedDesk.UDP_protocol
             IPEndPoint remoteIpEndPoint = remoteEnd as IPEndPoint;
             remoteIpEndPoint.Port = port;
 
+            // create FileInfoP2P object
+            FileInfoP2P file = new FileInfoP2P(fileName, fileSize, md5);
+
             // store this information
-            fileHelper.addAvaliableFileInfoToPeer(remoteIpEndPoint.Address.ToString(), remoteIpEndPoint.Port, fileName);
+            fileHelper.addAvaliableFileInfoToPeer(remoteIpEndPoint.Address.ToString(), remoteIpEndPoint.Port, file);
 
             // respond to ping (send guid)
             //UDPResponder udpResponse = new UDPResponder(remoteIpEndPoint, port);

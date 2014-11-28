@@ -63,6 +63,7 @@
     </Compile>
     <Compile Include="TCP file transfer\BandWithCounter.cs" />
     <Compile Include="TCP file transfer\ChecksumCalc.cs" />
+    <Compile Include="TCP file transfer\FileInfoP2P.cs" />
     <Compile Include="TCP file transfer\FileTransferEvents.cs" />
     <Compile Include="TCP file transfer\ParallelFileWriter.cs" />
     <Compile Include="TCP file transfer\ReceiveFileTCPv5.cs" />

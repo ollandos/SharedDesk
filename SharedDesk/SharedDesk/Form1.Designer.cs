@@ -30,25 +30,23 @@
         {
             this.listRoutingTable = new System.Windows.Forms.ListBox();
             this.labelGUID = new System.Windows.Forms.Label();
-            this.labelIP = new System.Windows.Forms.Label();
             this.labelPort = new System.Windows.Forms.Label();
             this.lblGUID = new System.Windows.Forms.Label();
             this.buttonPing = new System.Windows.Forms.Button();
             this.tbGUID = new System.Windows.Forms.TextBox();
-            this.listResponses = new System.Windows.Forms.ListBox();
-            this.labelResponse = new System.Windows.Forms.Label();
             this.tbIP = new System.Windows.Forms.TextBox();
             this.tbPORT = new System.Windows.Forms.TextBox();
             this.lblIP = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.tbListenPort = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.btnListen = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.btnGetRoutingTable = new System.Windows.Forms.Button();
             this.btnSendFile = new System.Windows.Forms.Button();
             this.btnLeave = new System.Windows.Forms.Button();
+            this.listAvaliableFiles = new System.Windows.Forms.ListBox();
+            this.btnUpdate = new System.Windows.Forms.Button();
+            this.btnRequestFile = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -57,7 +55,7 @@
             this.listRoutingTable.FormattingEnabled = true;
             this.listRoutingTable.Location = new System.Drawing.Point(47, 41);
             this.listRoutingTable.Name = "listRoutingTable";
-            this.listRoutingTable.Size = new System.Drawing.Size(212, 95);
+            this.listRoutingTable.Size = new System.Drawing.Size(275, 95);
             this.listRoutingTable.TabIndex = 0;
             // 
             // labelGUID
@@ -65,27 +63,18 @@
             this.labelGUID.AutoSize = true;
             this.labelGUID.Location = new System.Drawing.Point(44, 25);
             this.labelGUID.Name = "labelGUID";
-            this.labelGUID.Size = new System.Drawing.Size(34, 13);
+            this.labelGUID.Size = new System.Drawing.Size(29, 13);
             this.labelGUID.TabIndex = 1;
-            this.labelGUID.Text = "GUID";
-            // 
-            // labelIP
-            // 
-            this.labelIP.AutoSize = true;
-            this.labelIP.Location = new System.Drawing.Point(143, 25);
-            this.labelIP.Name = "labelIP";
-            this.labelIP.Size = new System.Drawing.Size(17, 13);
-            this.labelIP.TabIndex = 2;
-            this.labelIP.Text = "IP";
+            this.labelGUID.Text = "Spot";
             // 
             // labelPort
             // 
             this.labelPort.AutoSize = true;
-            this.labelPort.Location = new System.Drawing.Point(233, 25);
+            this.labelPort.Location = new System.Drawing.Point(240, 25);
             this.labelPort.Name = "labelPort";
-            this.labelPort.Size = new System.Drawing.Size(26, 13);
+            this.labelPort.Size = new System.Drawing.Size(39, 13);
             this.labelPort.TabIndex = 3;
-            this.labelPort.Text = "Port";
+            this.labelPort.Text = "IP:Port";
             // 
             // lblGUID
             // 
@@ -98,9 +87,9 @@
             // 
             // buttonPing
             // 
-            this.buttonPing.Location = new System.Drawing.Point(47, 265);
+            this.buttonPing.Location = new System.Drawing.Point(209, 228);
             this.buttonPing.Name = "buttonPing";
-            this.buttonPing.Size = new System.Drawing.Size(75, 23);
+            this.buttonPing.Size = new System.Drawing.Size(114, 23);
             this.buttonPing.TabIndex = 6;
             this.buttonPing.Text = "Ping";
             this.buttonPing.UseVisualStyleBackColor = true;
@@ -113,23 +102,6 @@
             this.tbGUID.Size = new System.Drawing.Size(66, 20);
             this.tbGUID.TabIndex = 7;
             this.tbGUID.Text = "0";
-            // 
-            // listResponses
-            // 
-            this.listResponses.FormattingEnabled = true;
-            this.listResponses.Location = new System.Drawing.Point(340, 41);
-            this.listResponses.Name = "listResponses";
-            this.listResponses.Size = new System.Drawing.Size(212, 303);
-            this.listResponses.TabIndex = 8;
-            // 
-            // labelResponse
-            // 
-            this.labelResponse.AutoSize = true;
-            this.labelResponse.Location = new System.Drawing.Point(337, 9);
-            this.labelResponse.Name = "labelResponse";
-            this.labelResponse.Size = new System.Drawing.Size(60, 13);
-            this.labelResponse.TabIndex = 9;
-            this.labelResponse.Text = "Responses";
             // 
             // tbIP
             // 
@@ -165,40 +137,13 @@
             this.label1.TabIndex = 13;
             this.label1.Text = "port";
             // 
-            // tbListenPort
-            // 
-            this.tbListenPort.Location = new System.Drawing.Point(47, 307);
-            this.tbListenPort.Name = "tbListenPort";
-            this.tbListenPort.Size = new System.Drawing.Size(100, 20);
-            this.tbListenPort.TabIndex = 14;
-            this.tbListenPort.Text = "8080";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(44, 291);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(56, 13);
-            this.label2.TabIndex = 15;
-            this.label2.Text = "Listen port";
-            // 
-            // btnListen
-            // 
-            this.btnListen.Location = new System.Drawing.Point(157, 306);
-            this.btnListen.Name = "btnListen";
-            this.btnListen.Size = new System.Drawing.Size(75, 23);
-            this.btnListen.TabIndex = 16;
-            this.btnListen.Text = "Listen";
-            this.btnListen.UseVisualStyleBackColor = true;
-            this.btnListen.Click += new System.EventHandler(this.btnListen_Click);
-            // 
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStatus});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 366);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 348);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(582, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(690, 22);
             this.statusStrip1.TabIndex = 17;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -230,38 +175,71 @@
             // 
             // btnLeave
             // 
-            this.btnLeave.Location = new System.Drawing.Point(247, 200);
-            this.btnLeave.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnLeave.Location = new System.Drawing.Point(208, 200);
+            this.btnLeave.Margin = new System.Windows.Forms.Padding(2);
             this.btnLeave.Name = "btnLeave";
-            this.btnLeave.Size = new System.Drawing.Size(75, 23);
+            this.btnLeave.Size = new System.Drawing.Size(114, 23);
             this.btnLeave.TabIndex = 20;
             this.btnLeave.Text = "Leave";
             this.btnLeave.UseVisualStyleBackColor = true;
             this.btnLeave.Click += new System.EventHandler(this.button1_Click);
             // 
+            // listAvaliableFiles
+            // 
+            this.listAvaliableFiles.FormattingEnabled = true;
+            this.listAvaliableFiles.Location = new System.Drawing.Point(340, 41);
+            this.listAvaliableFiles.Name = "listAvaliableFiles";
+            this.listAvaliableFiles.Size = new System.Drawing.Size(325, 264);
+            this.listAvaliableFiles.TabIndex = 21;
+            // 
+            // btnUpdate
+            // 
+            this.btnUpdate.Location = new System.Drawing.Point(509, 311);
+            this.btnUpdate.Name = "btnUpdate";
+            this.btnUpdate.Size = new System.Drawing.Size(75, 23);
+            this.btnUpdate.TabIndex = 22;
+            this.btnUpdate.Text = "update";
+            this.btnUpdate.UseVisualStyleBackColor = true;
+            // 
+            // btnRequestFile
+            // 
+            this.btnRequestFile.Location = new System.Drawing.Point(590, 311);
+            this.btnRequestFile.Name = "btnRequestFile";
+            this.btnRequestFile.Size = new System.Drawing.Size(75, 23);
+            this.btnRequestFile.TabIndex = 23;
+            this.btnRequestFile.Text = "download";
+            this.btnRequestFile.UseVisualStyleBackColor = true;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(143, 25);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(34, 13);
+            this.label2.TabIndex = 24;
+            this.label2.Text = "GUID";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(582, 388);
+            this.ClientSize = new System.Drawing.Size(690, 370);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.btnRequestFile);
+            this.Controls.Add(this.btnUpdate);
+            this.Controls.Add(this.listAvaliableFiles);
             this.Controls.Add(this.btnLeave);
             this.Controls.Add(this.btnSendFile);
             this.Controls.Add(this.btnGetRoutingTable);
             this.Controls.Add(this.statusStrip1);
-            this.Controls.Add(this.btnListen);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.tbListenPort);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.lblIP);
             this.Controls.Add(this.tbPORT);
             this.Controls.Add(this.tbIP);
-            this.Controls.Add(this.labelResponse);
-            this.Controls.Add(this.listResponses);
             this.Controls.Add(this.tbGUID);
             this.Controls.Add(this.buttonPing);
             this.Controls.Add(this.lblGUID);
             this.Controls.Add(this.labelPort);
-            this.Controls.Add(this.labelIP);
             this.Controls.Add(this.labelGUID);
             this.Controls.Add(this.listRoutingTable);
             this.Name = "Form1";
@@ -279,25 +257,23 @@
 
         private System.Windows.Forms.ListBox listRoutingTable;
         private System.Windows.Forms.Label labelGUID;
-        private System.Windows.Forms.Label labelIP;
         private System.Windows.Forms.Label labelPort;
         private System.Windows.Forms.Label lblGUID;
         private System.Windows.Forms.Button buttonPing;
         private System.Windows.Forms.TextBox tbGUID;
-        private System.Windows.Forms.ListBox listResponses;
-        private System.Windows.Forms.Label labelResponse;
         private System.Windows.Forms.TextBox tbIP;
         private System.Windows.Forms.TextBox tbPORT;
         private System.Windows.Forms.Label lblIP;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox tbListenPort;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button btnListen;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStatus;
         private System.Windows.Forms.Button btnGetRoutingTable;
         private System.Windows.Forms.Button btnSendFile;
         private System.Windows.Forms.Button btnLeave;
+        private System.Windows.Forms.ListBox listAvaliableFiles;
+        private System.Windows.Forms.Button btnUpdate;
+        private System.Windows.Forms.Button btnRequestFile;
+        private System.Windows.Forms.Label label2;
     }
 }
 
