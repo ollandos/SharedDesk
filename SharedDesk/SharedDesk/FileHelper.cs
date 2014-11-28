@@ -78,24 +78,24 @@ namespace SharedDesk
 
                 if (peerGuid == guid)
                 {
+                    // delete this element
+                    string selectedPeer = String.Format("/Peers/Peer[guid={0}]", guid);
+
+                    XmlElement el = (XmlElement)root.SelectSingleNode(selectedPeer);
+                    if (el != null)
+                    {
+                        el.ParentNode.RemoveChild(el);
+                    }
 
                     // only update "last_seen"?
                     // or, update everything? 
-                    n["ip"].InnerXml = p.getIP();
-                    n["port"].InnerXml = p.getPORT().ToString();
-                    n["last_seen_date"].InnerXml = DateTime.Now.ToShortDateString();
-                    n["last_seen_time"].InnerXml = DateTime.Now.ToLongTimeString();
+                    //n["ip"].InnerXml = p.getIP();
+                    //n["port"].InnerXml = p.getPORT().ToString();
+                    //n["last_seen_date"].InnerXml = DateTime.Now.ToShortDateString();
+                    //n["last_seen_time"].InnerXml = DateTime.Now.ToLongTimeString();
 
-                    //xml.ReplaceChild(peerInfoToXmlNode(p), n);
-                    return;
-
-
-                    // update element
-                    //n["last_seen_date"].Value = DateTime.Now.ToShortDateString();
-                    //n["last_seen_time"].Value = DateTime.Now.ToLongTimeString();
-
-                    // delete this element
                 }
+
 
             }
 
@@ -112,15 +112,10 @@ namespace SharedDesk
             peer["last_seen_date"].InnerXml = DateTime.Now.ToShortDateString();
             peer["last_seen_time"].InnerXml = DateTime.Now.ToLongTimeString();
 
-            root.ChildNodes[1].AppendChild(peer);       
+            root.ChildNodes[1].AppendChild(peer);
 
             //root.AppendChild(peer);
             savePeerList();
-            
-            // TODO: 
-            // add peer to list
-
-
 
         }
 
@@ -167,7 +162,14 @@ namespace SharedDesk
 
         public void savePeerList()
         {
-            root.Save(peerListPath);
+            try
+            {
+                root.Save(peerListPath);
+            }
+            catch (Exception)
+            {
+
+            }
         }
 
         public List<PeerInfo> getPeerList()

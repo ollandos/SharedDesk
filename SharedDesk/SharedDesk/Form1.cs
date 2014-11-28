@@ -48,12 +48,12 @@ namespace SharedDesk
 
             // generate guid (int)
             Random rnd = new Random();
-            guid = rnd.Next(100);
+            guid = rnd.Next(12);
             tbGUID.Text = guid.ToString();
 
-            //port = GetOpenPort();
-            //tbListenPort.Text = port.ToString();
-            //tbPORT.Text = port.ToString();
+            port = GetOpenPort();
+            tbListenPort.Text = port.ToString();
+            tbPORT.Text = port.ToString();
 
             // get local IP address
             //ip = IPAddress.Parse(LocalIPAddress());
@@ -231,7 +231,15 @@ namespace SharedDesk
             }
 
             UDPListener p = new UDPListener(port);
+            p.fileInfoReceived += p_fileInfoReceived;
+
+
             toolStatus.Text = "Status: Listening on port " + port.ToString();
+        }
+
+        void p_fileInfoReceived(string file)
+        {
+            listResponses.Items.Add("Avaliable file: " + file);
         }
 
         // Gets routing table from boot peer and starts the process of finding closest peers
@@ -244,9 +252,6 @@ namespace SharedDesk
 
         private void btnSendFile_Click(object sender, EventArgs e)
         {
-            string guid;
-            guid = listRoutingTable.SelectedValue.ToString();
-            Console.WriteLine(guid);
             OpenFileDialog ofd = new OpenFileDialog();
             DialogResult dr = ofd.ShowDialog();
 
@@ -279,19 +284,23 @@ namespace SharedDesk
 
             for (int i = 0; i < 12; i++)
             {
-                if (peerDictionary.ContainsKey(i) && peer.getGUID != i)
+                if (peerDictionary.ContainsKey(i))
                 {
 
                     PeerInfo receivingPeer = peerDictionary[i];
-                    toolStatus.Text = String.Format("Sending file \"{0}\" to peer guid {1}, ip {2}:{3}", fileName, receivingPeer.getGUID, receivingPeer.getIP(), receivingPeer.getPORT());
 
-                    IPAddress RecevingIp = IPAddress.Parse(receivingPeer.getIP());
+                    if (receivingPeer.getGUID != guid)
+                    {
+                        toolStatus.Text = String.Format("Sending file \"{0}\" to peer guid {1}, ip {2}:{3}", fileName, receivingPeer.getGUID, receivingPeer.getIP(), receivingPeer.getPORT());
+ 
+                        IPAddress RecevingIp = IPAddress.Parse(receivingPeer.getIP());
 
-                    //// Send file info 
-                    //// create end point
-                    IPEndPoint remotePoint = new IPEndPoint(RecevingIp, receivingPeer.getPORT());
-                    UDPResponder udpResponse = new UDPResponder(remotePoint, listenPort);
-                    udpResponse.sendFileInfo(fileFullPath);
+                        //// Send file info 
+                        //// create end point
+                        IPEndPoint remotePoint = new IPEndPoint(RecevingIp, receivingPeer.getPORT());
+                        UDPResponder udpResponse = new UDPResponder(remotePoint, listenPort);
+                        udpResponse.sendFileInfo(fileFullPath);
+                    }
 
                     return;
 

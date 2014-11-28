@@ -57,6 +57,10 @@ namespace SharedDesk.UDP_protocol
         public event handlerRequestLeave receiveRequestLeave;
         public delegate void handlerRequestLeave(int guid);
 
+        public event handlerFileInfo fileInfoReceived;
+        public delegate void handlerFileInfo(string file);
+
+
         public UDPListener(int port)
         {
             // store peers and files and receive settings
@@ -72,7 +76,15 @@ namespace SharedDesk.UDP_protocol
             this.socket.ReceiveBufferSize = 8192;
             this.socket.SendBufferSize = 8192;
 
-            socket.Bind(ServerEndPoint);
+            try
+            {
+                socket.Bind(ServerEndPoint);
+            }
+            catch (Exception error)
+            {
+                Console.WriteLine("error: " + error.Message);
+                return;
+            }
 
             // Start listening
             socket.BeginReceiveFrom(buff, 0, buff.Length, SocketFlags.None, ref remoteEndPoint, new AsyncCallback(Listen), socket);
@@ -226,6 +238,8 @@ namespace SharedDesk.UDP_protocol
             Console.WriteLine("Name: {0}", fileName);
             Console.WriteLine("Size: {0}", fileSize.ToString());
             Console.WriteLine("md5: {0}", md5String);
+
+            //fileInfoReceived(fileName);
 
             // create ip end point from udp packet ip and listen port received
             //IPEndPoint remoteIpEndPoint = remoteEnd as IPEndPoint;
