@@ -322,6 +322,9 @@ namespace SharedDesk.UDP_protocol
             int targetGUID = (int)channelGUID[0];
 
             Console.WriteLine("Received a responsse for closest to {0}, with GUID: {1}", targetGUID, pInfo.getGUID);
+ 
+            // store peer info to file
+            fileHelper.savePeer(pInfo);
 
             //get the corresponding channel
             receiveClosest(targetGUID, pInfo);

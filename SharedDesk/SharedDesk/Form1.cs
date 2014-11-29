@@ -301,6 +301,8 @@ namespace SharedDesk
             
             // get peers with the file
             List<PeerInfo> peers = filehelper.getPeersWithFile(file);
+
+
         }
     }
 }

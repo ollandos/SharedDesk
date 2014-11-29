@@ -31,13 +31,17 @@ namespace SharedDesk
             loadFromXmlFile();
         }
 
-        private void loadFromXmlFile()
+        /// <summary>
+        /// check if list of peers exist 
+        /// </summary>
+        /// <returns>false if file cannot be found</returns>
+        private bool loadFromXmlFile()
         {
 
-            //if (peerListFileExist() == true)
-            //{
-            //    return;
-            //}
+            if (peerListFileExist() == false)
+            {
+                return false;
+            }
 
             string xmlString = "";
             try
@@ -47,28 +51,25 @@ namespace SharedDesk
             }
             catch (Exception error)
             {
-                return;
+                return false;
             }
 
             // load from file
             root = new XmlDocument();
             root.LoadXml(xmlString);
+            return true;
         }
 
 
         public List<PeerInfo> getPeersWithFile(string name)
         {
 
-            if (root == null)
+            if (loadFromXmlFile() == false)
             {
+                // failed to load file
                 return null;
             }
-
-            if (peerListFileExist() == false)
-            {
-                return null;
-            }
-
+                
             List<PeerInfo> peers = new List<PeerInfo>();
 
             // find all peers with the file
@@ -101,6 +102,13 @@ namespace SharedDesk
 
         public List<string> getAvaliableFiles()
         {
+
+            if (loadFromXmlFile() == false)
+            {
+                // failed to load file
+                return null;
+            }
+
             XmlNodeList nodeList = root.SelectNodes("/Peers/Peer/File");
             List<string> files = new List<string>();
 
@@ -182,7 +190,12 @@ namespace SharedDesk
 
             if (root == null)
             {
-                loadFromXmlFile();
+                if (loadFromXmlFile() == false)
+                {
+                    // failed to load file
+                    return;
+                }
+
             }
 
             string guid = p.getGUID.ToString();
