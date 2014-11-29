@@ -55,7 +55,6 @@ namespace SharedDesk.UDP_protocol
             Console.WriteLine("Sending ping to {0}", endPoint);
         }
 
-
         public void sendGUID(byte[] guid)
         {
             // byte indicating what type of packet it is
@@ -187,6 +186,7 @@ namespace SharedDesk.UDP_protocol
             Console.WriteLine("Sending closest found Peer {0} to {1}", closest.getGUID, targetGUID);
         }
 
+        //sends information about a new file avaliable
         public void sendFileInfo(string filePath)
         {
 

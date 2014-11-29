@@ -124,6 +124,37 @@ namespace SharedDesk
             return files;
         }
 
+        /// <summary>
+        /// get the md5 hash of the file 
+        /// need this to request the file from a peer
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public string getMd5OfFile(string name)
+        {
+
+            if (loadFromXmlFile() == false)
+            {
+                // failed to load file
+                return null;
+            }
+
+            // find peer with same ip and port
+            string selectedFile = String.Format("/Peers/Peer/File[name='{0}']", name);
+
+            XmlNode el = (XmlNode)root.SelectSingleNode(selectedFile);
+            if (el != null)
+            {
+                return el["md5"].InnerXml;
+            }
+
+            // POSSIBLE BUG: 
+            // if a two files have the same name, but different md5 hash
+            // then we can't know what file the user wants
+
+            return "";
+        }
+
         private bool peerListFileExist()
         {
 
@@ -143,7 +174,11 @@ namespace SharedDesk
 
         public void addAvaliableFileInfoToPeer(string ip, int port, FileInfoP2P file)
         {
-            loadFromXmlFile();
+            if (loadFromXmlFile() == false)
+            {
+                // failed to load file
+                return;
+            };
 
             // find peer with same ip and port
             string selectedPeer = String.Format("/Peers/Peer[ip='{0}' and port='{1}']", ip, port);

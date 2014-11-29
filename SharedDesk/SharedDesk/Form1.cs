@@ -298,9 +298,14 @@ namespace SharedDesk
 
             // get selected file
             string file = listAvaliableFiles.Items[index].ToString();
+
+            // get md5 of file
+            string md5 = filehelper.getMd5OfFile(file);
             
             // get peers with the file
             List<PeerInfo> peers = filehelper.getPeersWithFile(file);
+
+            // request file from one of the peers
 
 
         }
