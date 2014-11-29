@@ -244,27 +244,30 @@ namespace SharedDesk
                 {
 
                     PeerInfo receivingPeer = peerDictionary[i];
-
                     if (receivingPeer.getGUID != guid)
                     {
-                        toolStatus.Text = String.Format("Sending file \"{0}\" to peer guid {1}, ip {2}:{3}", fileName, receivingPeer.getGUID, receivingPeer.getIP(), receivingPeer.getPORT());
- 
-                        IPAddress RecevingIp = IPAddress.Parse(receivingPeer.getIP());
-
-                        //// Send file info 
-                        //// create end point
-                        IPEndPoint remotePoint = new IPEndPoint(RecevingIp, receivingPeer.getPORT());
-                        UDPResponder udpResponse = new UDPResponder(remotePoint, port);
-                        udpResponse.sendFileInfo(fileFullPath);
+                        sendFileInfo(fileFullPath, fileName, receivingPeer);
                     }
-
-                    return;
 
                 }
             }
 
 
+        }
 
+        private void sendFileInfo(string fileFullPath, string fileName, PeerInfo receivingPeer)
+        {
+            // save authorization to share.xml file
+            filehelper.authorizeFileDownload(fileFullPath, receivingPeer, true);
+
+            // create end point
+            IPAddress RecevingIp = IPAddress.Parse(receivingPeer.getIP());
+            IPEndPoint remotePoint = new IPEndPoint(RecevingIp, receivingPeer.getPORT());
+            UDPResponder udpResponse = new UDPResponder(remotePoint, port);
+            
+            // Send file info 
+            toolStatus.Text = String.Format("Sending file \"{0}\" to peer guid {1}, ip {2}:{3}", fileName, receivingPeer.getGUID, receivingPeer.getIP(), receivingPeer.getPORT());
+            udpResponse.sendFileInfo(fileFullPath);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -280,13 +283,19 @@ namespace SharedDesk
         {
             List<string> files = filehelper.getAvaliableFiles();
 
+            if (files == null)
+            {
+                toolStatus.Text = String.Format("Found 0 avaliable files for download");
+                return;
+            }
+
             listAvaliableFiles.Items.Clear();
             foreach (string s in files)
             {
                 listAvaliableFiles.Items.Add(s);
             }
 
-            toolStatus.Text = String.Format("Found {0} avaliable files", files.Count);
+            toolStatus.Text = String.Format("Found {0} avaliable files for download", files.Count);
 
         }
 

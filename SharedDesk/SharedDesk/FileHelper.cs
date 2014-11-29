@@ -23,19 +23,22 @@ namespace SharedDesk
     public class FileHelper
     {
         string peerListPath;
-        XmlDocument root;
+        string shareListPath;
+        XmlDocument rootPeerXml;
+        XmlDocument rootShareXml;
 
         public FileHelper()
         {
             this.peerListPath = "peers.xml";
-            loadFromXmlFile();
+            this.shareListPath = "share.xml";
+            loadPeerXmlFile();
         }
 
         /// <summary>
         /// check if list of peers exist 
         /// </summary>
         /// <returns>false if file cannot be found</returns>
-        private bool loadFromXmlFile()
+        private bool loadPeerXmlFile()
         {
 
             if (peerListFileExist() == false)
@@ -55,8 +58,8 @@ namespace SharedDesk
             }
 
             // load from file
-            root = new XmlDocument();
-            root.LoadXml(xmlString);
+            rootPeerXml = new XmlDocument();
+            rootPeerXml.LoadXml(xmlString);
             return true;
         }
 
@@ -64,17 +67,17 @@ namespace SharedDesk
         public List<PeerInfo> getPeersWithFile(string name)
         {
 
-            if (loadFromXmlFile() == false)
+            if (loadPeerXmlFile() == false)
             {
                 // failed to load file
                 return null;
             }
-                
+
             List<PeerInfo> peers = new List<PeerInfo>();
 
             // find all peers with the file
             string selectedPeer = String.Format("/Peers/Peer/File[name='{0}']", name);
-            XmlNodeList nodeList = root.SelectNodes(selectedPeer);
+            XmlNodeList nodeList = rootPeerXml.SelectNodes(selectedPeer);
 
             foreach (XmlNode n in nodeList)
             {
@@ -85,6 +88,7 @@ namespace SharedDesk
                 int elGuidInt = Convert.ToInt32(elGuid);
                 int elPortInt = Convert.ToInt32(elPort);
 
+                Console.WriteLine("\nPeers with file: " + name);
                 Console.WriteLine("guid {0}\t\tip {1}:{2} has the file", elGuid, elIp, elPort);
 
                 PeerInfo newPeer = new PeerInfo(elGuidInt, elIp, elPortInt);
@@ -103,13 +107,13 @@ namespace SharedDesk
         public List<string> getAvaliableFiles()
         {
 
-            if (loadFromXmlFile() == false)
+            if (loadPeerXmlFile() == false)
             {
                 // failed to load file
                 return null;
             }
 
-            XmlNodeList nodeList = root.SelectNodes("/Peers/Peer/File");
+            XmlNodeList nodeList = rootPeerXml.SelectNodes("/Peers/Peer/File");
             List<string> files = new List<string>();
 
             foreach (XmlNode n in nodeList)
@@ -133,7 +137,7 @@ namespace SharedDesk
         public string getMd5OfFile(string name)
         {
 
-            if (loadFromXmlFile() == false)
+            if (loadPeerXmlFile() == false)
             {
                 // failed to load file
                 return null;
@@ -142,7 +146,7 @@ namespace SharedDesk
             // find peer with same ip and port
             string selectedFile = String.Format("/Peers/Peer/File[name='{0}']", name);
 
-            XmlNode el = (XmlNode)root.SelectSingleNode(selectedFile);
+            XmlNode el = (XmlNode)rootPeerXml.SelectSingleNode(selectedFile);
             if (el != null)
             {
                 return el["md5"].InnerXml;
@@ -168,7 +172,7 @@ namespace SharedDesk
 
         private XmlNode peerInfoToXmlNode(PeerInfo p)
         {
-            XmlNode peer = root.CreateTextNode("Peer");
+            XmlNode peer = rootPeerXml.CreateTextNode("Peer");
             return peer;
         }
 
@@ -176,29 +180,31 @@ namespace SharedDesk
         /// create a share.xml file with info of what files and
         /// folders are shared with peers (or publicly avaliable)
         /// </summary>
-        /// <param name="filePath"></param>
-        /// <param name="peer"></param>
-        public void authorizeFileDownload(string filePath, PeerInfo peer)
+        /// <param name="path">file or folder path</param>
+        /// <param name="peer">peer you want to share with, null if public</param>
+        /// <param name="isFile">true for file, false for folder</param>
+        public void authorizeFileDownload(string path, PeerInfo peer, bool isFile)
         {
             // create another xml file where you store
             // what peers are allowed to access files and folders
-            
+
             // if PeerInfo is null then the share is for everyone
             if (peer == null)
             {
                 // public share!
             }
 
-
-
+            if (rootShareXml == null)
+            {
+                createNewShareXml(path, peer, isFile);
+            }
 
 
         }
 
-
         public void addAvaliableFileInfoToPeer(string ip, int port, FileInfoP2P file)
         {
-            if (loadFromXmlFile() == false)
+            if (loadPeerXmlFile() == false)
             {
                 // failed to load file
                 return;
@@ -207,20 +213,20 @@ namespace SharedDesk
             // find peer with same ip and port
             string selectedPeer = String.Format("/Peers/Peer[ip='{0}' and port='{1}']", ip, port);
 
-            XmlNode el = (XmlNode)root.SelectSingleNode(selectedPeer);
+            XmlNode el = (XmlNode)rootPeerXml.SelectSingleNode(selectedPeer);
             if (el != null)
             {
                 // create a new file node
-                XmlElement fileNode = root.CreateElement("File");
+                XmlElement fileNode = rootPeerXml.CreateElement("File");
 
                 // create nodes attached to this file node
-                XmlElement nameNode = root.CreateElement("name");
+                XmlElement nameNode = rootPeerXml.CreateElement("name");
                 nameNode.InnerText = file.name;
 
-                XmlElement sizeNode = root.CreateElement("size");
+                XmlElement sizeNode = rootPeerXml.CreateElement("size");
                 sizeNode.InnerText = file.size.ToString();
 
-                XmlElement md5Node = root.CreateElement("md5");
+                XmlElement md5Node = rootPeerXml.CreateElement("md5");
                 md5Node.InnerText = file.getMd5AsString();
 
                 fileNode.AppendChild(nameNode);
@@ -247,9 +253,9 @@ namespace SharedDesk
         private void updatePeerList(PeerInfo p)
         {
 
-            if (root == null)
+            if (rootPeerXml == null)
             {
-                if (loadFromXmlFile() == false)
+                if (loadPeerXmlFile() == false)
                 {
                     // failed to load file
                     return;
@@ -258,7 +264,7 @@ namespace SharedDesk
             }
 
             string guid = p.getGUID.ToString();
-            XmlNodeList nodeList = root.SelectNodes("/Peers/Peer");
+            XmlNodeList nodeList = rootPeerXml.SelectNodes("/Peers/Peer");
 
             foreach (XmlNode n in nodeList)
             {
@@ -269,7 +275,7 @@ namespace SharedDesk
                     // delete this element
                     string selectedPeer = String.Format("/Peers/Peer[guid={0}]", guid);
 
-                    XmlElement el = (XmlElement)root.SelectSingleNode(selectedPeer);
+                    XmlElement el = (XmlElement)rootPeerXml.SelectSingleNode(selectedPeer);
                     if (el != null)
                     {
                         el.ParentNode.RemoveChild(el);
@@ -294,11 +300,49 @@ namespace SharedDesk
             peer["last_seen_time"].InnerXml = DateTime.Now.ToLongTimeString();
 
             // add new peer to list
-            root.ChildNodes[1].AppendChild(peer);
+            rootPeerXml.ChildNodes[1].AppendChild(peer);
 
             // save file
             savePeerList();
 
+        }
+
+
+        private void createNewShareXml(string path, PeerInfo peer, bool isFile)
+        {
+            using (XmlWriter writer = XmlWriter.Create(shareListPath))
+            {
+
+                writer.WriteStartElement("Share");
+
+                if (isFile)
+                {
+                    // file to share
+                    writer.WriteStartElement("File");
+                    writer.WriteElementString("path", path);
+
+                    // peer to share with
+                    writer.WriteStartElement("Peer");
+                    if (peer == null)
+                    {
+                        writer.WriteElementString("public", "true");
+                    }
+                    else
+                    {
+                        writer.WriteElementString("public", "false");
+                        writer.WriteElementString("guid", peer.getGUID.ToString());
+                        writer.WriteElementString("ip", peer.getIP());
+                        writer.WriteElementString("port", peer.getPORT().ToString()); ;
+                    }
+
+                    writer.WriteEndElement();
+                    writer.WriteEndElement();
+                }
+
+                writer.WriteEndElement();
+
+                writer.Close();
+            }
         }
 
         private void createNewPeerXML(PeerInfo p)
@@ -306,7 +350,7 @@ namespace SharedDesk
             // store peer list to file
             using (XmlWriter writer = XmlWriter.Create(peerListPath))
             {
-                writer.WriteStartDocument();
+                //writer.WriteStartDocument();
                 writer.WriteStartElement("Peers");
                 writer.WriteStartElement("Peer");
 
@@ -346,7 +390,7 @@ namespace SharedDesk
         {
             try
             {
-                root.Save(peerListPath);
+                rootPeerXml.Save(peerListPath);
             }
             catch (Exception)
             {
