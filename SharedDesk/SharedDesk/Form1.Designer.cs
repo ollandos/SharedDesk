@@ -47,6 +47,9 @@
             this.btnUpdate = new System.Windows.Forms.Button();
             this.btnRequestFile = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
+            this.listTransfers = new System.Windows.Forms.ListBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -187,9 +190,9 @@
             // listAvaliableFiles
             // 
             this.listAvaliableFiles.FormattingEnabled = true;
-            this.listAvaliableFiles.Location = new System.Drawing.Point(340, 41);
+            this.listAvaliableFiles.Location = new System.Drawing.Point(340, 171);
             this.listAvaliableFiles.Name = "listAvaliableFiles";
-            this.listAvaliableFiles.Size = new System.Drawing.Size(325, 264);
+            this.listAvaliableFiles.Size = new System.Drawing.Size(325, 121);
             this.listAvaliableFiles.TabIndex = 21;
             // 
             // btnUpdate
@@ -200,6 +203,7 @@
             this.btnUpdate.TabIndex = 22;
             this.btnUpdate.Text = "update";
             this.btnUpdate.UseVisualStyleBackColor = true;
+            this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
             // 
             // btnRequestFile
             // 
@@ -209,6 +213,7 @@
             this.btnRequestFile.TabIndex = 23;
             this.btnRequestFile.Text = "download";
             this.btnRequestFile.UseVisualStyleBackColor = true;
+            this.btnRequestFile.Click += new System.EventHandler(this.btnRequestFile_Click);
             // 
             // label2
             // 
@@ -219,11 +224,40 @@
             this.label2.TabIndex = 24;
             this.label2.Text = "GUID";
             // 
+            // listTransfers
+            // 
+            this.listTransfers.FormattingEnabled = true;
+            this.listTransfers.Location = new System.Drawing.Point(340, 41);
+            this.listTransfers.Name = "listTransfers";
+            this.listTransfers.Size = new System.Drawing.Size(325, 95);
+            this.listTransfers.TabIndex = 25;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(339, 153);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(71, 13);
+            this.label3.TabIndex = 26;
+            this.label3.Text = "Avaliable files";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(338, 25);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(51, 13);
+            this.label4.TabIndex = 27;
+            this.label4.Text = "Transfers";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(690, 370);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.listTransfers);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.btnRequestFile);
             this.Controls.Add(this.btnUpdate);
@@ -274,6 +308,9 @@
         private System.Windows.Forms.Button btnUpdate;
         private System.Windows.Forms.Button btnRequestFile;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ListBox listTransfers;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
     }
 }
 

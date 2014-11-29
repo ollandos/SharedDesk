@@ -34,10 +34,10 @@ namespace SharedDesk
         private void loadFromXmlFile()
         {
 
-            if (peerListFileExist() == false)
-            {
-                return;
-            }
+            //if (peerListFileExist() == true)
+            //{
+            //    return;
+            //}
 
             string xmlString = "";
             try
@@ -55,10 +55,67 @@ namespace SharedDesk
             root.LoadXml(xmlString);
         }
 
-        /// <summary>
-        /// Check 
-        /// </summary>
-        /// <returns></returns>
+
+        public List<PeerInfo> getPeersWithFile(string name)
+        {
+
+            if (root == null)
+            {
+                return null;
+            }
+
+            if (peerListFileExist() == false)
+            {
+                return null;
+            }
+
+            List<PeerInfo> peers = new List<PeerInfo>();
+
+            // find all peers with the file
+            string selectedPeer = String.Format("/Peers/Peer/File[name='{0}']", name);
+            XmlNodeList nodeList = root.SelectNodes(selectedPeer);
+
+            foreach (XmlNode n in nodeList)
+            {
+                string elGuid = n.ParentNode["guid"].InnerXml;
+                string elIp = n.ParentNode["ip"].InnerXml;
+                string elPort = n.ParentNode["port"].InnerXml;
+
+                int elGuidInt = Convert.ToInt32(elGuid);
+                int elPortInt = Convert.ToInt32(elPort);
+
+                Console.WriteLine("guid {0}\t\tip {1}:{2} has the file", elGuid, elIp, elPort);
+
+                PeerInfo newPeer = new PeerInfo(elGuidInt, elIp, elPortInt);
+                peers.Add(newPeer);
+
+            }
+
+            // POTENTIAL BUG
+            // might run into problems if someone store different files
+            // with same name. (since I don't use md5 to lookup the file)
+
+            return peers;
+
+        }
+
+        public List<string> getAvaliableFiles()
+        {
+            XmlNodeList nodeList = root.SelectNodes("/Peers/Peer/File");
+            List<string> files = new List<string>();
+
+            foreach (XmlNode n in nodeList)
+            {
+                string name = n["name"].InnerXml;
+                if (files.Contains(name) == false)
+                {
+                    files.Add(name);
+                }
+            }
+
+            return files;
+        }
+
         private bool peerListFileExist()
         {
 
@@ -82,7 +139,7 @@ namespace SharedDesk
 
             // find peer with same ip and port
             string selectedPeer = String.Format("/Peers/Peer[ip='{0}' and port='{1}']", ip, port);
-            
+
             XmlNode el = (XmlNode)root.SelectSingleNode(selectedPeer);
             if (el != null)
             {
@@ -95,7 +152,7 @@ namespace SharedDesk
 
                 XmlElement sizeNode = root.CreateElement("size");
                 sizeNode.InnerText = file.size.ToString();
- 
+
                 XmlElement md5Node = root.CreateElement("md5");
                 md5Node.InnerText = file.getMd5AsString();
 
@@ -147,7 +204,6 @@ namespace SharedDesk
                     }
 
                 }
-
 
             }
 

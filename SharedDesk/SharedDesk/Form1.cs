@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Net.NetworkInformation;
+using SharedDesk.TCP_file_transfer;
 
 namespace SharedDesk
 {
@@ -28,11 +29,12 @@ namespace SharedDesk
         // variable for storing local IP
         private IPAddress ip;
         int remotePort;
-        int listenPort;
 
         // used for login
         public string email;
         protected string apiKey;
+
+        private FileHelper filehelper;
 
         /// <summary>
         /// APIService online
@@ -45,6 +47,7 @@ namespace SharedDesk
 
             this.email = email;
             this.apiKey = api_key;
+            this.filehelper = new FileHelper();
 
             // generate guid (int)
             Random rnd = new Random();
@@ -167,7 +170,7 @@ namespace SharedDesk
 
             // create end point
             IPEndPoint remotePoint = new IPEndPoint(ip, remotePort);
-            UDPResponder udpResponse = new UDPResponder(remotePoint, listenPort);
+            UDPResponder udpResponse = new UDPResponder(remotePoint, port);
             udpResponse.sendPing();
 
             toolStatus.Text = "Status: Sent ping";
@@ -251,7 +254,7 @@ namespace SharedDesk
                         //// Send file info 
                         //// create end point
                         IPEndPoint remotePoint = new IPEndPoint(RecevingIp, receivingPeer.getPORT());
-                        UDPResponder udpResponse = new UDPResponder(remotePoint, listenPort);
+                        UDPResponder udpResponse = new UDPResponder(remotePoint, port);
                         udpResponse.sendFileInfo(fileFullPath);
                     }
 
@@ -271,6 +274,33 @@ namespace SharedDesk
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
             Application.Exit();
+        }
+
+        private void btnUpdate_Click(object sender, EventArgs e)
+        {
+            List<string> files = filehelper.getAvaliableFiles();
+
+            listAvaliableFiles.Items.Clear();
+            foreach (string s in files)
+            {
+                listAvaliableFiles.Items.Add(s);
+            }
+
+        }
+
+        private void btnRequestFile_Click(object sender, EventArgs e)
+        {
+            int index = listAvaliableFiles.SelectedIndex;
+            if (index == -1)
+            {
+                toolStatus.Text = "Error: No file selected!";
+            }
+
+            // get selected file
+            string file = listAvaliableFiles.Items[index].ToString();
+            
+            // get peers with the file
+            List<PeerInfo> peers = filehelper.getPeersWithFile(file);
         }
     }
 }
