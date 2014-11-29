@@ -172,6 +172,30 @@ namespace SharedDesk
             return peer;
         }
 
+        /// <summary>
+        /// create a share.xml file with info of what files and
+        /// folders are shared with peers (or publicly avaliable)
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <param name="peer"></param>
+        public void authorizeFileDownload(string filePath, PeerInfo peer)
+        {
+            // create another xml file where you store
+            // what peers are allowed to access files and folders
+            
+            // if PeerInfo is null then the share is for everyone
+            if (peer == null)
+            {
+                // public share!
+            }
+
+
+
+
+
+        }
+
+
         public void addAvaliableFileInfoToPeer(string ip, int port, FileInfoP2P file)
         {
             if (loadFromXmlFile() == false)

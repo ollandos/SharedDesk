@@ -286,6 +286,8 @@ namespace SharedDesk
                 listAvaliableFiles.Items.Add(s);
             }
 
+            toolStatus.Text = String.Format("Found {0} avaliable files", files.Count);
+
         }
 
         private void btnRequestFile_Click(object sender, EventArgs e)
@@ -305,8 +307,22 @@ namespace SharedDesk
             // get peers with the file
             List<PeerInfo> peers = filehelper.getPeersWithFile(file);
 
+            if (peers == null) 
+            {
+                toolStatus.Text = "Error: Could not find any peers with that file.";
+                return;
+            } 
+
             // request file from one of the peers
 
+            // send to first peer in list
+            IPAddress remoteIp = IPAddress.Parse(peers[0].getIP());
+            IPEndPoint remotePoint = new IPEndPoint(remoteIp, peers[0].getPORT());
+            UDPResponder udpResponse = new UDPResponder(remotePoint, port);
+ 
+            // calc md5 and request file with that md5 value
+            //byte[] md5ByteArray = ChecksumCalc.GetBytes(md5);
+            udpResponse.sendFileRequest(md5);
 
         }
     }

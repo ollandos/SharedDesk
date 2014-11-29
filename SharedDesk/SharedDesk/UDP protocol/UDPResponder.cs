@@ -55,6 +55,26 @@ namespace SharedDesk.UDP_protocol
             Console.WriteLine("Sending ping to {0}", endPoint);
         }
 
+        public void sendFileRequest(string md5)
+        {
+
+            // byte indicating what type of packet it is
+            byte[] commandByte = new byte[] { 10 };
+
+            // byte array with port 
+            byte[] listenPortByteArray = BitConverter.GetBytes(listenPort);
+
+            // make string into byte[] array
+            byte[] md5ByteArray = System.Text.Encoding.ASCII.GetBytes(md5);
+
+            // buffer to send
+            byte[] sendBuffer = combineBytes(commandByte, listenPortByteArray, md5ByteArray);
+
+            socket.SendTo(sendBuffer, endPoint);
+            Console.WriteLine("\nUDP Responder");
+            Console.WriteLine("Sending file request to {0}", endPoint);
+        } 
+
         public void sendGUID(byte[] guid)
         {
             // byte indicating what type of packet it is

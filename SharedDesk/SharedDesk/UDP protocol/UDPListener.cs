@@ -185,6 +185,7 @@ namespace SharedDesk.UDP_protocol
                     handleFileInfo(remoteEnd);
                     break;
                 case commandByte.fileTransferRequest:
+                    handeFileRequest(remoteEnd);
                     break;
                 case commandByte.fileTransferResponse:
                     break;
@@ -196,6 +197,19 @@ namespace SharedDesk.UDP_protocol
             }
 
             socket.BeginReceiveFrom(buff, 0, buff.Length, SocketFlags.None, ref remoteEndPoint, new AsyncCallback(Listen), socket);
+        }
+
+        private void handeFileRequest(EndPoint remoteEnd)
+        {
+            byte[] portByteArray = buff.Skip(1).Take(16).ToArray();
+            int port = BitConverter.ToInt32(portByteArray, 0);
+
+            Console.WriteLine("Received a file request from: {0}, listen port: {1}", remoteEnd, port);
+            byte[] md5 = buff.Skip(5).Take(16).ToArray();
+            string md5String = BitConverter.ToString(md5);
+
+            Console.WriteLine("md5 of requested file: " + md5String);
+
         }
 
         private void handleFileInfo(EndPoint remoteEnd)
