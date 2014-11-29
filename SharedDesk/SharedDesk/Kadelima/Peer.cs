@@ -211,8 +211,8 @@ namespace SharedDesk
             l.receiveTable += new UDPListener.handlerTable(handleTable);
             l.receiveClosest += new UDPListener.handlerFindChannel(handleReceiveClosest);
             l.receiveRequestClosest += new UDPListener.handlerRequestClosest(handleRequestClosest);
-            l.receiveRequestJoin += new UDPListener.handlerRequestJoin(handleJoinRequest);
-            l.receiveRequestLeave += new UDPListener.handlerRequestLeave(handleLeaveRequest);
+            l.receiveRequestJoin += new UDPListener.handlerRequestJoin(handleRequestJoin);
+            l.receiveRequestLeave += new UDPListener.handlerRequestLeave(handleRequestLeave);
             l.receiveRequestPing += new UDPListener.handlerRequestPing(handleRequestPing);
             l.receiveGUID += new UDPListener.handlerGUID(handleGUID);
         }
@@ -266,7 +266,7 @@ namespace SharedDesk
         }
 
         // Handling the routing table request
-        public void handleJoinRequest(int targetGuid, PeerInfo newPeer)
+        public void handleRequestJoin(PeerInfo newPeer)
         {
             List<int> targets = routingTable.getTargetGUIDs(myInfo.getGUID);
             if (targets.Contains(newPeer.getGUID))
@@ -284,11 +284,10 @@ namespace SharedDesk
 
 
         // Handling the routing table request
-        public void handleLeaveRequest(int guid)
+        public void handleRequestLeave(int guid)
         {
             routingTable.remove(guid);
             startRefreshTableTimer(1000);
-            //searchTargetPeers();
             updateTable();
         }
 
@@ -317,7 +316,7 @@ namespace SharedDesk
                 routingTable.add(pInfo);
                 IPEndPoint remotePoint = new IPEndPoint(IPAddress.Parse(pInfo.getIP()), pInfo.getPORT());
                 UDPResponder responder = new UDPResponder(remotePoint, myInfo.getPORT());
-                responder.sendRequestJoin(1, myInfo);
+                responder.sendRequestJoin(myInfo);
             }
             else if (!routingTable.containsValue(pInfo))
             {
@@ -326,7 +325,7 @@ namespace SharedDesk
                 {
                     IPEndPoint remotePoint = new IPEndPoint(IPAddress.Parse(pInfo.getIP()), pInfo.getPORT());
                     UDPResponder responder = new UDPResponder(remotePoint, myInfo.getPORT());
-                    responder.sendRequestJoin(1, myInfo);
+                    responder.sendRequestJoin(myInfo);
                 }
             }
             routingTable.cleanTable(myInfo.getGUID);

@@ -23,7 +23,7 @@ namespace SharedDesk
             return table[targetGUID];
         }
 
-
+        // Returns closest peer to target (from our table)
         public PeerInfo findClosest(int targetGUID)
         {
             PeerInfo closest = null;
@@ -43,6 +43,7 @@ namespace SharedDesk
             return closest;
         }
 
+        // Returns closest peer to target (from our table) if sender is not closer (used for find closest requests from other peers)
         public PeerInfo findClosestFor(int senderGUID, int Target)
         {
             PeerInfo closest = myInfo;
@@ -58,6 +59,7 @@ namespace SharedDesk
             return closest;
         }
 
+        // Get the neighbours of the passed GUID
         public List<int> getTargetGUIDs(int guid)
         {
             List<int> targetGUIDs = new List<int>();
@@ -71,6 +73,7 @@ namespace SharedDesk
             return targetGUIDs;
         }
 
+        // Remove unwanted peers - Requires owner peer GUID
         public void cleanTable(int guid)
         {
             List<int> targets = getTargetGUIDs(guid);
@@ -85,6 +88,7 @@ namespace SharedDesk
             }
         }
 
+        // Returns xor result of passed values
         public int calculateXOR(int value1, int value2)
         {
             int result = 0;
@@ -92,11 +96,13 @@ namespace SharedDesk
             return result;
         }
 
+        // Returns the table
         public Dictionary<int,PeerInfo> getPeers()
         {
             return table;
         }
 
+        // Returns true if table contains passed PeerInfo object
         public bool containsValue(PeerInfo peer)
         {
             List<PeerInfo> list = new List<PeerInfo>(table.Values);

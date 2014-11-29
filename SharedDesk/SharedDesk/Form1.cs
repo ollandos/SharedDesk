@@ -88,6 +88,8 @@ namespace SharedDesk
             }
             catch (Exception e)
             {
+                // To be handled
+                System.Console.WriteLine(e.StackTrace);
                 return null;
             }
         }

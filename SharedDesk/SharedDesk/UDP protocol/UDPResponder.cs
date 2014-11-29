@@ -25,10 +25,13 @@ namespace SharedDesk.UDP_protocol
         //CONSTRUCTOR
         public UDPResponder(IPEndPoint remotePoint, int listenPort)
         {
+            // The target endpoint
             this.endPoint = remotePoint;
+
+            // TO BE CHANGED (PROLLY)
             this.listenPort = listenPort;
 
-            // init socket
+            // Initializing the send socket
             socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
             socket.ReceiveBufferSize = 8192;
             socket.SendBufferSize = 8192;
@@ -37,17 +40,18 @@ namespace SharedDesk.UDP_protocol
         /// <summary>
         /// RESPONSE FUNCTIONS
         /// </summary>
-        //sends ping udp packet to the endPoint
+        
+        // Sends ping udp packet to the endPoint
         public void sendPing()
         {
 
-            // byte indicating what type of packet it is
+            // Byte indicating what type of packet it is
             byte[] commandByte = new byte[] { 1 };
 
-            // byte array with port 
+            // Byte array with port 
             byte[] listenPortByteArray = BitConverter.GetBytes(listenPort);
 
-            // buffer to send
+            // Buffer to send
             byte[] sendBuffer = combineBytes(commandByte, listenPortByteArray);
 
             socket.SendTo(sendBuffer, endPoint);
@@ -55,14 +59,14 @@ namespace SharedDesk.UDP_protocol
             Console.WriteLine("Sending ping to {0}", endPoint);
         }
 
-
+        // Sends peer guid - sendPing response
         public void sendGUID(int GUID)
         {
             byte[] guid = new byte[] { (byte)GUID };
-            // byte indicating what type of packet it is
+            // Byte indicating what type of packet it is
             byte[] commandByte = new byte[] { 2 };
 
-            // buffer to send
+            // Buffer to send
             byte[] sendBuffer = combineBytes(commandByte, guid);
 
             socket.SendTo(sendBuffer, endPoint);
@@ -70,36 +74,33 @@ namespace SharedDesk.UDP_protocol
             Console.WriteLine("Sending guid to {0}", endPoint);
         }
 
-        //sends a request to join the table of the peer at the endpoint
-        public void sendRequestJoin(int targetGUID, PeerInfo myInfo)
+        // Sends a request to join the table of the peer at the endpoint
+        public void sendRequestJoin(PeerInfo myInfo)
         {
-            // byte indicating what type of packet it is
+            // Byte indicating what type of packet it is
             byte[] commandByte = new byte[] { 7 };
 
-            //
-            byte[] target = new byte[] { (byte)targetGUID };
-
-            // byte array with port 
+            // Byte array with port 
             byte[] peerInfoByteArray = peerInfoToByteArray(myInfo);
 
-            // buffer to send
-            byte[] sendBuffer = combineBytes(commandByte, target, peerInfoByteArray);
+            // Buffer to send
+            byte[] sendBuffer = combineBytes(commandByte, peerInfoByteArray);
 
             socket.SendTo(sendBuffer, endPoint);
             Console.WriteLine("\nUDP Responder");
             Console.WriteLine("Sending request to join the table of peer {0}", endPoint);
         }
 
-        //sends a request to join the table of the peer at the endpoint
+        // Sends a request to join the table of the peer at the endpoint
         public void sendRequestLeave(int guid)
         {
-            // byte indicating what type of packet it is
+            // Byte indicating what type of packet it is
             byte[] commandByte = new byte[] { 8 };
 
-            // byte array with port 
+            // Byte array with port 
             byte[] guidByteArray = BitConverter.GetBytes(guid);
 
-            // buffer to send
+            // Buffer to send
             byte[] sendBuffer = combineBytes(commandByte, guidByteArray);
 
             socket.SendTo(sendBuffer, endPoint);
@@ -107,16 +108,16 @@ namespace SharedDesk.UDP_protocol
             Console.WriteLine("Sending request to join the table of peer {0}", endPoint);
         }
 
-        //sends a routing table request to the endpoint
+        // Sends a routing table request to the endpoint
         public void sendRequestRoutingTable()
         {
-            // byte indicating what type of packet it is
+            // Byte indicating what type of packet it is
             byte[] commandByte = new byte[] { 3 };
 
-            // byte array with port 
+            // Byte array with port 
             byte[] listenPortByteArray = BitConverter.GetBytes(listenPort);
 
-            // buffer to send
+            // Buffer to send
             byte[] sendBuffer = combineBytes(commandByte, listenPortByteArray);
 
             socket.SendTo(sendBuffer, endPoint);
@@ -130,10 +131,10 @@ namespace SharedDesk.UDP_protocol
             // Convert RoutingTable to byte[]
             byte[] table = routingTableToByteArray(t);
 
-            // byte indicating what type of packet it is
+            // Byte indicating what type of packet it is
             byte[] commandByte = new byte[] { 4 };
 
-            // buffer to send
+            // Buffer to send
             byte[] sendBuffer = combineBytes(commandByte, table);
 
             // Sending UPD packet
@@ -142,7 +143,7 @@ namespace SharedDesk.UDP_protocol
             Console.WriteLine("Sending routing table to {0}", endPoint);
         }
 
-        //sends the closest found PeerInfo to the endpoint
+        // Sends the closest found PeerInfo to the endpoint
         public void sendRequestClosest(int self, int target)
         {
             // Command byte
@@ -172,12 +173,12 @@ namespace SharedDesk.UDP_protocol
             // Convert PeerInfo to byte[]
             byte[] peerInfoInBytes = peerInfoToByteArray(closest);
 
-            // byte indicating what type of packet it is
+            // Byte indicating what type of packet it is
             byte[] commandByte = new byte[] { 6 };
 
             byte[] targetGUIDInBytes = new byte[] { (byte)targetGUID };
 
-            // buffer to send
+            // Buffer to send
             byte[] tempBuffer = combineBytes(commandByte, targetGUIDInBytes);
             byte[] sendBuffer = combineBytes(tempBuffer, peerInfoInBytes);
 
@@ -264,6 +265,8 @@ namespace SharedDesk.UDP_protocol
         /// <summary>
         /// Byte[] Functionality
         /// </summary>
+        
+        // Combines two byte arrays to one
         public byte[] combineBytes(byte[] first, byte[] second)
         {
             byte[] ret = new byte[first.Length + second.Length];
@@ -272,6 +275,7 @@ namespace SharedDesk.UDP_protocol
             return ret;
         }
 
+        // Combines three byte arrays to one
         public byte[] combineBytes(byte[] first, byte[] second, byte[] third)
         {
             byte[] ret = new byte[first.Length + second.Length + third.Length];
@@ -282,6 +286,7 @@ namespace SharedDesk.UDP_protocol
             return ret;
         }
 
+        // Converts RoutingTable object to array
         private static byte[] routingTableToByteArray(RoutingTable rt)
         {
 
@@ -292,6 +297,7 @@ namespace SharedDesk.UDP_protocol
             return ms.ToArray();
         }
 
+        // Converts PeerInfo object to byte[]
         public static byte[] peerInfoToByteArray(PeerInfo pi)
         {
             BinaryFormatter bf = new BinaryFormatter();
@@ -301,7 +307,8 @@ namespace SharedDesk.UDP_protocol
             return ms.ToArray();
         }
 
-        public static PeerInfo ByteArrayToPeerInfo(byte[] arrBytes)
+        // Converts byte[] to PeerInfo object
+        public static PeerInfo byteArrayToPeerInfo(byte[] arrBytes)
         {
             MemoryStream memStream = new MemoryStream();
             BinaryFormatter binForm = new BinaryFormatter();

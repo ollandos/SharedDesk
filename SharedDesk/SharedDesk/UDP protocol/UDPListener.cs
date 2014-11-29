@@ -23,9 +23,6 @@ namespace SharedDesk.UDP_protocol
         private EndPoint remoteEndPoint = new IPEndPoint(IPAddress.Any, 0);
         private int listenPort;
 
-        // routing table to deliver per request
-        private byte[] routing_table;
-
         // define all the possible commands
         private enum commandByte { 
             error = 0, pingRequest, pingResponse, routingTableRequest, routingTableReceived, closestPeerRequest, 
@@ -49,7 +46,7 @@ namespace SharedDesk.UDP_protocol
         public delegate void handlerRequestClosest(IPEndPoint endpoint, int sender, int target);
 
         public event handlerRequestJoin receiveRequestJoin;
-        public delegate void handlerRequestJoin(int tagetGuid, PeerInfo pInfo);
+        public delegate void handlerRequestJoin(PeerInfo pInfo);
 
         public event handlerRequestLeave receiveRequestLeave;
         public delegate void handlerRequestLeave(int guid);
@@ -142,7 +139,6 @@ namespace SharedDesk.UDP_protocol
                         break;
                     }
                     handlePing(remoteEnd);
-
                     break;
                 case commandByte.pingResponse:
                     // Packet should be exactly 17 bytes
@@ -184,7 +180,7 @@ namespace SharedDesk.UDP_protocol
                     Console.WriteLine("Not a valid command...");
                     break;
             }
-
+            // Starting the socket again
             socket.BeginReceiveFrom(buff, 0, buff.Length, SocketFlags.None, ref remoteEndPoint, new AsyncCallback(Listen), socket);
         }
 
@@ -239,7 +235,7 @@ namespace SharedDesk.UDP_protocol
         {
             int port = BitConverter.ToInt32(buff, 3);
 
-            //Take the 2 GUIDS out of the buff[]
+            // Take the 2 GUIDS out of the buff[]
             byte[] guidByteArray = buff.Skip(1).Take(2).ToArray();
             // Get the first
             int senderGuid = guidByteArray[0];
@@ -301,7 +297,7 @@ namespace SharedDesk.UDP_protocol
         {
             byte[] data = buff.Skip(2).ToArray();
             byte[] channelGUID = buff.Skip(1).Take(1).ToArray();
-            PeerInfo pInfo = UDPResponder.ByteArrayToPeerInfo(data); 
+            PeerInfo pInfo = UDPResponder.byteArrayToPeerInfo(data); 
             int targetGUID = (int)channelGUID[0];
 
             Console.WriteLine("Received a responsse for closest to {0}, with GUID: {1}", targetGUID, pInfo.getGUID);
@@ -313,14 +309,11 @@ namespace SharedDesk.UDP_protocol
 
         private void handleJoin()
         {
-            byte[] target = buff.Skip(1).Take(1).ToArray();
-            int targetGUID = target[0];
-
-            byte[] data = buff.Skip(2).ToArray();
-            PeerInfo pInfo = UDPResponder.ByteArrayToPeerInfo(data);
+            byte[] data = buff.Skip(1).ToArray();
+            PeerInfo pInfo = UDPResponder.byteArrayToPeerInfo(data);
             Console.WriteLine("Received a join to table request from {0}", pInfo.getGUID);
             //add the pInfo with event
-            receiveRequestJoin(targetGUID, pInfo);
+            receiveRequestJoin(pInfo);
         }
 
         private void handleLeave()

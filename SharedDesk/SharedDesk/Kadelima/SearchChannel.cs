@@ -14,19 +14,17 @@ namespace SharedDesk.Kadelima
         private int mPreviousGUID = -1;
         private Peer mOwner;
 
+        // Initialized by passing the target peer (for the search) guid
         public SearchChannel(Peer owner, int guid)
         {
             mOwner = owner;
             mCurrentTargetGUID = guid;
         }
 
-        public int getTargetGUID() 
-        {
-            return mCurrentTargetGUID;
-        }
-
+        // Called by passing closest peer. Searches if closer peer to the target is available
         public void onReceiveClosest(PeerInfo pInfo)
         {
+            // If target not found && current search is not our previous search
             if (mCurrentTargetGUID != pInfo.getGUID && mPreviousGUID != pInfo.getGUID)
             {
                 mPreviousGUID = pInfo.getGUID;
@@ -37,22 +35,15 @@ namespace SharedDesk.Kadelima
             }
             else
             {
-                if (mCurrentTargetGUID != pInfo.getGUID)
-                {
-                    //IPEndPoint remotePoint = new IPEndPoint(IPAddress.Parse(pInfo.getIP()), pInfo.getPORT());
-                    //UDPResponder responder = new UDPResponder(remotePoint, mOwner.getRoutingTable.MyInfo.getPORT());
-                    //responder.sendRequestJoin(mCurrentTargetGUID, mOwner.getRoutingTable.MyInfo);
-                    mOwner.addPeerInfo(pInfo);
-                }
-                else
-                {
-                    //IPEndPoint remotePoint = new IPEndPoint(IPAddress.Parse(pInfo.getIP()), pInfo.getPORT());
-                    //UDPResponder responder = new UDPResponder(remotePoint, mOwner.getRoutingTable.MyInfo.getPORT());
-                    //responder.sendRequestJoin(mOwner.getRoutingTable.MyInfo.getGUID, mOwner.getRoutingTable.MyInfo);
-                    mOwner.addPeerInfo(pInfo);
-                }
-                
+                // Add peer event
+                mOwner.addPeerInfo(pInfo);
             }
+        }
+
+        // Gets target peer GUID
+        public int getTargetGUID()
+        {
+            return mCurrentTargetGUID;
         }
     }
 }
