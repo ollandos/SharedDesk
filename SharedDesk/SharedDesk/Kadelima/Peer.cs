@@ -46,13 +46,19 @@ namespace SharedDesk
         // TODO: pass boot peer after retrieval of peers from servers
         public Peer()
         {
+            // Initiating the timers
             refreshTableTimer = new System.Timers.Timer();
             refreshTableTimer.Elapsed += refreshTable;
             channels = new List<SearchChannel>();
+            
+            // List that holds the timers that waiting for ping response
             pingTimers = new Dictionary<System.Timers.Timer, int>();
-            bootPeer = new PeerInfo(0, "192.168.1.16", 8080);
+            
+            // Boot peer info
+            bootPeer = new PeerInfo(0, "192.168.1.12", 8080);
         }
 
+        // Timed event refreshinf the table
         void refreshTable(object sender, ElapsedEventArgs e)
         {
             refreshTableTimer.Stop();
@@ -61,8 +67,10 @@ namespace SharedDesk
             refreshTableTimer.Start();
         }
 
+        // Used for initializing peer features requires guid, ip and port of the peer
         public void init(int guid, string ip, int port)
         {
+            // Initializing myInfo
             myInfo = new PeerInfo(guid,ip,port);
 
             // Create UDP listen and add events
@@ -72,8 +80,6 @@ namespace SharedDesk
             // Create Routing Table and adding boot peer
             routingTable = new RoutingTable(myInfo);
             routingTable.add(bootPeer);
-
-            listener.setRoutingtable = routingTable;
 
             // Create EndPoint
             IPEndPoint remotePoint = new IPEndPoint(IPAddress.Parse(bootPeer.getIP()), bootPeer.getPORT());
@@ -90,7 +96,7 @@ namespace SharedDesk
         }
 
         /// <summary>
-        /// SEND REQUEST
+        /// SEND REQUESTS
         /// </summary>
         
         // Send ping to all the peers in the table
@@ -120,22 +126,7 @@ namespace SharedDesk
             tempTimer.Start();
         }
 
-        void removeOffline(object sender, ElapsedEventArgs e)
-        {
-            lock (timersLock)
-            {
-                System.Timers.Timer temp = (System.Timers.Timer)sender;
-                temp.Stop();
-                int guid = pingTimers[temp];
-                pingTimers.Remove(temp);
-                temp.Dispose();
-
-                routingTable.remove(guid);
-                startRefreshTableTimer(5000);
-                updateTable();
-            }
-        }
-
+        // Starting refresh timer with specified interval. Used for forced refresh.
         public void startRefreshTableTimer(int interval)
         {
             if (refreshTableTimer.Enabled)
@@ -195,6 +186,23 @@ namespace SharedDesk
         /// <summary>
         /// EVENT HANDLERS
         /// </summary>
+
+        // If peer did not respond to ping this function will be called by the timer.
+        void removeOffline(object sender, ElapsedEventArgs e)
+        {
+            lock (timersLock)
+            {
+                System.Timers.Timer temp = (System.Timers.Timer)sender;
+                temp.Stop();
+                int guid = pingTimers[temp];
+                pingTimers.Remove(temp);
+                temp.Dispose();
+
+                routingTable.remove(guid);
+                startRefreshTableTimer(5000);
+                updateTable();
+            }
+        }
 
         // Subscribe to UDP listener events
         public void subscribeToListener(UDPListener l)
@@ -299,6 +307,7 @@ namespace SharedDesk
             }
         }
 
+        // Handles request to add peer info
         public void addPeerInfo(PeerInfo pInfo)
         {
          

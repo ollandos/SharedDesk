@@ -331,16 +331,6 @@ namespace SharedDesk.UDP_protocol
             receiveRequestLeave(leavingGUID);
         }
 
-        public RoutingTable setRoutingtable
-        {
-            set { this.routing_table = routingTableToByteArray(value); }
-        }
-
-        public RoutingTable getRoutingtable
-        {
-            get { return byteArrayToRoutingTable(this.routing_table); }
-        }
-
         private static byte[] routingTableToByteArray(RoutingTable rt)
         {
 
