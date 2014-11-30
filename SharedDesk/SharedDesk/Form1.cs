@@ -247,6 +247,7 @@ namespace SharedDesk
                     if (receivingPeer.getGUID != guid)
                     {
                         sendFileInfo(fileFullPath, fileName, receivingPeer);
+                        toolStatus.Text = String.Format("Now sharing file '{0}', with {1}:{2}, guid: {3}", fileName, receivingPeer.getIP(), receivingPeer.getPORT(), receivingPeer.getGUID);
                     }
 
                 }

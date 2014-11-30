@@ -204,21 +204,30 @@ namespace SharedDesk
 
         public List<PeerInfo> authorizedPeers(string md5)
         {
-            // TODO: 
-            // find list of peers that are authorized to download this file
-            string selectedFile = String.Format("/Share/File[md5='{0}']", md5);
 
-            XmlNode el = (XmlNode)rootShareXml.SelectSingleNode(selectedFile);
-            if (el != null)
+            List<PeerInfo> peers = new List<PeerInfo>();
+
+            // find all peers with the file
+            string selectedPeer = String.Format("/Peers/Peer/File[md5='{0}']", md5);
+            XmlNodeList nodeList = rootPeerXml.SelectNodes(selectedPeer);
+
+            foreach (XmlNode n in nodeList)
             {
+                string elGuid = n.ParentNode["guid"].InnerXml;
+                string elIp = n.ParentNode["ip"].InnerXml;
+                string elPort = n.ParentNode["port"].InnerXml;
 
+                int elGuidInt = Convert.ToInt32(elGuid);
+                int elPortInt = Convert.ToInt32(elPort);
 
+                Console.WriteLine("\nPeers this file is shared with:");
+                Console.WriteLine("guid {0}\t\tip {1}:{2}", elGuid, elIp, elPort);
+
+                PeerInfo newPeer = new PeerInfo(elGuidInt, elIp, elPortInt);
+                peers.Add(newPeer);
             }
-            else
-            {
-                Console.WriteLine("Could not find peer with that ip and port in XML!");
-            }
-            return null;
+
+            return peers;
         }
 
         public void addAvaliableFileInfoToPeer(string ip, int port, FileInfoP2P file)
@@ -374,7 +383,6 @@ namespace SharedDesk
                         writer.WriteStartElement("Peer");
 
                         // peer information
-                        writer.WriteElementString("public", "false");
                         writer.WriteElementString("guid", peer.getGUID.ToString());
                         writer.WriteElementString("ip", peer.getIP());
                         writer.WriteElementString("port", peer.getPORT().ToString()); ;

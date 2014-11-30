@@ -213,6 +213,17 @@ namespace SharedDesk.UDP_protocol
 
             // look for file in share.xml and check if file has been
             // authorized to share with this peer
+            List<PeerInfo> authorizedPeers = fileHelper.authorizedPeers(md5String);
+
+            // TODOS: 
+            // check if guid match the ones in share.xml
+            // should be more security checks here!!!
+            // get the file information 
+            // including the full path of the file
+            // check if file exists
+
+            // if file does not exist, replay that
+            // if file does exist, allow transfer!
 
 
 
