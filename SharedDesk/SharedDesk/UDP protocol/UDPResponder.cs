@@ -217,8 +217,7 @@ namespace SharedDesk.UDP_protocol
             }
 
             // get md5 hash
-            ChecksumCalc checksum = new ChecksumCalc();
-            byte[] md5 = checksum.GetMD5Checksum(filePath);
+            byte[] md5 = ChecksumCalc.GetMD5Checksum(filePath);
 
             FileInfo f = new FileInfo(filePath);
 

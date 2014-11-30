@@ -377,11 +377,10 @@ namespace SharedDesk
                     Console.WriteLine("Calculating md5 hash of received file...");
 
                     // get md5 hash
-                    ChecksumCalc checksum = new ChecksumCalc();
-                    byte[] md5AfterTransfer = checksum.GetMD5Checksum(savePathAndFileName);
+                    byte[] md5AfterTransfer = ChecksumCalc.GetMD5Checksum(savePathAndFileName);
 
                     // check if md5 received is identical to md5 calculated after transfer
-                    bool isIdentical = checksum.checkIfHashisIdentical(md5, md5AfterTransfer);
+                    bool isIdentical = ChecksumCalc.checkIfHashisIdentical(md5, md5AfterTransfer);
 
                     if (isIdentical)
                     {

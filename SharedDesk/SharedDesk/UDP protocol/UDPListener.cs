@@ -206,9 +206,15 @@ namespace SharedDesk.UDP_protocol
 
             Console.WriteLine("Received a file request from: {0}, listen port: {1}", remoteEnd, port);
             byte[] md5 = buff.Skip(5).Take(16).ToArray();
-            string md5String = BitConverter.ToString(md5);
+            //string md5String = BitConverter.ToString(md5);
+            string md5String = BitConverter.ToString(md5).Replace("-", "");
 
             Console.WriteLine("md5 of requested file: " + md5String);
+
+            // look for file in share.xml and check if file has been
+            // authorized to share with this peer
+
+
 
         }
 
@@ -242,8 +248,8 @@ namespace SharedDesk.UDP_protocol
             // get md5 hash
             // md5 hash is 16 bytes = 128 bit
             byte[] md5 = buff.Skip(5).Skip(1 + fileNameLength + 8).Take(16).ToArray();
-            //string md5String = BitConverter.ToString(md5).Replace("-", "");
-            string md5String = BitConverter.ToString(md5);
+            string md5String = BitConverter.ToString(md5).Replace("-", "");
+            //string md5String = BitConverter.ToString(md5);
  
             Console.WriteLine("\nFile Info:");
             Console.WriteLine("Name: {0}", fileName);

@@ -202,6 +202,25 @@ namespace SharedDesk
 
         }
 
+        public List<PeerInfo> authorizedPeers(string md5)
+        {
+            // TODO: 
+            // find list of peers that are authorized to download this file
+            string selectedFile = String.Format("/Share/File[md5='{0}']", md5);
+
+            XmlNode el = (XmlNode)rootShareXml.SelectSingleNode(selectedFile);
+            if (el != null)
+            {
+
+
+            }
+            else
+            {
+                Console.WriteLine("Could not find peer with that ip and port in XML!");
+            }
+            return null;
+        }
+
         public void addAvaliableFileInfoToPeer(string ip, int port, FileInfoP2P file)
         {
             if (loadPeerXmlFile() == false)
@@ -310,8 +329,28 @@ namespace SharedDesk
 
         private void createNewShareXml(string path, PeerInfo peer, bool isFile)
         {
+
+            // check if file exists
+            if (isFile)
+            {
+                if (File.Exists(path) == false)
+                {
+                    // stop if file path is incorrect
+                    Console.WriteLine("ERROR: File path is incorrect!");
+                    return;
+                }
+            }
+
             using (XmlWriter writer = XmlWriter.Create(shareListPath))
             {
+
+                string md5 = "";
+                if (isFile)
+                {
+                    // calc md5 of file
+                    byte[] md5ByteArray = ChecksumCalc.GetMD5Checksum(path);
+                    md5 = BitConverter.ToString(md5ByteArray).Replace("-", "");
+                }
 
                 writer.WriteStartElement("Share");
 
@@ -320,26 +359,35 @@ namespace SharedDesk
                     // file to share
                     writer.WriteStartElement("File");
                     writer.WriteElementString("path", path);
+                    writer.WriteElementString("md5", md5);
 
-                    // peer to share with
-                    writer.WriteStartElement("Peer");
                     if (peer == null)
                     {
                         writer.WriteElementString("public", "true");
+                        writer.WriteEndElement();
                     }
                     else
                     {
                         writer.WriteElementString("public", "false");
+
+                        // peer to share with
+                        writer.WriteStartElement("Peer");
+
+                        // peer information
+                        writer.WriteElementString("public", "false");
                         writer.WriteElementString("guid", peer.getGUID.ToString());
                         writer.WriteElementString("ip", peer.getIP());
                         writer.WriteElementString("port", peer.getPORT().ToString()); ;
+
+                        writer.WriteEndElement();
                     }
 
                     writer.WriteEndElement();
-                    writer.WriteEndElement();
+                    // end of file
                 }
 
                 writer.WriteEndElement();
+                // end of share
 
                 writer.Close();
             }

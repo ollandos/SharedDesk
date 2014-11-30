@@ -23,7 +23,7 @@ namespace SharedDesk
         /// </summary>
         /// <param name="filePath"></param>
         /// <returns></returns>
-        public byte[] GetMD5Checksum(string filePath)
+        static public byte[] GetMD5Checksum(string filePath)
         {
         
             HashAlgorithm MD5 = new MD5CryptoServiceProvider();
@@ -41,14 +41,13 @@ namespace SharedDesk
             return bytes;
         }
 
-
         /// <summary>
         /// Check if arrays is identical to each other
         /// </summary>
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns>true if they are identical, false other vice</returns>
-        public bool checkIfHashisIdentical(byte[] a, byte[] b)
+        static public bool checkIfHashisIdentical(byte[] a, byte[] b)
         {
             return Enumerable.SequenceEqual(a, b);
         }
