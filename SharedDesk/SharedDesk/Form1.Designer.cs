@@ -34,7 +34,6 @@
             this.labelPort = new System.Windows.Forms.Label();
             this.lblGUID = new System.Windows.Forms.Label();
             this.tbGUID = new System.Windows.Forms.TextBox();
-            this.listResponses = new System.Windows.Forms.ListBox();
             this.labelResponse = new System.Windows.Forms.Label();
             this.tbIP = new System.Windows.Forms.TextBox();
             this.tbPORT = new System.Windows.Forms.TextBox();
@@ -45,6 +44,9 @@
             this.btnGetRoutingTable = new System.Windows.Forms.Button();
             this.btnSendFile = new System.Windows.Forms.Button();
             this.btnLeave = new System.Windows.Forms.Button();
+            this.tbTarget = new System.Windows.Forms.TextBox();
+            this.btnFind = new System.Windows.Forms.Button();
+            this.tbMessages = new System.Windows.Forms.TextBox();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -99,14 +101,6 @@
             this.tbGUID.Size = new System.Drawing.Size(66, 20);
             this.tbGUID.TabIndex = 7;
             this.tbGUID.Text = "0";
-            // 
-            // listResponses
-            // 
-            this.listResponses.FormattingEnabled = true;
-            this.listResponses.Location = new System.Drawing.Point(340, 41);
-            this.listResponses.Name = "listResponses";
-            this.listResponses.Size = new System.Drawing.Size(212, 303);
-            this.listResponses.TabIndex = 8;
             // 
             // labelResponse
             // 
@@ -198,11 +192,39 @@
             this.btnLeave.UseVisualStyleBackColor = true;
             this.btnLeave.Click += new System.EventHandler(this.button1_Click);
             // 
+            // tbTarget
+            // 
+            this.tbTarget.Location = new System.Drawing.Point(47, 271);
+            this.tbTarget.Name = "tbTarget";
+            this.tbTarget.Size = new System.Drawing.Size(100, 20);
+            this.tbTarget.TabIndex = 21;
+            // 
+            // btnFind
+            // 
+            this.btnFind.Location = new System.Drawing.Point(47, 297);
+            this.btnFind.Name = "btnFind";
+            this.btnFind.Size = new System.Drawing.Size(75, 23);
+            this.btnFind.TabIndex = 22;
+            this.btnFind.Text = "Find";
+            this.btnFind.UseVisualStyleBackColor = true;
+            this.btnFind.Click += new System.EventHandler(this.btnFind_Click);
+            // 
+            // tbMessages
+            // 
+            this.tbMessages.Location = new System.Drawing.Point(340, 41);
+            this.tbMessages.Multiline = true;
+            this.tbMessages.Name = "tbMessages";
+            this.tbMessages.Size = new System.Drawing.Size(230, 279);
+            this.tbMessages.TabIndex = 23;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(582, 388);
+            this.Controls.Add(this.tbMessages);
+            this.Controls.Add(this.btnFind);
+            this.Controls.Add(this.tbTarget);
             this.Controls.Add(this.btnLeave);
             this.Controls.Add(this.btnSendFile);
             this.Controls.Add(this.btnGetRoutingTable);
@@ -212,7 +234,6 @@
             this.Controls.Add(this.tbPORT);
             this.Controls.Add(this.tbIP);
             this.Controls.Add(this.labelResponse);
-            this.Controls.Add(this.listResponses);
             this.Controls.Add(this.tbGUID);
             this.Controls.Add(this.lblGUID);
             this.Controls.Add(this.labelPort);
@@ -238,7 +259,6 @@
         private System.Windows.Forms.Label labelPort;
         private System.Windows.Forms.Label lblGUID;
         private System.Windows.Forms.TextBox tbGUID;
-        private System.Windows.Forms.ListBox listResponses;
         private System.Windows.Forms.Label labelResponse;
         private System.Windows.Forms.TextBox tbIP;
         private System.Windows.Forms.TextBox tbPORT;
@@ -249,6 +269,9 @@
         private System.Windows.Forms.Button btnGetRoutingTable;
         private System.Windows.Forms.Button btnSendFile;
         private System.Windows.Forms.Button btnLeave;
+        private System.Windows.Forms.TextBox tbTarget;
+        private System.Windows.Forms.Button btnFind;
+        private System.Windows.Forms.TextBox tbMessages;
     }
 }
 

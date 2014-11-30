@@ -13,12 +13,14 @@ namespace SharedDesk.Kadelima
         private int mCurrentTargetGUID;
         private int mPreviousGUID = -1;
         private Peer mOwner;
+        bool mFindNeighbour;
 
         // Initialized by passing the target peer (for the search) guid
-        public SearchChannel(Peer owner, int guid)
+        public SearchChannel(Peer owner, int guid, bool findNeighbour)
         {
             mOwner = owner;
             mCurrentTargetGUID = guid;
+            mFindNeighbour = findNeighbour;
         }
 
         // Called by passing closest peer. Searches if closer peer to the target is available
@@ -31,12 +33,19 @@ namespace SharedDesk.Kadelima
 
                 IPEndPoint remotePoint = new IPEndPoint(IPAddress.Parse(pInfo.getIP()), pInfo.getPORT());
                 UDPResponder responder = new UDPResponder(remotePoint, mOwner.getRoutingTable.MyInfo.getPORT());
-                responder.sendRequestClosest(mOwner.getGUID, mCurrentTargetGUID) ;
+                responder.sendRequestClosest(mOwner.getGUID, mCurrentTargetGUID);
             }
             else
             {
-                // Add peer event
-                mOwner.addPeerInfo(pInfo);
+                if (mFindNeighbour)
+                {
+                    // Add peer event
+                    mOwner.addPeerInfo(pInfo);
+                }
+                else
+                {
+                    mOwner.handleTarget(pInfo, mCurrentTargetGUID);
+                }
             }
         }
 

@@ -63,7 +63,7 @@ namespace SharedDesk
         public List<int> getTargetGUIDs(int guid)
         {
             List<int> targetGUIDs = new List<int>();
-            double exponentCapacity = 4;
+            double exponentCapacity = 7;
             for (double x = 0; x < exponentCapacity; x += 1d)
             {
                 double result = Math.Pow(2, x);

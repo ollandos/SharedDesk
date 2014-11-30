@@ -19,16 +19,14 @@ namespace SharedDesk
     {
         // Peer Object
         Peer peer;
-
-        // var for storing peer guid
+        // Var for storing peer guid
         int guid;
-        // var for storing peer port
+        // Var for storing peer port
         int port;
-
-        // variable for storing local IP
+        // Variable for storing local IP
         private IPAddress ip;
 
-        // user info
+        // User info
         public string email;
         protected string apiKey;
 
@@ -131,14 +129,14 @@ namespace SharedDesk
         private int generateGuid()
         {
             Random rnd = new Random();
-            return rnd.Next(15);
+            return rnd.Next(127);
         }
 
 
         private void Form1_Load(object sender, EventArgs e)
         {
             // Creating Peer
-            peer = new Peer();
+            peer = new Peer(service.getPeers(apiKey));
 
             // Subscribing to events
             subscribeToListener();
@@ -235,6 +233,7 @@ namespace SharedDesk
         public void subscribeToListener()
         {
             peer.updateTable += new Peer.handlerUpdatedTable(handleUpdatedTable);
+            peer.updateMessages += new Peer.handlerUpdateMessages(handleUpdatedMessages);
         }
 
         private void handleUpdatedTable()
@@ -247,7 +246,17 @@ namespace SharedDesk
             }
             listRoutingTable.Invoke(new MethodInvoker(() => listRoutingTable.DataSource = new BindingSource(table, null)));
             listRoutingTable.Invoke(new MethodInvoker(() => listRoutingTable.DisplayMember = "Value"));
-            //listRoutingTable.Invoke(new MethodInvoker(() => listRoutingTable.ValueMember = "Key"));
+        }
+
+        private void handleUpdatedMessages(string msg)
+        {
+            tbMessages.Invoke(new MethodInvoker(() => tbMessages.Text = tbMessages.Text + msg + Environment.NewLine));
+        }
+
+        private void btnFind_Click(object sender, EventArgs e)
+        {
+            int target = Int32.Parse(tbTarget.Text);
+            peer.findTarget(target);
         }
     }
 }

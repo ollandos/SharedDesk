@@ -79,6 +79,7 @@ namespace SharedDesk
             }
             catch (WebException webEx)
             {
+                Console.Out.WriteLine(webEx.StackTrace);
                 return false;
             }
         }
@@ -135,6 +136,7 @@ namespace SharedDesk
             }
             catch (WebException webEx)
             {
+                Console.Out.WriteLine(webEx.StackTrace);
                 return null;
             }
         }
@@ -195,6 +197,7 @@ namespace SharedDesk
             }
             catch (WebException webEx)
             {
+                Console.Out.WriteLine(webEx.StackTrace);
                 return false;
             }
         }
@@ -253,6 +256,7 @@ namespace SharedDesk
             }
             catch (WebException webEx)
             {
+                Console.Out.WriteLine(webEx.StackTrace);
                 return false;
             }
         }
@@ -310,6 +314,7 @@ namespace SharedDesk
             }
             catch (WebException webEx)
             {
+                Console.Out.WriteLine(webEx.StackTrace);
                 return false;
             }
         }
@@ -359,6 +364,7 @@ namespace SharedDesk
             }
             catch (WebException webEx)
             {
+                Console.Out.WriteLine(webEx.StackTrace);
                 return null;
             }
         }

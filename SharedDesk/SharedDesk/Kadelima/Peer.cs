@@ -22,12 +22,16 @@ namespace SharedDesk
         
         // My PeerInfo
         private PeerInfo myInfo;
+        // Boot peer list
+        private List<PeerInfo> bootList;
         // Boot PeerInfo
         private PeerInfo bootPeer;
         // My RoutingTable
         private RoutingTable routingTable;
+
         // The UDP Listener
         private UDPListener listener;
+
         // The SearchChannel list
         private List<SearchChannel> channels;
         // Lock Object for the SearchChannel list
@@ -35,20 +39,36 @@ namespace SharedDesk
 
         // Timer that pings all the peers in the routing table
         System.Timers.Timer pingTable;
+
+        // Timer that refreshes the table over specified interval
         System.Timers.Timer refreshTableTimer;
+
         // List to hold timers of pings
         Dictionary<System.Timers.Timer, int> pingTimers;
         private Object timersLock = new Object();
+
+        // Target peer - Holds found peer after search if found
+        PeerInfo targetPeer;
+
         // Event to update Form
         public event handlerUpdatedTable updateTable;
         public delegate void handlerUpdatedTable();
 
+        //
+        public event handlerUpdateMessages updateMessages;
+        public delegate void handlerUpdateMessages(string msg);
+
         // TODO: pass boot peer after retrieval of peers from servers
-        public Peer()
+        public Peer(List<PeerInfo> list)
         {
+            // Initializing the bootList with boot peers given from the server.
+            bootList = list;
+
             // Initiating the timers
             refreshTableTimer = new System.Timers.Timer();
             refreshTableTimer.Elapsed += refreshTable;
+
+            // Initializing search channel list
             channels = new List<SearchChannel>();
             
             // List that holds the timers that waiting for ping response
@@ -63,7 +83,7 @@ namespace SharedDesk
         {
             refreshTableTimer.Stop();
             refreshTableTimer.Interval = REFRESH_TIME;
-            searchTargetPeers();
+            findNeighbours();
             refreshTableTimer.Start();
         }
 
@@ -144,7 +164,7 @@ namespace SharedDesk
         }
 
         // Finds closest GUIDs and searches for closest peers to them in the network
-        private void searchTargetPeers()
+        private void findNeighbours()
         {
             List<int> targetGUIDs = routingTable.getTargetGUIDs(myInfo.getGUID);
             foreach (int guid in targetGUIDs)
@@ -153,7 +173,7 @@ namespace SharedDesk
                 if (closest != null && myInfo.getGUID != closest.getGUID)
                 {
                     //routingTable.remove(closest.getGUID);
-                    SearchChannel channel = new SearchChannel(this, guid);
+                    SearchChannel channel = new SearchChannel(this, guid, true);
                     channel.onReceiveClosest(closest);
                     lock (channelsLock)
                     {
@@ -161,6 +181,23 @@ namespace SharedDesk
                     }
                 }
             }
+        }
+
+        // Finds closest GUIDs and searches for closest peers to them in the network
+        public void findTarget(int guid)
+        {
+                updateMessages("Searching for target "+ guid + "...");
+                PeerInfo closest = routingTable.findClosest(guid);
+                if (closest != null && myInfo.getGUID != closest.getGUID)
+                {
+                    //routingTable.remove(closest.getGUID);
+                    SearchChannel channel = new SearchChannel(this, guid, false);
+                    channel.onReceiveClosest(closest);
+                    lock (channelsLock)
+                    {
+                        channels.Add(channel);
+                    }
+                }
         }
 
         // Sending a leave request to all the peers in your table
@@ -252,7 +289,7 @@ namespace SharedDesk
         {
             this.routingTable = table;
             this.routingTable.MyInfo = myInfo;
-            searchTargetPeers();
+            findNeighbours();
             startPingTimer();
             startRefreshTableTimer(30000);
             updateTable();
@@ -330,6 +367,19 @@ namespace SharedDesk
             }
             routingTable.cleanTable(myInfo.getGUID);
             updateTable();
+        }
+
+        public void handleTarget(PeerInfo pInfo, int target)
+        {
+            if (pInfo.getGUID == target)
+            {
+                targetPeer = pInfo;
+                updateMessages("Target " + target + " found!");
+            }
+            else 
+            {
+                updateMessages("Target " + target + " NOT found!");
+            }
         }
 
         /// <summary>
